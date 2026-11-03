@@ -1,0 +1,30 @@
+{
+  "config": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml",
+  "config_sha256": "44077beeeb2a66b4ed20a948c274475b926d474b32dad54d1696e051805cec26",
+  "helper_sha256": "8a394cac2a32fdc9b93b32317b500057ae3c2bdf3c701afcca0a746756657c2a",
+  "backbone_shape_irrep_match": true,
+  "strict_four_layer_copy": true,
+  "final_irreps": "128x0e+128x2e",
+  "scalar_anisotropic_output_gradient_norms": [
+    0.3770553171634674,
+    0.002324816770851612
+  ],
+  "symmetry_errors": [
+    {
+      "energy_abs_error": 0.0,
+      "force_max_error": 7.962808012962341e-08
+    },
+    {
+      "energy_abs_error": 0.0,
+      "force_max_error": 5.908077582716942e-09
+    }
+  ],
+  "active_parameters": 3017349,
+  "optimizer_updates": 2,
+  "export_matches_best": true,
+  "deployment_passed": true,
+  "saved_ef_predictions_finite": true,
+  "held_out_test_accessed": false,
+  "smoke_overrides": "CPU; 1 epoch; 4 training batches; accumulation 2; 1 validation batch; 2 prefit structures; 1 postfit batch per train/valid dataset; W&B disabled",
+  "temporary_results": "/var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/tensor-ef-smoke-b68kvv9u"
+}

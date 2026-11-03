@@ -1,0 +1,151 @@
+[graph-pes WARNING]:
+We are attempting to guess the mean per-element
+contribution for a per-structure quantity (usually
+the total energy).
+
+However, the composition of the training set is such that
+no unique solution is possible.
+
+This is probably because you are training on structures
+all with the same composition (e.g. all structures are
+of the form n H2O). Consider explicitly setting the
+per-element contributions if you know them, or
+including a variety of structures of different
+compositions in the training set.
+
+[graph-pes WARNING]:
+Estimated per-element energy offsets from the training data:
+    PerElementParameter(trainable=True)
+This will lead to a lack of guaranteed physicality in the model,
+since the energy of an isolated atom (and hence the behaviour of
+this model in the dissociation limit) is not guaranteed to be
+correct. Use a FixedOffset energy offset model if you require
+and know the reference energy offsets.
+
+[graph-pes WARNING]:
+We are attempting to guess the mean per-element
+contribution for a per-structure quantity (usually
+the total energy).
+
+However, the composition of the training set is such that
+no unique solution is possible.
+
+This is probably because you are training on structures
+all with the same composition (e.g. all structures are
+of the form n H2O). Consider explicitly setting the
+per-element contributions if you know them, or
+including a variety of structures of different
+compositions in the training set.
+
+COMPATIBILITY AND E/F GRADIENTS PASSED [0.3770553171634674, 0.002324816770851612] [{'energy_abs_error': 0.0, 'force_max_error': 7.962808012962341e-08}, {'energy_abs_error': 0.0, 'force_max_error': 5.908077582716942e-09}]
+[graph-pes INFO]: Started `graph-pes-train` at 2026-11-03 15:35:16.996
+[graph-pes INFO]: Successfully parsed config.
+[graph-pes INFO]: Logging to /var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/tensor-ef-smoke-b68kvv9u/ef-smoke/rank-0.log
+[graph-pes INFO]: ID for this training run: ef-smoke
+[graph-pes INFO]:
+Output for this training run can be found at:
+    └─ /var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/tensor-ef-smoke-b68kvv9u/ef-smoke
+        ├─ rank-0.log         # find a verbose log here
+        ├─ model.pt           # the best model (according to valid/loss/total)
+        ├─ lammps_model.pt    # the best model deployed to LAMMPS
+        ├─ train-config.yaml  # the complete config used for this run
+        └─ summary.yaml       # the summary of the training run
+
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+`Trainer(limit_val_batches=1)` was configured so 1 batch will be used.
+[graph-pes INFO]: Preparing data
+[graph-pes INFO]: Setting up datasets
+[graph-pes INFO]: Pre-fitting the model on 2 samples
+[graph-pes WARNING]:
+We are attempting to guess the mean per-element
+contribution for a per-structure quantity (usually
+the total energy).
+
+However, the composition of the training set is such that
+no unique solution is possible.
+
+This is probably because you are training on structures
+all with the same composition (e.g. all structures are
+of the form n H2O). Consider explicitly setting the
+per-element contributions if you know them, or
+including a variety of structures of different
+compositions in the training set.
+
+[graph-pes WARNING]:
+Estimated per-element energy offsets from the training data:
+    PerElementParameter(trainable=True)
+This will lead to a lack of guaranteed physicality in the model,
+since the energy of an isolated atom (and hence the behaviour of
+this model in the dissociation limit) is not guaranteed to be
+correct. Use a FixedOffset energy offset model if you require
+and know the reference energy offsets.
+
+[graph-pes WARNING]:
+We are attempting to guess the mean per-element
+contribution for a per-structure quantity (usually
+the total energy).
+
+However, the composition of the training set is such that
+no unique solution is possible.
+
+This is probably because you are training on structures
+all with the same composition (e.g. all structures are
+of the form n H2O). Consider explicitly setting the
+per-element contributions if you know them, or
+including a variety of structures of different
+compositions in the training set.
+
+[graph-pes INFO]:
+Number of learnable params:
+    offset (LearnableOffset)         : 2
+    nequip (TensorCompatibleEFNequIP): 3,017,347
+
+[graph-pes INFO]: Sanity checking the model...
+[graph-pes INFO]: Starting fit...
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/loops/fit_loop.py:310: The number of training batches (4) is smaller than the logging interval Trainer(log_every_n_steps=10). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+                           valid/metrics   valid/metrics          valid/metrics         valid/metrics   valid/metrics   valid/metrics   valid/metrics   valid/metrics   timer/its_per_s   timer/its_per_s
+   epoch      time   per_atom_energy_mse      forces_mse   per_atom_energy_rmse   per_atom_energy_mae     energy_rmse      energy_mae     forces_rmse      forces_mae             train             valid
+       1      76.5               0.00001         0.79285                0.00250               0.00250         0.36328         0.36328         0.89042         0.68400           0.06127           0.23810
+`Trainer.fit` stopped: `max_epochs=1` reached.
+[graph-pes INFO]: Loading best weights from "/private/var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/tensor-ef-smoke-b68kvv9u/ef-smoke/checkpoints/best.ckpt"
+[graph-pes INFO]: Training complete.
+[graph-pes INFO]: Testing best model...
+You are using the plain ModelCheckpoint callback. Consider using LitModelCheckpoint which with seamless uploading to Model registry.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'test_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+
+Testing: |          | 0/? [00:00<?, ?it/s]
+Testing:   0%|          | 0/1 [00:00<?, ?it/s]
+Testing DataLoader 0:   0%|          | 0/1 [00:00<?, ?it/s]
+Testing DataLoader 0: 100%|██████████| 1/1 [00:05<00:00,  0.20it/s]
+Testing DataLoader 0:   0%|          | 0/1 [00:00<?, ?it/s]
+Testing DataLoader 1:   0%|          | 0/1 [00:00<?, ?it/s]
+Testing DataLoader 1: 100%|██████████| 1/1 [00:04<00:00,  0.25it/s]
+Testing DataLoader 1: 100%|██████████| 1/1 [00:04<00:00,  0.25it/s]
+┏━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃       Test metric       ┃       DataLoader 0       ┃      DataLoader 1       ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━┩
+│  test/train/energy_mae  │        0.8046875         │                         │
+│ test/train/energy_rmse  │        0.8046875         │                         │
+│  test/train/forces_mae  │    0.7051154971122742    │                         │
+│ test/train/forces_rmse  │    0.9074982404708862    │                         │
+│ test/train/forces_rmse… │    0.9074982404708862    │                         │
+│ test/train/per_atom_en… │    0.005584716796875     │                         │
+│ test/train/per_atom_en… │    0.005584716796875     │                         │
+│  test/valid/energy_mae  │                          │       0.36328125        │
+│ test/valid/energy_rmse  │                          │   0.6242976784706116    │
+│  test/valid/forces_mae  │                          │   0.6840018630027771    │
+│ test/valid/forces_rmse  │                          │   0.8989995121955872    │
+│ test/valid/forces_rmse… │                          │    0.890419602394104    │
+│ test/valid/per_atom_en… │                          │    0.00250244140625     │
+│ test/valid/per_atom_en… │                          │  0.004327313043177128   │
+└─────────────────────────┴──────────────────────────┴─────────────────────────┘
+[graph-pes INFO]: Testing complete.
+[graph-pes INFO]: Awaiting final Lightning and W&B shutdown...
+SMOKE PASSED {"config": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml", "config_sha256": "44077beeeb2a66b4ed20a948c274475b926d474b32dad54d1696e051805cec26", "helper_sha256": "8a394cac2a32fdc9b93b32317b500057ae3c2bdf3c701afcca0a746756657c2a", "backbone_shape_irrep_match": true, "strict_four_layer_copy": true, "final_irreps": "128x0e+128x2e", "scalar_anisotropic_output_gradient_norms": [0.3770553171634674, 0.002324816770851612], "symmetry_errors": [{"energy_abs_error": 0.0, "force_max_error": 7.962808012962341e-08}, {"energy_abs_error": 0.0, "force_max_error": 5.908077582716942e-09}], "active_parameters": 3017349, "optimizer_updates": 2, "export_matches_best": true, "deployment_passed": true, "saved_ef_predictions_finite": true, "held_out_test_accessed": false, "smoke_overrides": "CPU; 1 epoch; 4 training batches; accumulation 2; 1 validation batch; 2 prefit structures; 1 postfit batch per train/valid dataset; W&B disabled", "temporary_results": "/var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/tensor-ef-smoke-b68kvv9u"}

@@ -102,3 +102,27 @@ sbatch train.sbatch configs/tensor/01-SymmetricTensor-Scratch-N100.yaml 01-Symme
 The W&B project is `tensor-nmr-transfer`, under the existing Oxford entity. Review/override ARC resources at submission as usual. No production training was launched during setup. The saved short CPU smoke audit is in `provenance/symmetric-setup/`.
 
 The initial setup audit used learning rate 0.001. The current YAML uses 0.003; a further bounded CPU check at that rate completed two optimiser updates with finite validation and reloaded predictions. See `provenance/symmetric-setup/lr003-smoke-results.json`. These checks do not establish convergence or GPU memory requirements.
+
+## Tensor-compatible E/F pretraining
+
+Config: `configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml`.
+
+This trains a fresh E/F source on all 800 training structures and the existing 50 validation structures. Only `QM_energy` and `QM_forces` are mapped into graphs; no shielding targets or held-out test structures are used. The network matches the current symmetric-tensor pilot: four interaction layers, 6 Å cutoff, 64 radial features, identical element ordering, 128 copies of the six requested hidden irrep types, and final features `128x0e + 128x2e`.
+
+`nmr_helpers/tensor_ef_pretraining.py` provides `TensorCompatibleEFNequIP`. It inherits NequIP's energy summation, scaling and conservative force calculation, but takes its embedding/edge/message-passing modules from the same constructor used by the symmetric-tensor baseline. This guarantees matching backbone layout instead of relying on an unpruned energy model whose final features would differ from the running tensor pilot.
+
+A standard scalar linear energy head would ignore the final `2e` outputs. The task-specific energy head therefore concatenates the 128 scalar features with 128 rotational invariants, one for each rank-two channel: `mean(component**2)` across its five components. A 256→128→1 SiLU MLP produces each atomic energy. These squared norms are invariant under rotations/reflections, and let the E/F objective train the final anisotropic channels. This is a deliberate change to the E/F readout, not a claim that unmodified NequIP trains all final tensor features. Forces are differentiated from total energy, not separately predicted.
+
+For later transfer, copy the element embedding, initial node embedding, edge embedding and all four interaction layers. Start the NMR linear readout and its tensor-safe scales/offsets afresh. Discard the E/F invariant MLP, energy scale and energy offset. The strict state-copy check is part of the smoke audit; the existing scalar-only production transfer and ELoRA helpers still need extension for this source. Gradient flow establishes that the features are trainable by E/F, not that they will necessarily improve NMR accuracy.
+
+The initial recipe uses AdamW at 0.003, weight decay 0.01, batch size 1 with accumulation 4, a 1,000-epoch ceiling, early-stopping patience 300 and ReduceLROnPlateau (patience 25, factor 0.8). Energy loss is MSE of per-atom-normalised structure energy error, weighted 1000; force-component MSE is weighted 100. Those loss choices follow the original E/F recipe; they are starting settings, not optimised weights. Pre-fitting uses the fitting set only. With fixed SiO2 composition, individual elemental energy offsets are not uniquely identifiable; their combined contribution is what the data constrain.
+
+On ARC, from this project's root:
+
+```bash
+sbatch train.sbatch configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml 02-EF-Pretrain-TensorBackbone
+```
+
+The inherited launcher supplies GPU/batch/stopping overrides. Review GPU allocation and wall time at submission; larger E/F training can require resuming from `checkpoints/last.ckpt`. A time limit is distinct from convergence. No production E/F job was launched during local setup.
+
+Run the bounded CPU check with `.venv/bin/python scripts/smoke_ef_pretraining.py`. It checks backbone compatibility, energy/force predictions, E/F gradients to both final irrep blocks, sampled rotation/reflection behaviour, two optimizer updates, saved weights and deployment. Its temporary overrides and results are recorded under `provenance/ef-pretraining-setup/`. It does not establish GPU memory requirements, convergence or NMR transfer accuracy.
