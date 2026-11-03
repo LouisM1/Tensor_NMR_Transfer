@@ -1,0 +1,23 @@
+# Local Python environment and generated files
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+*.out
+*.err
+.env
+.env.*
+!.env.example
+
+# Large local inputs and generated runs; provenance is versioned separately.
+/data/
+/pretrained/
+/graph-pes-results/*
+!/graph-pes-results/.gitkeep
+/logs/*
+!/logs/.gitkeep
+/wandb/
+
+# Temporary local plan (deliberately untracked).
+/TENSOR_NMR_REQUIREMENTS.local.md
