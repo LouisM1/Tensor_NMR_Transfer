@@ -1,5 +1,5 @@
 {
-  "config": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml",
+  "config": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/configs/tensor/02-EF-Pretrain-TensorBackbone.yaml",
   "config_sha256": "44077beeeb2a66b4ed20a948c274475b926d474b32dad54d1696e051805cec26",
   "helper_sha256": "8a394cac2a32fdc9b93b32317b500057ae3c2bdf3c701afcca0a746756657c2a",
   "backbone_shape_irrep_match": true,
@@ -26,5 +26,7 @@
   "saved_ef_predictions_finite": true,
   "held_out_test_accessed": false,
   "smoke_overrides": "CPU; 1 epoch; 4 training batches; accumulation 2; 1 validation batch; 2 prefit structures; 1 postfit batch per train/valid dataset; W&B disabled",
-  "temporary_results": "/var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/tensor-ef-smoke-b68kvv9u"
+  "temporary_results": "/var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/tensor-ef-smoke-b68kvv9u",
+  "original_config_path": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml",
+  "relocation_note": "Moved unchanged into configs/tensor at user request; no training settings changed."
 }

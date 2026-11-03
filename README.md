@@ -28,8 +28,7 @@ Use those reconstruction commands only when intentionally replacing/rebuilding t
 | Directory/file | Purpose |
 | --- | --- |
 | `data/` | Independent copies of raw data, train/valid/test partitions, split indices and scalar-labelled copies. Original `ms` tensors are retained. |
-| `configs/pretraining/` | New tensor-compatible E/F pretraining configurations. Initially empty. |
-| `configs/tensor/` | First symmetric-tensor baseline and subsequent tensor NMR configurations. |
+| `configs/tensor/` | Tensor NMR and compatible E/F configurations, kept together. |
 | `configs/reference_scalar/` | Existing scalar/E/F configurations, kept together as references. |
 | `nmr_helpers/` | Existing importable compatibility, scalar-loss, transfer, ELoRA and training helpers. |
 | `analysis_helpers/reference_scalar/` | Existing analysis routines, retained as references with project roots updated. |
@@ -105,7 +104,7 @@ The initial setup audit used learning rate 0.001. The current YAML uses 0.003; a
 
 ## Tensor-compatible E/F pretraining
 
-Config: `configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml`.
+Config: `configs/tensor/02-EF-Pretrain-TensorBackbone.yaml`.
 
 This trains a fresh E/F source on all 800 training structures and the existing 50 validation structures. Only `QM_energy` and `QM_forces` are mapped into graphs; no shielding targets or held-out test structures are used. The network matches the current symmetric-tensor pilot: four interaction layers, 6 Å cutoff, 64 radial features, identical element ordering, 128 copies of the six requested hidden irrep types, and final features `128x0e + 128x2e`.
 
@@ -120,7 +119,7 @@ The initial recipe uses AdamW at 0.003, weight decay 0.01, batch size 1 with acc
 On ARC, from this project's root:
 
 ```bash
-sbatch train.sbatch configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml 02-EF-Pretrain-TensorBackbone
+sbatch train.sbatch configs/tensor/02-EF-Pretrain-TensorBackbone.yaml 02-EF-Pretrain-TensorBackbone
 ```
 
 The inherited launcher supplies GPU/batch/stopping overrides. Review GPU allocation and wall time at submission; larger E/F training can require resuming from `checkpoints/last.ckpt`. A time limit is distinct from convergence. No production E/F job was launched during local setup.

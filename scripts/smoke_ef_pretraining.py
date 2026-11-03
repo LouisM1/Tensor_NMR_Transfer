@@ -18,7 +18,7 @@ from graph_pes.utils.nn import count_used_parameters
 from graph_pes.utils.lammps import deploy_model
 from nmr_helpers.shared_head_training import train_from_config
 torch.set_num_threads(2);torch.set_default_dtype(torch.float32);torch.manual_seed(42)
-cp=ROOT/'configs/pretraining/02-EF-Pretrain-TensorBackbone.yaml'
+cp=ROOT/'configs/tensor/02-EF-Pretrain-TensorBackbone.yaml'
 raw=yaml.safe_load(cp.read_text());_,cfg=instantiate_config_from_dict(raw,TrainingConfig)
 model=parse_model(cfg.model)
 target_raw=yaml.safe_load((ROOT/'configs/tensor/01-SymmetricTensor-Scratch-N100.yaml').read_text())
