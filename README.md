@@ -29,26 +29,26 @@ Use those reconstruction commands only when intentionally replacing/rebuilding t
 | --- | --- |
 | `data/` | Independent copies of raw data, train/valid/test partitions, split indices and scalar-labelled copies. Original `ms` tensors are retained. |
 | `configs/pretraining/` | New tensor-compatible E/F pretraining configurations. Initially empty. |
-| `configs/tensor/` | New tensor NMR configurations. Initially empty. |
+| `configs/tensor/` | First symmetric-tensor baseline and subsequent tensor NMR configurations. |
 | `configs/reference_scalar/` | Existing scalar/E/F configurations, kept together as references. |
 | `nmr_helpers/` | Existing importable compatibility, scalar-loss, transfer, ELoRA and training helpers. |
 | `analysis_helpers/reference_scalar/` | Existing analysis routines, retained as references with project roots updated. |
 | `scripts/reference_scalar/` | Existing scalar smoke checks, adapted to the new reference-config locations. |
 | `scripts/check_environment.py` | Local imports, dependency versions, checkpoint inference and tensor-conversion checks. |
-| `pretrained/Kavanagh-Med-9059603/` | Original E/F source model and its saved metadata/checkpoints. |
+| `pretrained/Kavanagh-Med-9059603/` | Original bootstrap checkpoint location; currently absent. E/F weights are not required by the direct-training pilot. |
 | `graph-pes-results/` | New training outputs; initially empty. |
 | `experiments/` | New experiment notebooks and write-ups; initially empty. |
 | `comparisons/` | New comparison outputs; initially empty. |
 | `logs/` | New job logs; initially empty. |
-| `provenance/` | Bootstrap source hashes and environment verification. |
+| `provenance/` | Symmetric-data manifests and short CPU training audits. |
 | `train.sbatch` | Existing ARC launcher, with a new default job name and updated example config path. |
 | `TENSOR_NMR_REQUIREMENTS.local.md` | Local short-term requirements checklist; deliberately ignored by Git. |
 
-Data, pretrained weights, `.venv`, job logs and new model outputs are kept locally and ignored by Git. The repository tracks code, config references, dependency specifications and provenance. Historical NMR run directories, plots and notebooks remain in `NequIP_experiments`; they were not brought into this clean workspace.
+The repository tracks the datasets, code, configs, dependency specifications and provenance. `.venv`, generated job logs, model outputs, local HTML work logs and the temporary requirements checklist are ignored by Git. Historical NMR run directories, plots and notebooks remain in `NequIP_experiments`; they were not brought into this clean workspace.
 
 ## What still needs implementation
 
-The inherited `nmr_helpers` are the working **scalar** baseline. In particular, the transfer and ELoRA helpers currently enforce a scalar target, and the source E/F checkpoint has a scalar-only final interaction layer. They must be extended and verified before symmetric-tensor production training. The new `configs/tensor/` folder intentionally contains no pretend-ready tensor config.
+The inherited `nmr_helpers` are the working **scalar** baseline. In particular, the transfer and ELoRA helpers currently enforce a scalar target, and the source E/F checkpoint has a scalar-only final interaction layer. They must be extended and verified before symmetric-tensor production training. The first direct-training tensor baseline is now implemented in `configs/tensor/01-SymmetricTensor-Scratch-N100.yaml`; E/F transfer and ELoRA still require tensor-specific extensions.
 
 Keep derived symmetric-tensor labels separate from the existing data. Verify basis conversion, rotations, tensor-safe scaling/offsets and the exact transferred/fresh parameter boundary before running the new experiments. The local requirements checklist specifies the planned goals and sequence.
 
@@ -67,3 +67,38 @@ The launcher retains its existing resource defaults and training overrides; revi
 ## Plot conventions
 
 Use plain descriptive titles, clear axes and legends, and RMSE/MAE/R² annotations on parity panels. Avoid question-based titles, promotional subtitles and prose footnotes.
+
+## Symmetric shielding pilot
+
+New files in `data/nmr_symm/{raw,train,valid,test}.xyz` retain all existing arrays and metadata and add:
+
+- `MS_Symm_QM`: nine row-major Cartesian entries of `(ms + ms.T) / 2`, in ppm.
+- `MS_Symm_Irreps`: six orthonormal e3nn coefficients (`0e + 2e`), in ppm. The scalar coefficient is `sqrt(3) * sigma_iso`; the other five represent the symmetric traceless tensor. The e3nn version and basis convention are recorded in `data/nmr_symm/manifest.json`.
+
+The extractor refuses existing outputs. Reproduce only into a fresh output directory:
+
+```bash
+.venv/bin/python -m nmr_helpers.extract_ms_symmetric --output-dir data/nmr_symm_new
+```
+
+The first config is `configs/tensor/01-SymmetricTensor-Scratch-N100.yaml`: direct training from random initialisation, 100 seed-42 training structures, all 50 validation structures, four layers, 6 Å cutoff, 64 radial features, and 128 channels per requested hidden irrep type (`0e,0o,1e,1o,2e,2o`). The output is exactly `0e + 2e`; pruning retains the required output features. Not every requested hidden type is reachable in every early layer.
+
+AdamW starts at 0.003, with weight decay 0.01, batch size 1, accumulation 4, ReduceLROnPlateau (patience 25, factor 0.8), early-stopping patience 300, and a 3,000-epoch ceiling. This is an initial recipe, not an optimised tensor model. Test data are excluded from training/configuration selection.
+
+The loss averages four normalised contributions equally: Si isotropic, Si anisotropic, O isotropic, O anisotropic. Its fixed denominators come from the full 800-structure training pool and are additional information beyond the N100 fitting labels. Learnable model offsets/scales are pre-fitted on the selected N100 only. The model has one scalar offset per element, one scalar scale and one shared five-component anisotropic scale per element; scaling therefore preserves rotations. The callback reports separate Si/O isotropic and anisotropic RMSE in ppm. Anisotropic RMSE is `sqrt(mean(||Q_pred-Q_ref||_F² / 5))`.
+
+Run locally (this starts production training and W&B logging):
+
+```bash
+.venv/bin/python scripts/train_symmetric.py
+```
+
+On ARC, the existing launcher accepts the new YAML:
+
+```bash
+sbatch train.sbatch configs/tensor/01-SymmetricTensor-Scratch-N100.yaml 01-SymmetricTensor-Scratch-N100
+```
+
+The W&B project is `tensor-nmr-transfer`, under the existing Oxford entity. Review/override ARC resources at submission as usual. No production training was launched during setup. The saved short CPU smoke audit is in `provenance/symmetric-setup/`.
+
+The initial setup audit used learning rate 0.001. The current YAML uses 0.003; a further bounded CPU check at that rate completed two optimiser updates with finite validation and reloaded predictions. See `provenance/symmetric-setup/lr003-smoke-results.json`. These checks do not establish convergence or GPU memory requirements.

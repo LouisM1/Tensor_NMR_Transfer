@@ -1,0 +1,44 @@
+{
+  "format": "extxyz",
+  "units": "ppm",
+  "symmetry": "S=(ms+ms.T)/2",
+  "cartesian_array": "MS_Symm_QM: row-major flattened 3x3",
+  "irrep_array": "MS_Symm_Irreps: e3nn.io.CartesianTensor('ij=ji'), 1x0e+1x2e",
+  "scalar_coefficient": "sqrt(3)*isotropic shielding",
+  "e3nn_version": "0.4.4",
+  "originals_unchanged": true,
+  "records": [
+    {
+      "source": "data/raw.xyz",
+      "output": "data/nmr_symm/raw.xyz",
+      "source_sha256": "0a2f1388a10cfb9996bb2fb55784a76fb608930e91f8dd28a34c357883d76492",
+      "output_sha256": "1eee3b2b6b048174e128db83a7726a1c92f8ceec97de1ca11c79ea1336328adb",
+      "structures": 850,
+      "atoms": 122400
+    },
+    {
+      "source": "data/train.xyz",
+      "output": "data/nmr_symm/train.xyz",
+      "source_sha256": "259151495362753f3a7f8d5eddc1b9643b8ebb4d1cb4a845c41155341450d67d",
+      "output_sha256": "641f8389df4c1085cef4ec6f8665c81849ce7b105ddfbfaf5fc721cd065824f5",
+      "structures": 800,
+      "atoms": 115200
+    },
+    {
+      "source": "data/valid.xyz",
+      "output": "data/nmr_symm/valid.xyz",
+      "source_sha256": "5610becf9e88f82b4f0f68a2d34f5e1316f14e18e6ad61b0ded7c64630e757b6",
+      "output_sha256": "752ca501059b90aec5a5ace6c946c46c5b92e89b725c18527261923a8d229d22",
+      "structures": 50,
+      "atoms": 7200
+    },
+    {
+      "source": "data/test.xyz",
+      "output": "data/nmr_symm/test.xyz",
+      "source_sha256": "5426a789be564d12fe921c73e79e7af92538588cc01ba5e929b6ca73ffa94890",
+      "output_sha256": "bab5f637cd24dda4dccde22901d2138728e0d6a0eb6ec7f41c88f0d64f2fb43a",
+      "structures": 150,
+      "atoms": 21600
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+MODEL 2999909 parameters; symmetry errors [9.1552734375e-05, 0.0]
+[graph-pes INFO]: Started `graph-pes-train` at 2026-11-03 13:00:49.580
+[graph-pes INFO]: Successfully parsed config.
+[graph-pes INFO]: Logging to /Users/louismcauliffe/.codex/.chatgpt-projects/g-p-6aa93f0341cc8191bbd47fb85a4101fb/outputs/symmetric-nmr-setup/smoke-runs/symmetric-smoke/rank-0.log
+[graph-pes INFO]: ID for this training run: symmetric-smoke
+[graph-pes INFO]:
+Output for this training run can be found at:
+    └─ /Users/louismcauliffe/.codex/.chatgpt-projects/g-p-6aa93f0341cc8191bbd47fb85a4101fb/outputs/symmetric-nmr-setup/smoke-runs/symmetric-smoke
+        ├─ rank-0.log         # find a verbose log here
+        ├─ model.pt           # the best model (according to valid/loss/total)
+        ├─ lammps_model.pt    # the best model deployed to LAMMPS
+        ├─ train-config.yaml  # the complete config used for this run
+        └─ summary.yaml       # the summary of the training run
+
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+[graph-pes INFO]: Preparing data
+[graph-pes INFO]: Setting up datasets
+[graph-pes INFO]: Pre-fitting the model on 2 samples
+[graph-pes INFO]: Number of learnable params : 2,984,582
+[graph-pes INFO]: Sanity checking the model...
+[graph-pes INFO]: Starting fit...
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/loops/fit_loop.py:310: The number of training batches (8) is smaller than the logging interval Trainer(log_every_n_steps=10). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+                                            valid/metrics                                      valid/loss   timer/its_per_s   timer/its_per_s
+   epoch      time   symmetric_element_block_balanced_mse   symmetric_element_block_balanced_mse_weighted             train             valid
+       1      39.0                                0.74624                                         0.74624           0.28257           0.78956
+[graph-pes WARNING]:
+Failed to deploy model for use with LAMMPS:
+'Tensor (inferred)' object has no attribute or method 'Z'.:
+  File "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/nmr_helpers/symmetric_shielding.py", line 22
+    def forward(self,x,graph):
+        scales=self.scales[graph.Z]
+                           ~~~~~~~ <--- HERE
+        return torch.cat((x[:,:1]*scales[:,:1]+self.offsets[graph.Z],x[:,1:]*scales[:,1:]),dim=1)
+
+`Trainer.fit` stopped: `max_epochs=1` reached.
+[graph-pes INFO]: Loading best weights from "/Users/louismcauliffe/.codex/.chatgpt-projects/g-p-6aa93f0341cc8191bbd47fb85a4101fb/outputs/symmetric-nmr-setup/smoke-runs/symmetric-smoke/checkpoints/best.ckpt"
+[graph-pes INFO]: Training complete.
+[graph-pes INFO]: Testing best model...
+You are using the plain ModelCheckpoint callback. Consider using LitModelCheckpoint which with seamless uploading to Model registry.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'test_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+
+Testing: |          | 0/? [00:00<?, ?it/s]
+Testing:   0%|          | 0/100 [00:00<?, ?it/s]
+Testing DataLoader 0:   0%|          | 0/100 [00:00<?, ?it/s]
+Testing DataLoader 0:   1%|          | 1/100 [00:01<02:36,  0.63it/s]
+Testing DataLoader 0:   2%|▏         | 2/100 [00:03<02:31,  0.65it/s]
+Testing DataLoader 0:   3%|▎         | 3/100 [00:04<02:30,  0.64it/s]
+Testing DataLoader 0:   4%|▍         | 4/100 [00:06<02:30,  0.64it/s]
+Testing DataLoader 0:   5%|▌         | 5/100 [00:07<02:29,  0.63it/s]
+Testing DataLoader 0:   6%|▌         | 6/100 [00:09<02:22,  0.66it/s]
+Testing DataLoader 0:   7%|▋         | 7/100 [00:10<02:21,  0.66it/s]
+Testing DataLoader 0:   8%|▊         | 8/100 [00:12<02:20,  0.65it/s]
+Testing DataLoader 0:   9%|▉         | 9/100 [00:13<02:15,  0.67it/s]
+Testing DataLoader 0:  10%|█         | 10/100 [00:14<02:13,  0.67it/s]
+Testing DataLoader 0:  11%|█         | 11/100 [00:16<02:10,  0.68it/s]
+Testing DataLoader 0:  12%|█▏        | 12/100 [00:17<02:09,  0.68it/s]
+Testing DataLoader 0:  13%|█▎        | 13/100 [00:19<02:09,  0.67it/s]
+Testing DataLoader 0:  14%|█▍        | 14/100 [00:20<02:05,  0.68it/s]
+Testing DataLoader 0:  15%|█▌        | 15/100 [00:21<02:04,  0.68it/s]
+Testing DataLoader 0:  16%|█▌        | 16/100 [00:23<02:02,  0.69it/s]
+Testing DataLoader 0:  17%|█▋        | 17/100 [00:24<01:59,  0.70it/s]
+Testing DataLoader 0:  18%|█▊        | 18/100 [00:26<01:59,  0.69it/s]
+Testing DataLoader 0:  19%|█▉        | 19/100 [00:27<01:58,  0.69it/s]
+Testing DataLoader 0:  20%|██        | 20/100 [00:28<01:55,  0.69it/s]
+Testing DataLoader 0:  21%|██        | 21/100 [00:30<01:53,  0.70it/s]
+Testing DataLoader 0:  22%|██▏       | 22/100 [00:31<01:51,  0.70it/s]
+Testing DataLoader 0:  23%|██▎       | 23/100 [00:32<01:49,  0.70it/s]
+Testing DataLoader 0:  24%|██▍       | 24/100 [00:34<01:48,  0.70it/s]
+Testing DataLoader 0:  25%|██▌       | 25/100 [00:35<01:47,  0.70it/s]
+Testing DataLoader 0:  26%|██▌       | 26/100 [00:37<01:46,  0.70it/s]
+Testing DataLoader 0:  27%|██▋       | 27/100 [00:38<01:45,  0.69it/s]
+Testing DataLoader 0:  28%|██▊       | 28/100 [00:40<01:44,  0.69it/s]
+Testing DataLoader 0:  29%|██▉       | 29/100 [00:41<01:42,  0.70it/s]
+Testing DataLoader 0:  30%|███       | 30/100 [00:42<01:39,  0.70it/s]
+Testing DataLoader 0:  31%|███       | 31/100 [00:44<01:38,  0.70it/s]
+Testing DataLoader 0:  32%|███▏      | 32/100 [00:45<01:37,  0.70it/s]
+Testing DataLoader 0:  33%|███▎      | 33/100 [00:47<01:36,  0.70it/s]
+Detected KeyboardInterrupt, attempting graceful shutdown ...
+
+Testing DataLoader 0:  33%|███▎      | 33/100 [00:48<01:37,  0.68it/s]

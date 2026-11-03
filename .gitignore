@@ -19,3 +19,6 @@ __pycache__/
 
 # Temporary local plan (deliberately untracked).
 /TENSOR_NMR_REQUIREMENTS.local.md
+
+# Local HTML work logs.
+/local_logs/

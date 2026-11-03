@@ -1,0 +1,198 @@
+MODEL 2999909 parameters; symmetry errors [9.1552734375e-05, 0.0]
+[graph-pes INFO]: Started `graph-pes-train` at 2026-11-03 14:39:22.318
+[graph-pes INFO]: Successfully parsed config.
+[graph-pes INFO]: Logging to /var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/symmetric-nmr-smoke-j5fwg47g/smoke-runs/symmetric-smoke/rank-0.log
+[graph-pes INFO]: ID for this training run: symmetric-smoke
+[graph-pes INFO]:
+Output for this training run can be found at:
+    └─ /var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/symmetric-nmr-smoke-j5fwg47g/smoke-runs/symmetric-smoke
+        ├─ rank-0.log         # find a verbose log here
+        ├─ model.pt           # the best model (according to valid/loss/total)
+        ├─ lammps_model.pt    # the best model deployed to LAMMPS
+        ├─ train-config.yaml  # the complete config used for this run
+        └─ summary.yaml       # the summary of the training run
+
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+[graph-pes INFO]: Preparing data
+[graph-pes INFO]: Setting up datasets
+[graph-pes INFO]: Pre-fitting the model on 2 samples
+[graph-pes INFO]: Number of learnable params : 2,984,582
+[graph-pes INFO]: Sanity checking the model...
+[graph-pes INFO]: Starting fit...
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'train_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/loops/fit_loop.py:310: The number of training batches (8) is smaller than the logging interval Trainer(log_every_n_steps=10). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'val_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+                                            valid/metrics                                      valid/loss   timer/its_per_s   timer/its_per_s
+   epoch      time   symmetric_element_block_balanced_mse   symmetric_element_block_balanced_mse_weighted             train             valid
+       1      42.3                                0.71214                                         0.71214           0.24522           0.71340
+`Trainer.fit` stopped: `max_epochs=1` reached.
+[graph-pes INFO]: Loading best weights from "/private/var/folders/sy/xbvsdfm92_sbg8hg3lsjl0hc0000gn/T/symmetric-nmr-smoke-j5fwg47g/smoke-runs/symmetric-smoke/checkpoints/best.ckpt"
+[graph-pes INFO]: Training complete.
+[graph-pes INFO]: Testing best model...
+You are using the plain ModelCheckpoint callback. Consider using LitModelCheckpoint which with seamless uploading to Model registry.
+GPU available: False, used: False
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/.venv/lib/python3.11/site-packages/pytorch_lightning/trainer/connectors/data_connector.py:425: The 'test_dataloader' does not have many workers which may be a bottleneck. Consider increasing the value of the `num_workers` argument` to `num_workers=7` in the `DataLoader` to improve performance.
+
+Testing: |          | 0/? [00:00<?, ?it/s]
+Testing:   0%|          | 0/100 [00:00<?, ?it/s]
+Testing DataLoader 0:   0%|          | 0/100 [00:00<?, ?it/s]
+Testing DataLoader 0:   1%|          | 1/100 [00:01<02:26,  0.68it/s]
+Testing DataLoader 0:   2%|▏         | 2/100 [00:02<02:20,  0.70it/s]
+Testing DataLoader 0:   3%|▎         | 3/100 [00:04<02:21,  0.69it/s]
+Testing DataLoader 0:   4%|▍         | 4/100 [00:05<02:21,  0.68it/s]
+Testing DataLoader 0:   5%|▌         | 5/100 [00:07<02:20,  0.68it/s]
+Testing DataLoader 0:   6%|▌         | 6/100 [00:08<02:15,  0.69it/s]
+Testing DataLoader 0:   7%|▋         | 7/100 [00:10<02:15,  0.69it/s]
+Testing DataLoader 0:   8%|▊         | 8/100 [00:11<02:13,  0.69it/s]
+Testing DataLoader 0:   9%|▉         | 9/100 [00:12<02:10,  0.70it/s]
+Testing DataLoader 0:  10%|█         | 10/100 [00:14<02:08,  0.70it/s]
+Testing DataLoader 0:  11%|█         | 11/100 [00:15<02:05,  0.71it/s]
+Testing DataLoader 0:  12%|█▏        | 12/100 [00:16<02:03,  0.71it/s]
+Testing DataLoader 0:  13%|█▎        | 13/100 [00:18<02:03,  0.71it/s]
+Testing DataLoader 0:  14%|█▍        | 14/100 [00:19<02:00,  0.71it/s]
+Testing DataLoader 0:  15%|█▌        | 15/100 [00:21<01:59,  0.71it/s]
+Testing DataLoader 0:  16%|█▌        | 16/100 [00:22<01:57,  0.72it/s]
+Testing DataLoader 0:  17%|█▋        | 17/100 [00:23<01:54,  0.72it/s]
+Testing DataLoader 0:  18%|█▊        | 18/100 [00:25<01:53,  0.72it/s]
+Testing DataLoader 0:  19%|█▉        | 19/100 [00:26<01:52,  0.72it/s]
+Testing DataLoader 0:  20%|██        | 20/100 [00:27<01:50,  0.73it/s]
+Testing DataLoader 0:  21%|██        | 21/100 [00:28<01:48,  0.73it/s]
+Testing DataLoader 0:  22%|██▏       | 22/100 [00:29<01:46,  0.73it/s]
+Testing DataLoader 0:  23%|██▎       | 23/100 [00:31<01:44,  0.74it/s]
+Testing DataLoader 0:  24%|██▍       | 24/100 [00:32<01:43,  0.74it/s]
+Testing DataLoader 0:  25%|██▌       | 25/100 [00:34<01:42,  0.73it/s]
+Testing DataLoader 0:  26%|██▌       | 26/100 [00:35<01:41,  0.73it/s]
+Testing DataLoader 0:  27%|██▋       | 27/100 [00:37<01:40,  0.73it/s]
+Testing DataLoader 0:  28%|██▊       | 28/100 [00:38<01:38,  0.73it/s]
+Testing DataLoader 0:  29%|██▉       | 29/100 [00:39<01:37,  0.73it/s]
+Testing DataLoader 0:  30%|███       | 30/100 [00:40<01:35,  0.73it/s]
+Testing DataLoader 0:  31%|███       | 31/100 [00:42<01:34,  0.73it/s]
+Testing DataLoader 0:  32%|███▏      | 32/100 [00:43<01:33,  0.73it/s]
+Testing DataLoader 0:  33%|███▎      | 33/100 [00:45<01:32,  0.73it/s]
+Testing DataLoader 0:  34%|███▍      | 34/100 [00:46<01:30,  0.73it/s]
+Testing DataLoader 0:  35%|███▌      | 35/100 [00:48<01:29,  0.73it/s]
+Testing DataLoader 0:  36%|███▌      | 36/100 [00:49<01:28,  0.73it/s]
+Testing DataLoader 0:  37%|███▋      | 37/100 [00:50<01:26,  0.73it/s]
+Testing DataLoader 0:  38%|███▊      | 38/100 [00:52<01:25,  0.73it/s]
+Testing DataLoader 0:  39%|███▉      | 39/100 [00:53<01:23,  0.73it/s]
+Testing DataLoader 0:  40%|████      | 40/100 [00:55<01:22,  0.73it/s]
+Testing DataLoader 0:  41%|████      | 41/100 [00:56<01:21,  0.73it/s]
+Testing DataLoader 0:  42%|████▏     | 42/100 [00:57<01:19,  0.73it/s]
+Testing DataLoader 0:  43%|████▎     | 43/100 [00:58<01:18,  0.73it/s]
+Testing DataLoader 0:  44%|████▍     | 44/100 [01:00<01:16,  0.73it/s]
+Testing DataLoader 0:  45%|████▌     | 45/100 [01:02<01:16,  0.72it/s]
+Testing DataLoader 0:  46%|████▌     | 46/100 [01:03<01:14,  0.72it/s]
+Testing DataLoader 0:  47%|████▋     | 47/100 [01:05<01:13,  0.72it/s]
+Testing DataLoader 0:  48%|████▊     | 48/100 [01:06<01:12,  0.72it/s]
+Testing DataLoader 0:  49%|████▉     | 49/100 [01:08<01:11,  0.72it/s]
+Testing DataLoader 0:  50%|█████     | 50/100 [01:09<01:09,  0.72it/s]
+Testing DataLoader 0:  51%|█████     | 51/100 [01:11<01:08,  0.72it/s]
+Testing DataLoader 0:  52%|█████▏    | 52/100 [01:12<01:06,  0.72it/s]
+Testing DataLoader 0:  53%|█████▎    | 53/100 [01:13<01:05,  0.72it/s]
+Testing DataLoader 0:  54%|█████▍    | 54/100 [01:15<01:03,  0.72it/s]
+Testing DataLoader 0:  55%|█████▌    | 55/100 [01:16<01:02,  0.72it/s]
+Testing DataLoader 0:  56%|█████▌    | 56/100 [01:17<01:01,  0.72it/s]
+Testing DataLoader 0:  57%|█████▋    | 57/100 [01:19<00:59,  0.72it/s]
+Testing DataLoader 0:  58%|█████▊    | 58/100 [01:20<00:58,  0.72it/s]
+Testing DataLoader 0:  59%|█████▉    | 59/100 [01:22<00:57,  0.72it/s]
+Testing DataLoader 0:  60%|██████    | 60/100 [01:23<00:55,  0.72it/s]
+Testing DataLoader 0:  61%|██████    | 61/100 [01:24<00:54,  0.72it/s]
+Testing DataLoader 0:  62%|██████▏   | 62/100 [01:26<00:52,  0.72it/s]
+Testing DataLoader 0:  63%|██████▎   | 63/100 [01:27<00:51,  0.72it/s]
+Testing DataLoader 0:  64%|██████▍   | 64/100 [01:29<00:50,  0.72it/s]
+Testing DataLoader 0:  65%|██████▌   | 65/100 [01:30<00:48,  0.72it/s]
+Testing DataLoader 0:  66%|██████▌   | 66/100 [01:31<00:47,  0.72it/s]
+Testing DataLoader 0:  67%|██████▋   | 67/100 [01:33<00:46,  0.72it/s]
+Testing DataLoader 0:  68%|██████▊   | 68/100 [01:34<00:44,  0.72it/s]
+Testing DataLoader 0:  69%|██████▉   | 69/100 [01:36<00:43,  0.72it/s]
+Testing DataLoader 0:  70%|███████   | 70/100 [01:37<00:41,  0.72it/s]
+Testing DataLoader 0:  71%|███████   | 71/100 [01:39<00:40,  0.71it/s]
+Testing DataLoader 0:  72%|███████▏  | 72/100 [01:40<00:39,  0.72it/s]
+Testing DataLoader 0:  73%|███████▎  | 73/100 [01:42<00:37,  0.71it/s]
+Testing DataLoader 0:  74%|███████▍  | 74/100 [01:44<00:36,  0.71it/s]
+Testing DataLoader 0:  75%|███████▌  | 75/100 [01:45<00:35,  0.71it/s]
+Testing DataLoader 0:  76%|███████▌  | 76/100 [01:47<00:34,  0.71it/s]
+Testing DataLoader 0:  77%|███████▋  | 77/100 [01:49<00:32,  0.71it/s]
+Testing DataLoader 0:  78%|███████▊  | 78/100 [01:50<00:31,  0.71it/s]
+Testing DataLoader 0:  79%|███████▉  | 79/100 [01:52<00:29,  0.71it/s]
+Testing DataLoader 0:  80%|████████  | 80/100 [01:53<00:28,  0.71it/s]
+Testing DataLoader 0:  81%|████████  | 81/100 [01:54<00:26,  0.71it/s]
+Testing DataLoader 0:  82%|████████▏ | 82/100 [01:56<00:25,  0.71it/s]
+Testing DataLoader 0:  83%|████████▎ | 83/100 [01:57<00:24,  0.71it/s]
+Testing DataLoader 0:  84%|████████▍ | 84/100 [01:59<00:22,  0.71it/s]
+Testing DataLoader 0:  85%|████████▌ | 85/100 [02:00<00:21,  0.71it/s]
+Testing DataLoader 0:  86%|████████▌ | 86/100 [02:01<00:19,  0.71it/s]
+Testing DataLoader 0:  87%|████████▋ | 87/100 [02:03<00:18,  0.71it/s]
+Testing DataLoader 0:  88%|████████▊ | 88/100 [02:04<00:16,  0.71it/s]
+Testing DataLoader 0:  89%|████████▉ | 89/100 [02:05<00:15,  0.71it/s]
+Testing DataLoader 0:  90%|█████████ | 90/100 [02:07<00:14,  0.71it/s]
+Testing DataLoader 0:  91%|█████████ | 91/100 [02:08<00:12,  0.71it/s]
+Testing DataLoader 0:  92%|█████████▏| 92/100 [02:10<00:11,  0.70it/s]
+Testing DataLoader 0:  93%|█████████▎| 93/100 [02:12<00:09,  0.70it/s]
+Testing DataLoader 0:  94%|█████████▍| 94/100 [02:14<00:08,  0.70it/s]
+Testing DataLoader 0:  95%|█████████▌| 95/100 [02:15<00:07,  0.70it/s]
+Testing DataLoader 0:  96%|█████████▌| 96/100 [02:17<00:05,  0.70it/s]
+Testing DataLoader 0:  97%|█████████▋| 97/100 [02:18<00:04,  0.70it/s]
+Testing DataLoader 0:  98%|█████████▊| 98/100 [02:20<00:02,  0.70it/s]
+Testing DataLoader 0:  99%|█████████▉| 99/100 [02:21<00:01,  0.70it/s]
+Testing DataLoader 0: 100%|██████████| 100/100 [02:23<00:00,  0.70it/s]
+Testing DataLoader 0:   0%|          | 0/50 [00:00<?, ?it/s]
+Testing DataLoader 1:   0%|          | 0/50 [00:00<?, ?it/s]
+Testing DataLoader 1:   2%|▏         | 1/50 [00:01<01:01,  0.80it/s]
+Testing DataLoader 1:   4%|▍         | 2/50 [00:03<01:14,  0.64it/s]
+Testing DataLoader 1:   6%|▌         | 3/50 [00:04<01:12,  0.64it/s]
+Testing DataLoader 1:   8%|▊         | 4/50 [00:06<01:13,  0.63it/s]
+Testing DataLoader 1:  10%|█         | 5/50 [00:07<01:10,  0.64it/s]
+Testing DataLoader 1:  12%|█▏        | 6/50 [00:09<01:09,  0.63it/s]
+Testing DataLoader 1:  14%|█▍        | 7/50 [00:11<01:10,  0.61it/s]
+Testing DataLoader 1:  16%|█▌        | 8/50 [00:12<01:06,  0.63it/s]
+Testing DataLoader 1:  18%|█▊        | 9/50 [00:14<01:06,  0.61it/s]
+Testing DataLoader 1:  20%|██        | 10/50 [00:16<01:04,  0.62it/s]
+Testing DataLoader 1:  22%|██▏       | 11/50 [00:17<01:03,  0.61it/s]
+Testing DataLoader 1:  24%|██▍       | 12/50 [00:19<01:01,  0.62it/s]
+Testing DataLoader 1:  26%|██▌       | 13/50 [00:21<01:00,  0.61it/s]
+Testing DataLoader 1:  28%|██▊       | 14/50 [00:23<00:59,  0.60it/s]
+Testing DataLoader 1:  30%|███       | 15/50 [00:24<00:57,  0.61it/s]
+Testing DataLoader 1:  32%|███▏      | 16/50 [00:26<00:56,  0.60it/s]
+Testing DataLoader 1:  34%|███▍      | 17/50 [00:28<00:55,  0.60it/s]
+Testing DataLoader 1:  36%|███▌      | 18/50 [00:30<00:53,  0.60it/s]
+Testing DataLoader 1:  38%|███▊      | 19/50 [00:31<00:51,  0.60it/s]
+Testing DataLoader 1:  40%|████      | 20/50 [00:33<00:50,  0.60it/s]
+Testing DataLoader 1:  42%|████▏     | 21/50 [00:34<00:47,  0.60it/s]
+Testing DataLoader 1:  44%|████▍     | 22/50 [00:36<00:46,  0.60it/s]
+Testing DataLoader 1:  46%|████▌     | 23/50 [00:37<00:44,  0.61it/s]
+Testing DataLoader 1:  48%|████▊     | 24/50 [00:39<00:42,  0.61it/s]
+Testing DataLoader 1:  50%|█████     | 25/50 [00:41<00:41,  0.61it/s]
+Testing DataLoader 1:  52%|█████▏    | 26/50 [00:42<00:39,  0.61it/s]
+Testing DataLoader 1:  54%|█████▍    | 27/50 [00:44<00:37,  0.61it/s]
+Testing DataLoader 1:  56%|█████▌    | 28/50 [00:45<00:36,  0.61it/s]
+Testing DataLoader 1:  58%|█████▊    | 29/50 [00:47<00:34,  0.61it/s]
+Testing DataLoader 1:  60%|██████    | 30/50 [00:48<00:32,  0.62it/s]
+Testing DataLoader 1:  62%|██████▏   | 31/50 [00:49<00:30,  0.63it/s]
+Testing DataLoader 1:  64%|██████▍   | 32/50 [00:51<00:28,  0.63it/s]
+Testing DataLoader 1:  66%|██████▌   | 33/50 [00:52<00:26,  0.63it/s]
+Testing DataLoader 1:  68%|██████▊   | 34/50 [00:54<00:25,  0.63it/s]
+Testing DataLoader 1:  70%|███████   | 35/50 [00:55<00:23,  0.63it/s]
+Testing DataLoader 1:  72%|███████▏  | 36/50 [00:58<00:22,  0.61it/s]
+Testing DataLoader 1:  74%|███████▍  | 37/50 [01:01<00:21,  0.60it/s]
+Testing DataLoader 1:  76%|███████▌  | 38/50 [01:02<00:19,  0.60it/s]
+Testing DataLoader 1:  78%|███████▊  | 39/50 [01:04<00:18,  0.61it/s]
+Testing DataLoader 1:  80%|████████  | 40/50 [01:05<00:16,  0.61it/s]
+Testing DataLoader 1:  82%|████████▏ | 41/50 [01:07<00:14,  0.61it/s]
+Testing DataLoader 1:  84%|████████▍ | 42/50 [01:08<00:13,  0.61it/s]
+Testing DataLoader 1:  86%|████████▌ | 43/50 [01:10<00:11,  0.61it/s]
+Testing DataLoader 1:  88%|████████▊ | 44/50 [01:11<00:09,  0.61it/s]
+Testing DataLoader 1:  90%|█████████ | 45/50 [01:13<00:08,  0.61it/s]
+Testing DataLoader 1:  92%|█████████▏| 46/50 [01:14<00:06,  0.61it/s]
+Testing DataLoader 1:  94%|█████████▍| 47/50 [01:16<00:04,  0.62it/s]
+Testing DataLoader 1:  96%|█████████▌| 48/50 [01:17<00:03,  0.62it/s]
+Testing DataLoader 1:  98%|█████████▊| 49/50 [01:19<00:01,  0.62it/s]
+Testing DataLoader 1: 100%|██████████| 50/50 [01:20<00:00,  0.62it/s]
+Testing DataLoader 1: 100%|██████████| 50/50 [01:20<00:00,  0.62it/s]
+[graph-pes INFO]: Testing complete.
+[graph-pes INFO]: Awaiting final Lightning and W&B shutdown...
+SMOKE PASSED {"production_config": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/configs/tensor/01-SymmetricTensor-Scratch-N100.yaml", "output_irreps": "1x0e+1x2e", "shape": [144, 6], "symmetry_max_abs_errors": [9.1552734375e-05, 0.0], "optimizer_updates": 2, "parameters": 2999909, "smoke_overrides": "CPU, 1 epoch, 8 training batches, 2 validation batches, 2 prefit structures, W&B disabled; original N100 subset retained", "saved_model_finite": true}

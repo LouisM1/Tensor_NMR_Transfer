@@ -1,0 +1,22 @@
+{
+  "production_config": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/configs/tensor/01-SymmetricTensor-Scratch-N100.yaml",
+  "output_irreps": "1x0e+1x2e",
+  "shape": [
+    144,
+    6
+  ],
+  "symmetry_max_abs_errors": [
+    9.1552734375e-05,
+    0.0
+  ],
+  "optimizer_updates": 2,
+  "parameters": 2999909,
+  "smoke_overrides": "CPU, 1 epoch, 8 training batches, 2 validation batches, 2 prefit structures, W&B disabled; original N100 subset retained",
+  "saved_model_finite": true,
+  "initial_lr": 0.003,
+  "source_hashes": {
+    "configs/tensor/01-SymmetricTensor-Scratch-N100.yaml": "ad31784926d0357003fd0486c5a640e0276ca88292521d0b6633fbd5e52ba7ef",
+    "nmr_helpers/symmetric_shielding.py": "da0a82eb7f3dbdb7b22c8ae978c675cb9cb62384e5401464589946709af04c4e",
+    "nmr_helpers/extract_ms_symmetric.py": "475c979564f17a6693ceea01f98d7f61655cb2655b5f7a31e4239f42e8c12903"
+  }
+}
