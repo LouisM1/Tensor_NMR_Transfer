@@ -50,8 +50,12 @@ fi
 
 module purge
 module load Anaconda3/2025.06-1
-conda activate /data/oums-atom-elec-ml/trin4011/envs/graph-pes-arc
-PYTHON=/data/oums-atom-elec-ml/trin4011/envs/graph-pes-arc/bin/python
+if [[ -n "${TENSOR_NMR_CUDA_MODULE:-}" ]]; then
+    module load "$TENSOR_NMR_CUDA_MODULE"
+fi
+ARC_ENV="${TENSOR_NMR_ARC_ENV:-/data/oums-atom-elec-ml/trin4011/envs/graph-pes-arc}"
+conda activate "$ARC_ENV"
+PYTHON="$ARC_ENV/bin/python"
 
 export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS=8
@@ -115,22 +119,24 @@ Optimizer.__call__ = ordered_optimizer
 if sys.argv[1] != "--resume":
     config_path, run_name = sys.argv[1:3]
     run_id = f"{run_name}-{os.environ['SLURM_JOB_ID']}"
-    # Physical batch 1 bounds the batch-dependent startup/training memory.
-    # Accumulation averages four structures before each optimizer update.
     # The epoch ceiling comes from the YAML, including for long continuations.
     overrides = [
         "fitting/trainer_kwargs/accelerator=gpu",
         "fitting/trainer_kwargs/devices=1",
         "fitting/trainer_kwargs/precision=32-true",
-        "fitting/trainer_kwargs/accumulate_grad_batches=4",
         "fitting/early_stopping/patience=300",
-        "fitting/loader_kwargs/batch_size=1",
         "fitting/loader_kwargs/num_workers=0",
         "fitting/loader_kwargs/persistent_workers=false",
         "fitting/loader_kwargs/pin_memory=false",
         f"general/run_id={run_id}",
         f"wandb/name={run_id}",
     ]
+    # Experiments with explicit batching can opt in to the YAML values.
+    if os.environ.get("TENSOR_NMR_CONFIG_BATCHING") != "1":
+        overrides.extend([
+            "fitting/trainer_kwargs/accumulate_grad_batches=4",
+            "fitting/loader_kwargs/batch_size=1",
+        ])
     print("Config:", config_path, "Run:", run_id)
     print("Overrides:", overrides)
     raw = nested_merge_all(*(get_data_from_cli_arg(a) for a in [config_path, *overrides]))

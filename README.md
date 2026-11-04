@@ -125,3 +125,60 @@ sbatch train.sbatch configs/tensor/02-EF-Pretrain-TensorBackbone.yaml 02-EF-Pret
 The inherited launcher supplies GPU/batch/stopping overrides. Review GPU allocation and wall time at submission; larger E/F training can require resuming from `checkpoints/last.ckpt`. A time limit is distinct from convergence. No production E/F job was launched during local setup.
 
 Run the bounded CPU check with `.venv/bin/python scripts/smoke_ef_pretraining.py`. It checks backbone compatibility, energy/force predictions, E/F gradients to both final irrep blocks, sampled rotation/reflection behaviour, two optimizer updates, saved weights and deployment. Its temporary overrides and results are recorded under `provenance/ef-pretraining-setup/`. It does not establish GPU memory requirements, convergence or NMR transfer accuracy.
+
+## Experiment 04: OpenEquivariance for E/F pretraining
+
+Experiment 04 repeats the fresh Experiment 03 recipe in float32 with physical
+batch size 2 and accumulation 2. The four message tensor products use
+OpenEquivariance on CUDA. All other model operations use the existing backend.
+CPU inference and TorchScript deployment use the e3nn implementation of those
+same products. Checkpoint keys match Experiment 03.
+
+Copy the Experiment 03 and 04 YAML files, `train.sbatch`, the updated
+`nmr_helpers/` and `scripts/smoke_openequivariance.py` to ARC. From the project
+root, set up a clone of the baseline environment once.
+
+```bash
+module load Anaconda3/2025.06-1
+baseline_env=/data/oums-atom-elec-ml/trin4011/envs/graph-pes-arc
+oeq_env="${baseline_env}-oeq"
+conda create --prefix "$oeq_env" --clone "$baseline_env"
+conda activate "$oeq_env"
+constraints=$(mktemp)
+"$baseline_env/bin/python" -m pip freeze > "$constraints"
+"$oeq_env/bin/python" -m pip install -c "$constraints" 'openequivariance==0.6.3'
+```
+
+OpenEquivariance needs a CUDA toolkit and C++ compiler on the GPU node. Check
+`"$oeq_env/bin/python" -c 'import torch; print(torch.__version__, torch.version.cuda)'`
+and use `module avail CUDA` to select a matching ARC CUDA module if the cloned
+environment does not provide the toolkit. Load that module for the smoke check
+and export `TENSOR_NMR_CUDA_MODULE` with its full module name for the training job.
+The launcher loads it after resetting modules.
+
+Run the CUDA check before requesting the long allocation. It uses one real
+two-structure training batch to compare energies, forces and gradients from the
+force loss at identical weights. It also checks the CPU model export.
+
+```bash
+srun -M htc -p short -t 00:20:00 -N 1 -n 1 -c 8 --mem=64000M --gres=gpu:l40s:1 \
+  "$oeq_env/bin/python" -m scripts.smoke_openequivariance
+```
+
+After the check passes, submit the matched run.
+
+```bash
+mkdir -p logs
+TENSOR_NMR_ARC_ENV="$oeq_env" TENSOR_NMR_CONFIG_BATCHING=1 \
+  sbatch --clusters=htc --partition=short --time=08:00:00 --nodes=1 --ntasks=1 \
+  --cpus-per-task=8 --mem=64000M --gres=gpu:l40s:1 --job-name=04-EF-OEQ \
+  --output=logs/experiment-%j.out --error=logs/experiment-%j.err \
+  train.sbatch configs/tensor/04-EF-Pretrain-TensorBackbone-OpenEquivariance.yaml \
+  04-EF-Pretrain-TensorBackbone-OpenEquivariance
+```
+
+Check that the saved `train-config.yaml` has batch size and accumulation both
+set to 2. Compare steady-state time per optimiser update and peak memory with
+Experiment 03. Record first-use kernel build time separately. For a continuation,
+set the same environment and CUDA module and use the launcher's existing
+`--resume` command with the Experiment 04 run directory.

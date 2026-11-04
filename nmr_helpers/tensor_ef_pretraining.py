@@ -29,7 +29,7 @@ class InvariantTensorEnergyReadout(nn.Module):
 class TensorCompatibleEFNequIP(NequIP):
     def __init__(self,elements,features,cutoff=6.,layers=4,radial_features=64,
                  backbone_target_irreps='0e + 2e',readout_hidden_features=128,
-                 direct_force_predictions=False):
+                 direct_force_predictions=False, use_openequivariance=False):
         if o3.Irreps(backbone_target_irreps)!=o3.Irreps('0e + 2e'):
             raise ValueError('The shared backbone must match the symmetric tensor pilot')
         if direct_force_predictions:
@@ -44,3 +44,13 @@ class TensorCompatibleEFNequIP(NequIP):
         for name in ('Z_embedding','initial_node_embedding','edge_embedding','layers'):
             setattr(self,name,getattr(tensor,name))
         self.energy_readout=InvariantTensorEnergyReadout(self.layers[-1].irreps_out,readout_hidden_features)
+
+        if use_openequivariance:
+            from .openequivariance_tp import OpenEquivarianceMessageTensorProduct
+
+            # Preserve the RNG state used for subsequent initialisation and shuffling.
+            with torch.random.fork_rng(devices=[]):
+                for layer in self.layers:
+                    layer.message_tensor_product = OpenEquivarianceMessageTensorProduct(
+                        layer.message_tensor_product
+                    )
