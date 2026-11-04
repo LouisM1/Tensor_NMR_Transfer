@@ -11,7 +11,6 @@ __pycache__/
 !.env.example
 
 # Large local inputs and generated runs; provenance is versioned separately.
-/graph-pes-results/*
 !/graph-pes-results/.gitkeep
 /logs/*
 !/logs/.gitkeep
