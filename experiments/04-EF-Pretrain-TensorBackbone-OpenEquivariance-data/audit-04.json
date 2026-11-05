@@ -1,0 +1,17 @@
+{
+  "run_id": "04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688",
+  "best_epoch": 291,
+  "last_epoch": 306,
+  "best_step": 58200,
+  "last_step": 61200,
+  "best_recorded_loss": 0.08813157677650452,
+  "checks_since_best": 15,
+  "patience": 300,
+  "stopped_epoch": 0,
+  "final_lr": 0.0009830400000000003,
+  "export_matches_best": true,
+  "checkpoint_sha256": "6b975b04aa5f4ca259caee5bcac06177902baa6052a24c8b7986d70457d7e550",
+  "validation_sha256": "5610becf9e88f82b4f0f68a2d34f5e1316f14e18e6ad61b0ded7c64630e757b6",
+  "batch_size": 2,
+  "accumulation": 2
+}

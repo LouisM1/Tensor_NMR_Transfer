@@ -1,0 +1,51 @@
+{
+  "metrics": [
+    {
+      "Split": "Test",
+      "Quantity": "Energy per atom",
+      "Units": "meV/atom",
+      "N": 150,
+      "RMSE": 0.8898211293652016,
+      "MAE": 0.7005909837922082,
+      "R\u00b2": 0.9998910864937062
+    },
+    {
+      "Split": "Test",
+      "Quantity": "Force components",
+      "Units": "eV/\u00c5",
+      "N": 64800,
+      "RMSE": 0.0230318880548881,
+      "MAE": 0.012462654879887817,
+      "R\u00b2": 0.9996871202694968
+    }
+  ],
+  "validation_metrics": [
+    {
+      "Split": "Validation",
+      "Quantity": "Energy per atom",
+      "Units": "meV/atom",
+      "N": 50,
+      "RMSE": 0.7473265239239605,
+      "MAE": 0.5993083680607378,
+      "R\u00b2": 0.9999546889941773
+    },
+    {
+      "Split": "Validation",
+      "Quantity": "Force components",
+      "Units": "eV/\u00c5",
+      "N": 21600,
+      "RMSE": 0.029608870986483814,
+      "MAE": 0.014486880698163675,
+      "R\u00b2": 0.9995892503302336
+    }
+  ],
+  "rmse_change_pct": {
+    "Energy per atom": 19.067248502441725,
+    "Force components": -22.212879831176423
+  },
+  "previously_reported_experiment02_test": {
+    "energy_rmse_meV_per_atom": 2.1613,
+    "force_rmse_eV_per_Angstrom": 0.04401,
+    "source": "experiments/02-EF-Pretrain-TensorBackbone.ipynb"
+  }
+}

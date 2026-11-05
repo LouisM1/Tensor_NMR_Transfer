@@ -1,0 +1,17 @@
+{
+  "run_id": "02-EF-Pretrain-TensorBackbone-9246027",
+  "best_epoch": 43,
+  "last_epoch": 44,
+  "best_step": 8600,
+  "last_step": 8800,
+  "best_recorded_loss": 0.32042574882507324,
+  "checks_since_best": 1,
+  "patience": 300,
+  "stopped_epoch": 0,
+  "final_lr": 0.003,
+  "export_matches_best": true,
+  "checkpoint_sha256": "b64b3b906ddfd66ff65e2a04875c67cd1d56dfc4e7caff4a1db6c38412155b41",
+  "validation_sha256": "5610becf9e88f82b4f0f68a2d34f5e1316f14e18e6ad61b0ded7c64630e757b6",
+  "batch_size": 1,
+  "accumulation": 4
+}

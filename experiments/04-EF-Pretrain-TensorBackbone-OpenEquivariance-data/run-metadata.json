@@ -1,0 +1,20 @@
+{
+  "02": {
+    "run_id": "02-EF-Pretrain-TensorBackbone-9246027",
+    "state": "finished",
+    "gpu": "NVIDIA L40S",
+    "gpu_count": 1,
+    "started_at": "2026-11-03T15:48:30.377158Z",
+    "runtime": 17794,
+    "history_rows": 1102
+  },
+  "04": {
+    "run_id": "04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688",
+    "state": "finished",
+    "gpu": "NVIDIA L40S",
+    "gpu_count": 1,
+    "started_at": "2026-11-05T00:20:11.468895Z",
+    "runtime": 17430,
+    "history_rows": 7662
+  }
+}

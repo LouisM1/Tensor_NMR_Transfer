@@ -1,0 +1,100 @@
+{
+  "speed": [
+    {
+      "Run": "02",
+      "Median seconds/epoch": 403.4529812330002,
+      "Median seconds/update": 1.982113195599959,
+      "Median ms/batch": 485.0,
+      "Median ms/validation structure": 134.75999450683594
+    },
+    {
+      "Run": "04",
+      "Median seconds/epoch": 56.69665273600003,
+      "Median seconds/update": 0.2755031354000039,
+      "Median ms/batch": 127.0,
+      "Median ms/validation structure": 24.700000762939453
+    }
+  ],
+  "epoch_speedup": 7.115992951323284,
+  "update_speedup": 7.19452137167921,
+  "metrics": [
+    {
+      "Run": "02",
+      "Quantity": "Energy per atom",
+      "Units": "meV/atom",
+      "N": 50,
+      "RMSE": 2.0971107179125195,
+      "MAE": 1.7394637847237755,
+      "R\u00b2": 0.9996431993558716
+    },
+    {
+      "Run": "02",
+      "Quantity": "Force components",
+      "Units": "eV/\u00c5",
+      "N": 21600,
+      "RMSE": 0.05627091844670072,
+      "MAE": 0.032093715074587914,
+      "R\u00b2": 0.9985164522301309
+    },
+    {
+      "Run": "04",
+      "Quantity": "Energy per atom",
+      "Units": "meV/atom",
+      "N": 50,
+      "RMSE": 0.7473265239239605,
+      "MAE": 0.5993083680607378,
+      "R\u00b2": 0.9999546889941773
+    },
+    {
+      "Run": "04",
+      "Quantity": "Force components",
+      "Units": "eV/\u00c5",
+      "N": 21600,
+      "RMSE": 0.029608870986483814,
+      "MAE": 0.014486880698163675,
+      "R\u00b2": 0.9995892503302336
+    }
+  ],
+  "cpu_losses": {
+    "02": 0.32103949964670797,
+    "04": 0.08822702104278457
+  },
+  "raw_export_metrics": [
+    {
+      "Mode": "Original CPU fallback",
+      "Quantity": "Energy per atom",
+      "Units": "meV/atom",
+      "N": 50,
+      "RMSE": 5.473789601865747,
+      "MAE": 5.311317465277389,
+      "R\u00b2": 0.9975691446837123
+    },
+    {
+      "Mode": "Original CPU fallback",
+      "Quantity": "Force components",
+      "Units": "eV/\u00c5",
+      "N": 21600,
+      "RMSE": 0.05254364907518315,
+      "MAE": 0.03646821827929628,
+      "R\u00b2": 0.9987064774958531
+    }
+  ],
+  "energy_rmse_reduction_pct": 64.36399291936978,
+  "force_rmse_reduction_pct": 47.381575059008405,
+  "progress": [
+    {
+      "Run": "02",
+      "Best loss in first 44 epochs": 0.32042574882507324,
+      "Best loss over saved run": 0.32042574882507324,
+      "Saved epochs": 44,
+      "Last logged loss": 0.7983973026275635
+    },
+    {
+      "Run": "04",
+      "Best loss in first 44 epochs": 0.28448694944381714,
+      "Best loss over saved run": 0.08813157677650452,
+      "Saved epochs": 306,
+      "Last logged loss": 0.09882920980453491
+    }
+  ]
+}

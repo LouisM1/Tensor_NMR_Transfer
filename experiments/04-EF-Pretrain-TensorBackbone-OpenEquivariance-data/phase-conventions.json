@@ -1,0 +1,143 @@
+{
+  "e3nn_version": "0.4.4",
+  "openequivariance_version": "0.3.0",
+  "source_sdist_sha256": "1cd0343a7c8311a6ccf991d23fc831120e05db48d8ab34d0731d9b8c3f1d793b",
+  "coefficient_file_sha256": "d2b83269ffa764a24265e941cf2e176028d8519f5c04bdde2e719a8a568e25f9",
+  "couplings": [
+    {
+      "coupling": [
+        0,
+        0,
+        0
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 0.0
+    },
+    {
+      "coupling": [
+        0,
+        1,
+        1
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 2.220446049250313e-16
+    },
+    {
+      "coupling": [
+        0,
+        2,
+        2
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 2.7755575615628914e-16
+    },
+    {
+      "coupling": [
+        1,
+        0,
+        1
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 2.220446049250313e-16
+    },
+    {
+      "coupling": [
+        1,
+        1,
+        0
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 2.220446049250313e-16
+    },
+    {
+      "coupling": [
+        1,
+        1,
+        1
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 1.6653345369377348e-16
+    },
+    {
+      "coupling": [
+        1,
+        1,
+        2
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 4.996003610813204e-16
+    },
+    {
+      "coupling": [
+        1,
+        2,
+        1
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 5.551115123125783e-16
+    },
+    {
+      "coupling": [
+        1,
+        2,
+        2
+      ],
+      "e3nn_to_oeq_sign": -1,
+      "max_residual": 8.326672684688674e-16
+    },
+    {
+      "coupling": [
+        2,
+        0,
+        2
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 2.7755575615628914e-16
+    },
+    {
+      "coupling": [
+        2,
+        1,
+        1
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 5.551115123125783e-16
+    },
+    {
+      "coupling": [
+        2,
+        1,
+        2
+      ],
+      "e3nn_to_oeq_sign": -1,
+      "max_residual": 8.326672684688674e-16
+    },
+    {
+      "coupling": [
+        2,
+        2,
+        0
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 2.7755575615628914e-16
+    },
+    {
+      "coupling": [
+        2,
+        2,
+        1
+      ],
+      "e3nn_to_oeq_sign": -1,
+      "max_residual": 7.771561172376096e-16
+    },
+    {
+      "coupling": [
+        2,
+        2,
+        2
+      ],
+      "e3nn_to_oeq_sign": 1,
+      "max_residual": 3.3306690738754696e-16
+    }
+  ]
+}

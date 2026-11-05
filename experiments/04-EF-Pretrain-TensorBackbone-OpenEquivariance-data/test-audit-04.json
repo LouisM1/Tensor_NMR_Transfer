@@ -1,0 +1,20 @@
+{
+  "run_id": "04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688",
+  "selected_by": "minimum validation loss",
+  "best_epoch": 291,
+  "checkpoint_sha256": "6b975b04aa5f4ca259caee5bcac06177902baa6052a24c8b7986d70457d7e550",
+  "export_matches_best": true,
+  "test_path": "data/test.xyz",
+  "test_sha256": "5426a789be564d12fe921c73e79e7af92538588cc01ba5e929b6ca73ffa94890",
+  "n_structures": 150,
+  "n_atoms": 21600,
+  "geometry_overlaps": {
+    "train": 0,
+    "valid": 0
+  },
+  "geometry_check": "Stored atom order, coordinates and cell rounded to 1e-6 Angstrom",
+  "phase_conversion": "Three coupling signs, same conversion as validation",
+  "torch_version": "2.6.0",
+  "e3nn_version": "0.4.4",
+  "threads": 4
+}
