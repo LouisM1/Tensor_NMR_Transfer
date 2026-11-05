@@ -187,7 +187,7 @@ The converter refuses existing outputs. Local checks are reproducible with:
 .venv/bin/python scripts/check_exp04_compatibility.py --report /tmp/experiment04-compatibility.json
 ```
 
-The regression checks include force-loss parameter gradients, legacy and tagged state loading, model round-trips, eager/TorchScript predictions, agreement with archived validation/test predictions, idempotent canonical conversion and strict copying of the four-layer backbone into the symmetric tensor model. Native CUDA has not been retested locally: this Mac has no CUDA, and ARC SSH authentication was unavailable. On an ARC CUDA allocation with OEQ 0.3.0 installed, run both smoke commands with `--device cuda`; they compare CPU/GPU energies and forces and the gradients used in force training.
+The regression checks include force-loss parameter gradients, legacy and tagged state loading, model round-trips, eager/TorchScript predictions, agreement with archived validation/test predictions, idempotent canonical conversion and strict copying of the four-layer backbone into the symmetric tensor model. Native CUDA was subsequently verified on ARC: the fresh-model check passed in job 9272526 and the saved-checkpoint check passed in job 9273235. The latter used explicit highest matmul precision, TF32 disabled and deterministic algorithms; its report is retained in provenance/experiment-04-compatibility/. On an ARC CUDA allocation with OEQ 0.3.0 installed, run both smoke commands with `--device cuda`; they compare CPU/GPU energies and forces and the gradients used in force training.
 
 
 The existing ARC launcher also has a verification-only mode. After copying the updated helpers, scripts, YAML and `run-exp04.sbatch` to the existing ARC project, submit from that directory:
@@ -197,3 +197,21 @@ sbatch --clusters=htc --partition=short --time=00:30:00 --nodes=1 --ntasks=1 --c
 ```
 
 This uses the working job-local OEQ overlay, checks both new-model and legacy-checkpoint CUDA parity, then exits without launching training. It does not alter the original run. The local repair audit is in `provenance/experiment-04-compatibility/repair-validation.json`.
+
+
+### ARC verification attempt 9272526
+
+The fresh-model CUDA check passed, with force-loss gradient relative L2 difference 7.98e-5. The saved-checkpoint check passed its force comparisons but failed the total-energy comparison: 0.078125 eV maximum difference against the unchanged 0.03 eV threshold. The saved-checkpoint parameter-gradient agreement was not reached. At that stage native-CUDA compatibility was unconfirmed; follow-up job 9273235 passed as recorded below. The original evidence is in `provenance/experiment-04-compatibility/arc-verification-9272526.json`.
+
+The verification script now applies explicit `highest` matmul precision and deterministic algorithms to both modes, records their actual settings, and captures component energies and layer features without altering predictions. It prints normal float32 energies alongside float64 diagnostic sums of the captured component local energies. All energy/force/gradient tolerances are retained. Assertion results are collected so an energy mismatch does not hide the parameter-gradient result. JSON reports are written to `logs/compatibility-JOBID-fresh.json` and `logs/compatibility-JOBID-checkpoint.json`, including failed comparisons. These are verification settings, not changes to production training or saved weights.
+
+To repeat only the failing saved-checkpoint check, add `TENSOR_NMR_VERIFY_CHECKPOINT_ONLY=1` to the verification job's export list. `--no-deterministic` and `--matmul-precision high` are available for explicit arithmetic diagnostics when running the Python checker directly. Neither option changes the acceptance thresholds.
+
+
+### ARC saved-checkpoint verification passed — 9273235
+
+All six checks passed for the original Experiment 04 checkpoint, whose SHA256 matches the local source model. Under explicit highest float32 matmul precision, TF32 disabled and deterministic algorithms, ordinary e3nn and OpenEquivariance on CUDA produced identical reported total energies. Their maximum force difference was 1.4305e-6 eV/Angstrom; the force-loss parameter-gradient relative L2 difference was 2.5721e-5 against the unchanged 0.005 limit. The converted model is ready to use as the source for tensor transfer; this compatibility issue does not require repeating E/F training.
+
+The raw CPU/GPU total energies differed by 0.0234375 eV (0.16276 meV/atom). Summing the same captured component local energies in float64 reduced that discrepancy to at most 4.8392e-6 eV. The residual raw-energy discrepancy is therefore dominated by reduction precision rather than the coefficient convention. This is diagnostic evidence, not a change to production weights or the stored parity predictions. Keep arithmetic settings consistent when reporting very small E/F energy errors. The exact 0.078125 eV discrepancy in the first, nondeterministic run was not decomposed, but the controlled comparison now passes with the original thresholds.
+
+The supplied checker report covers two 144-atom structures and is saved verbatim as structured JSON in `provenance/experiment-04-compatibility/arc-verification-9273235.json`. Current status and scope are in `verification-status.json`; the earlier failed report is retained. The historical run still used a different initial function from the e3nn baseline at equal unmapped weights, so it is a recipe speed comparison rather than a strict matched-initialisation ablation.

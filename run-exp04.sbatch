@@ -89,9 +89,13 @@ PY
 
 if [[ "${TENSOR_NMR_VERIFY_ONLY:-0}" == 1 ]]; then
     echo 'Checking new-model and saved-checkpoint CPU/CUDA compatibility; no training run is started'
-    "$TENSOR_NMR_ARC_PYTHON" scripts/smoke_openequivariance.py --device cuda
+    if [[ "${TENSOR_NMR_VERIFY_CHECKPOINT_ONLY:-0}" != 1 ]]; then
+        "$TENSOR_NMR_ARC_PYTHON" scripts/smoke_openequivariance.py --device cuda \
+            --matmul-precision highest --report "logs/compatibility-${SLURM_JOB_ID}-fresh.json"
+    fi
     "$TENSOR_NMR_ARC_PYTHON" scripts/smoke_openequivariance.py --device cuda --checkpoint \
-        "${TENSOR_NMR_VERIFY_CHECKPOINT:-graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model.pt}"
+        "${TENSOR_NMR_VERIFY_CHECKPOINT:-graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model.pt}" \
+        --matmul-precision highest --report "logs/compatibility-${SLURM_JOB_ID}-checkpoint.json"
     exit 0
 fi
 

@@ -1,0 +1,13 @@
+{
+  "purpose": "Local regression of revised verification diagnostics, not a native CUDA pass",
+  "fresh_cpu_passed": true,
+  "legacy_cpu_passed": true,
+  "legacy_cpu_force_loss_gradient_relative_L2": 7.091729514741019e-08,
+  "intentional_energy_mismatch_preserves_failed_status": true,
+  "gradient_result_saved_after_energy_failure": true,
+  "native_cuda_verified": false,
+  "cuda_total_energy_tolerance_eV": 0.03,
+  "cuda_total_energy_relative_tolerance": 0,
+  "checker_sha256": "0cd5e747618757c820341d55801647d8c6bc2dffc4502dcc8c5a84be7e1396ea",
+  "launcher_sha256": "ad0c9ad14e06c4e40aa07e38fe18e0e40d1889f0011b511ad746fe9be0ddd135"
+}

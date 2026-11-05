@@ -1,0 +1,32 @@
+{
+  "date": "2026-11-05",
+  "fresh_model_job": 9272526,
+  "saved_checkpoint_job": 9273235,
+  "evidence_source": "User-provided ARC log excerpt and diagnostic JSON; checkpoint SHA256 matched locally",
+  "checkpoint_sha256": "618811b3dbbc73a2ae25ee17b3b6964833c3f692b9caa1087a4d95c35df2b1f2",
+  "fresh_native_cuda_check_passed": true,
+  "saved_checkpoint_native_cuda_check_passed": true,
+  "verification_gate_closed": true,
+  "training_rerun_required_for_compatibility": false,
+  "scope": "Fresh-model check and two 144-atom training structures for the stored checkpoint; local export/state/transfer regressions were checked separately",
+  "checkpoint_verification_settings": {
+    "torch": "2.6.0+cu124",
+    "device": "cuda",
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "deterministic_algorithms": true,
+    "cublas_workspace_config": ":4096:8",
+    "tf32_environment_override": null
+  },
+  "gpu_energy_max_abs_difference_eV": 0.0,
+  "gpu_force_max_abs_difference_eV_per_A": 1.430511474609375e-06,
+  "force_loss_gradient_relative_L2": 2.5721465135575272e-05,
+  "cpu_gpu_total_energy_max_abs_difference_eV": 0.0234375,
+  "cpu_gpu_float64_component_sum_max_abs_difference_eV": 4.839152097702026e-06,
+  "energy_threshold_eV": 0.03,
+  "gradient_relative_L2_threshold": 0.005,
+  "slurm_accounting_status": "Not supplied for 9273235; the verification report itself passed",
+  "interpretation": "The coefficient conversion is verified in this controlled native CUDA comparison. Remaining CPU/GPU raw total-energy discrepancy is dominated by summation precision. The original failed nondeterministic run has no component report, so its exact arithmetic path was not reconstructed.",
+  "source_export_for_tensor_transfer": "graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model-e3nn.pt"
+}

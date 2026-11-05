@@ -1,0 +1,28 @@
+{
+  "job_id": 9272526,
+  "job_name": "04-OEQ-compat",
+  "source": "User-provided sacct and Slurm log excerpts",
+  "state": "FAILED",
+  "exit_code": "1:0",
+  "elapsed": "00:10:16",
+  "fresh_model": {
+    "passed": true,
+    "force_loss_gradient_relative_L2": 7.98e-05,
+    "allowed_relative_L2": 0.005
+  },
+  "saved_checkpoint": {
+    "passed": false,
+    "failure": "e3nn CUDA vs OpenEquivariance CUDA total-energy comparison",
+    "energy_max_abs_difference_eV": 0.078125,
+    "energy_allowed_abs_difference_eV": 0.03,
+    "energy_allowed_relative_difference": 0,
+    "energy_reported_relative_difference": 1.5453985042768181e-06,
+    "mismatched_structures": 2,
+    "structures_checked": 2,
+    "force_comparisons_passed": true,
+    "force_pass_evidence": "Traceback at line 125 follows both force assertions at lines 119 and 123",
+    "parameter_gradient_agreement_checked": false
+  },
+  "interpretation": "Partial verification only. Floating-point reductions and arithmetic precision are hypotheses, not established causes.",
+  "follow_up": "Explicit highest matmul precision and deterministic algorithms; capture unmodified layer outputs and component local energies, compare float64 diagnostic sums, and save all check results without early assertion exit. Original tolerances are retained."
+}

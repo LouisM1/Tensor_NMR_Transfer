@@ -1,0 +1,227 @@
+{
+  "checkpoint": "graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model.pt",
+  "checkpoint_sha256": "618811b3dbbc73a2ae25ee17b3b6964833c3f692b9caa1087a4d95c35df2b1f2",
+  "settings": {
+    "torch": "2.6.0+cu124",
+    "device": "cuda",
+    "float32_matmul_precision": "highest",
+    "cuda_matmul_allow_tf32": false,
+    "cudnn_allow_tf32": false,
+    "deterministic_algorithms": true,
+    "cublas_workspace_config": ":4096:8",
+    "tf32_environment_override": null
+  },
+  "diagnostics": {
+    "cpu": {
+      "atoms_per_structure": [
+        144.0,
+        144.0
+      ],
+      "energy_eV": [
+        -50553.3828125,
+        -50548.89453125
+      ],
+      "component_sums_float64_eV": {
+        "offset": [
+          -50515.039306640625,
+          -50515.039306640625
+        ],
+        "nequip": [
+          -38.296128171961755,
+          -33.80884664878249
+        ]
+      },
+      "component_sum_float64_total_eV": [
+        -50553.33543481259,
+        -50548.84815328941
+      ],
+      "normal_minus_float64_sum_eV": [
+        -0.04737768741324544,
+        -0.046377960592508316
+      ],
+      "normal_minus_float64_sum_meV_per_atom": [
+        -0.32901171814753777,
+        -0.32206917078130776
+      ]
+    },
+    "e3nn_device": {
+      "atoms_per_structure": [
+        144.0,
+        144.0
+      ],
+      "energy_eV": [
+        -50553.359375,
+        -50548.87109375
+      ],
+      "component_sums_float64_eV": {
+        "offset": [
+          -50515.039306640625,
+          -50515.039306640625
+        ],
+        "nequip": [
+          -38.29613297851756,
+          -33.808847077190876
+        ]
+      },
+      "component_sum_float64_total_eV": [
+        -50553.33543961914,
+        -50548.848153717816
+      ],
+      "normal_minus_float64_sum_eV": [
+        -0.02393538085743785,
+        -0.022940032184123993
+      ],
+      "normal_minus_float64_sum_meV_per_atom": [
+        -0.16621792262109616,
+        -0.15930577905641663
+      ]
+    },
+    "oeq_device": {
+      "atoms_per_structure": [
+        144.0,
+        144.0
+      ],
+      "energy_eV": [
+        -50553.359375,
+        -50548.87109375
+      ],
+      "component_sums_float64_eV": {
+        "offset": [
+          -50515.039306640625,
+          -50515.039306640625
+        ],
+        "nequip": [
+          -38.29613301111385,
+          -33.808846957050264
+        ]
+      },
+      "component_sum_float64_total_eV": [
+        -50553.33543965174,
+        -50548.848153597675
+      ],
+      "normal_minus_float64_sum_eV": [
+        -0.023935348261147738,
+        -0.02294015232473612
+      ],
+      "normal_minus_float64_sum_meV_per_atom": [
+        -0.1662176962579704,
+        -0.15930661336622304
+      ]
+    },
+    "e3nn_vs_oeq": {
+      "energy_difference_eV": [
+        0.0,
+        0.0
+      ],
+      "energy_difference_meV_per_atom": [
+        0.0,
+        0.0
+      ],
+      "float64_component_sum_difference_eV": [
+        3.259629011154175e-08,
+        -1.2014061212539673e-07
+      ],
+      "float64_component_sum_difference_meV_per_atom": [
+        2.2636312577459546e-07,
+        -8.343098064263662e-07
+      ],
+      "forces_max_abs_eV_per_A": 1.430511474609375e-06,
+      "forces_RMSE_difference_eV_per_A": 2.6454635204793637e-07,
+      "component_local_energy_max_abs_eV": {
+        "offset": 0.0,
+        "nequip": 1.7881393432617188e-07
+      },
+      "layer_features": {
+        "0": {
+          "max_abs": 3.650784492492676e-07,
+          "relative_L2": 1.468509509550131e-07
+        },
+        "1": {
+          "max_abs": 4.246830940246582e-07,
+          "relative_L2": 2.0814637480270903e-07
+        },
+        "2": {
+          "max_abs": 2.682209014892578e-07,
+          "relative_L2": 1.8495082088065828e-07
+        },
+        "3": {
+          "max_abs": 1.7881393432617188e-07,
+          "relative_L2": 2.171138930862071e-07
+        }
+      }
+    },
+    "cpu_vs_oeq": {
+      "energy_difference_eV": [
+        -0.0234375,
+        -0.0234375
+      ],
+      "energy_difference_meV_per_atom": [
+        -0.16276041666666666,
+        -0.16276041666666666
+      ],
+      "float64_component_sum_difference_eV": [
+        4.839152097702026e-06,
+        3.082677721977234e-07
+      ],
+      "float64_component_sum_difference_meV_per_atom": [
+        3.360522290070852e-05,
+        2.140748418039746e-06
+      ],
+      "forces_max_abs_eV_per_A": 8.58306884765625e-06,
+      "forces_RMSE_difference_eV_per_A": 1.9670801434140435e-06,
+      "component_local_energy_max_abs_eV": {
+        "offset": 0.0,
+        "nequip": 1.6093254089355469e-06
+      },
+      "layer_features": {
+        "0": {
+          "max_abs": 1.3053417205810547e-05,
+          "relative_L2": 2.9574925974884536e-06
+        },
+        "1": {
+          "max_abs": 8.590519428253174e-06,
+          "relative_L2": 3.841340003418736e-06
+        },
+        "2": {
+          "max_abs": 2.7902424335479736e-06,
+          "relative_L2": 2.873993480534409e-06
+        },
+        "3": {
+          "max_abs": 1.7285346984863281e-06,
+          "relative_L2": 2.7800240331998793e-06
+        }
+      }
+    }
+  },
+  "checks": [
+    {
+      "name": "e3nn_vs_oeq_forces",
+      "passed": true
+    },
+    {
+      "name": "cpu_vs_oeq_forces",
+      "passed": true
+    },
+    {
+      "name": "e3nn_vs_oeq_total_energy",
+      "passed": true
+    },
+    {
+      "name": "cpu_vs_oeq_total_energy",
+      "passed": true
+    },
+    {
+      "name": "force_loss_parameter_gradients",
+      "passed": true
+    },
+    {
+      "name": "native_cuda_kernel_used",
+      "passed": true
+    }
+  ],
+  "force_loss_gradient_relative_L2": 2.5721465135575272e-05,
+  "energy_atol_eV": 0.03,
+  "energy_rtol": 0,
+  "force_gradient_relative_L2_threshold": 0.005,
+  "passed": true
+}
