@@ -1,0 +1,112 @@
+{
+  "source_sha256": "618811b3dbbc73a2ae25ee17b3b6964833c3f692b9caa1087a4d95c35df2b1f2",
+  "canonical_sha256": "c5229e19d27f1ed965bb507e48caa21bf0d837b5613f8efb44915fcf39513654",
+  "negative_components_by_layer": [
+    0,
+    384,
+    768,
+    768
+  ],
+  "old_state_dict_load": true,
+  "tagged_state_dict_load": true,
+  "pickle_roundtrip": true,
+  "canonical_conversion_idempotent": true,
+  "strict_symmetric_backbone_copy": true,
+  "cached_prediction_checks": [
+    {
+      "split": "valid",
+      "index": 0,
+      "migrated_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 6.556510925292969e-07
+      },
+      "canonical_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 5.960464477539062e-07
+      },
+      "scripted_legacy_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 5.960464477539062e-07
+      },
+      "scripted_canonical_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 5.960464477539062e-07
+      }
+    },
+    {
+      "split": "valid",
+      "index": 25,
+      "migrated_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 7.152557373046875e-07
+      },
+      "canonical_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 7.152557373046875e-07
+      }
+    },
+    {
+      "split": "valid",
+      "index": 49,
+      "migrated_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 7.152557373046875e-07
+      },
+      "canonical_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 9.5367431640625e-07
+      }
+    },
+    {
+      "split": "test",
+      "index": 0,
+      "migrated_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 5.066394805908203e-07
+      },
+      "canonical_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 4.76837158203125e-07
+      }
+    },
+    {
+      "split": "test",
+      "index": 75,
+      "migrated_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 7.152557373046875e-07
+      },
+      "canonical_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 5.21540641784668e-07
+      }
+    },
+    {
+      "split": "test",
+      "index": 149,
+      "migrated_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 1.430511474609375e-06
+      },
+      "canonical_vs_cache": {
+        "energy_max_abs_eV": 0.0,
+        "force_max_abs_eV_per_A": 1.430511474609375e-06
+      }
+    }
+  ],
+  "native_cuda_comparison_run": false,
+  "native_cuda_limitation": "No local CUDA; ARC SSH authentication unavailable in this session",
+  "date": "2026-11-05",
+  "new_model_cpu_force_loss_gradient_relative_L2": 1.58e-07,
+  "legacy_cpu_force_loss_gradient_relative_L2": 9.21e-08,
+  "profile": "e3nn 0.4.4; OpenEquivariance 0.3.0",
+  "source_files_sha256": {
+    "nmr_helpers/openequivariance_tp.py": "fa6f37663374a49bb2f8642b3710cba384790b1fb59ead664f09290ffb4d3f40",
+    "nmr_helpers/openequivariance_compatibility.py": "e7dc16cca85b6d037b031c5e4d8fcf20f354dc26da910e0b1f161d1a0bcaacde",
+    "scripts/smoke_openequivariance.py": "f88deedde756286d24c70a817aee5e650c28b0930fab3b2fe00badbe592475d2",
+    "scripts/check_exp04_compatibility.py": "09039447d36bf45a8b54a93278e6ff79b3a7078e30f9222acdd9c87699283dd5",
+    "scripts/convert_exp04_checkpoint.py": "c7e3a0f0e51b5af9b7143e22caeca82ff08d8acfec21b780f5e014fbeb3026d3"
+  },
+  "training_rerun_required_for_compatibility": false,
+  "scientific_limitation": "Historical initialization was not matched to the e3nn baseline; native CUDA regression is pending."
+}

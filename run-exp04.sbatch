@@ -24,6 +24,13 @@ grep -Fq 'TENSOR_NMR_ARC_PYTHON' train.sbatch || {
     exit 1
 }
 
+if [[ "${TENSOR_NMR_VERIFY_ONLY:-0}" == 1 ]]; then
+    verify_checkpoint="${TENSOR_NMR_VERIFY_CHECKPOINT:-graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model.pt}"
+    for file in scripts/smoke_openequivariance.py nmr_helpers/openequivariance_compatibility.py "$verify_checkpoint"; do
+        [[ -r "$file" ]] || { echo "Missing verification input: $file" >&2; exit 1; }
+    done
+fi
+
 module purge
 module load Anaconda3/2025.06-1
 export TENSOR_NMR_ARC_ENV="${TENSOR_NMR_ARC_ENV:-/data/oums-atom-elec-ml/trin4011/envs/graph-pes-arc}"
@@ -79,6 +86,14 @@ print("Python:", sys.executable)
 print("PyTorch:", torch.__version__, torch.__file__)
 print("OpenEquivariance:", version("openequivariance"))
 PY
+
+if [[ "${TENSOR_NMR_VERIFY_ONLY:-0}" == 1 ]]; then
+    echo 'Checking new-model and saved-checkpoint CPU/CUDA compatibility; no training run is started'
+    "$TENSOR_NMR_ARC_PYTHON" scripts/smoke_openequivariance.py --device cuda
+    "$TENSOR_NMR_ARC_PYTHON" scripts/smoke_openequivariance.py --device cuda --checkpoint \
+        "${TENSOR_NMR_VERIFY_CHECKPOINT:-graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model.pt}"
+    exit 0
+fi
 
 export TENSOR_NMR_CONFIG_BATCHING=1
 echo 'Starting Experiment 04 with batch size 2 and accumulation 2'

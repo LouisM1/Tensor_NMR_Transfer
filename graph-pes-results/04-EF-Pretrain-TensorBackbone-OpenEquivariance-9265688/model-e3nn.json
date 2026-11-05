@@ -1,0 +1,10 @@
+{
+  "source": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model.pt",
+  "source_sha256": "618811b3dbbc73a2ae25ee17b3b6964833c3f692b9caa1087a4d95c35df2b1f2",
+  "model": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model-e3nn.pt",
+  "model_sha256": "c5229e19d27f1ed965bb507e48caa21bf0d837b5613f8efb44915fcf39513654",
+  "deployment": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model-e3nn-lammps.pt",
+  "convention": "e3nn 0.4.4; signs folded into final radial linear weights and bias",
+  "original_files_retained": true,
+  "optimizer": "Original Adam state is not converted; use a fresh optimizer for this export"
+}

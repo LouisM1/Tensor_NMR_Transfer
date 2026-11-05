@@ -131,7 +131,7 @@ Run the bounded CPU check with `.venv/bin/python scripts/smoke_ef_pretraining.py
 Experiment 04 repeats the fresh Experiment 03 recipe in float32 with batch
 size 2 and accumulation 2. Only the four message tensor products use
 OpenEquivariance on CUDA. CPU inference and TorchScript deployment use e3nn.
-Checkpoint keys match Experiment 03.
+A persistent convention buffer is now saved with each wrapper; ordinary parameter names and shapes remain unchanged.
 
 Copy `run-exp04.sbatch`, `train.sbatch`, the Experiment 04 YAML and the
 updated E/F and OpenEquivariance helpers to ARC. From the project root on HTC:
@@ -155,3 +155,45 @@ then confirm the saved `train-config.yaml` has batch size and accumulation
 both set to 2. Compare steady-state time per optimiser update and peak memory
 with Experiment 03. The optional `scripts/smoke_openequivariance.py` can
 compare CUDA energy, force and gradient parity in a separate setup.
+
+
+### Experiment 04 compatibility repair — 5 November 2026
+
+The original OEQ 0.3.0 CUDA function and e3nn 0.4.4 CPU fallback differed in three Clebsch–Gordan coupling signs. The GPU training used one consistent convention; recovering that function does not require retraining. The historical run remains a recipe speed comparison, with a different initial function from the e3nn baseline at the same unmapped weights.
+
+`nmr_helpers/openequivariance_tp.py` now records the external-weight convention. Untagged legacy Experiment 04 Python objects and state checkpoints recover the original OEQ convention automatically. CPU and TorchScript apply that mapping; CUDA maps from it into the installed OEQ coefficient tables. Path normalisation and coefficient compatibility are checked before a CUDA kernel is used. New wrappers use the e3nn convention on both devices. The saved convention is guarded by the pinned e3nn 0.4.4 version; upgrading that dependency requires an explicit migration. When importing an untagged e3nn baseline state into wrappers, use `load_e3nn_state_dict` explicitly; untagged legacy OEQ states and canonical e3nn states cannot otherwise be distinguished.
+
+The original model/checkpoints are retained. Separate corrected exports are:
+
+- `graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model-e3nn.pt`: ordinary e3nn model, appropriate as the source for symmetric tensor backbone transfer.
+- `graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model-e3nn-lammps.pt`: corrected TorchScript deployment.
+- `model-e3nn.json` alongside them: source/export hashes and conversion description.
+
+The original `lammps_model.pt` retains its old compiled CPU fallback. Updating Python helpers does not rewrite that file; use `model-e3nn-lammps.pt` for deployment.
+
+`nmr_helpers/openequivariance_compatibility.py` folds the convention signs into each radial MLP's final output weights and bias, then replaces the wrapper with ordinary e3nn. This is a deterministic reparameterisation; no fitting data or targets enter the conversion. Converted models need a fresh optimizer; the original Adam moments are not converted. Resume original E/F optimizer state with the convention-aware wrapper instead. Do not combine the new loader with the old notebook sign hooks; those hooks have been removed from the Experiment 04 notebook.
+
+To create another export under new output names:
+
+```bash
+.venv/bin/python scripts/convert_exp04_checkpoint.py graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model.pt --output /tmp/experiment04-e3nn.pt
+```
+
+The converter refuses existing outputs. Local checks are reproducible with:
+
+```bash
+.venv/bin/python scripts/smoke_openequivariance.py --device cpu
+.venv/bin/python scripts/smoke_openequivariance.py --device cpu --checkpoint graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model.pt
+.venv/bin/python scripts/check_exp04_compatibility.py --report /tmp/experiment04-compatibility.json
+```
+
+The regression checks include force-loss parameter gradients, legacy and tagged state loading, model round-trips, eager/TorchScript predictions, agreement with archived validation/test predictions, idempotent canonical conversion and strict copying of the four-layer backbone into the symmetric tensor model. Native CUDA has not been retested locally: this Mac has no CUDA, and ARC SSH authentication was unavailable. On an ARC CUDA allocation with OEQ 0.3.0 installed, run both smoke commands with `--device cuda`; they compare CPU/GPU energies and forces and the gradients used in force training.
+
+
+The existing ARC launcher also has a verification-only mode. After copying the updated helpers, scripts, YAML and `run-exp04.sbatch` to the existing ARC project, submit from that directory:
+
+```bash
+sbatch --clusters=htc --partition=short --time=00:30:00 --nodes=1 --ntasks=1 --cpus-per-task=8 --mem=64000M --gres=gpu:l40s:1 --job-name=04-OEQ-compat --export=ALL,TENSOR_NMR_VERIFY_ONLY=1 run-exp04.sbatch
+```
+
+This uses the working job-local OEQ overlay, checks both new-model and legacy-checkpoint CUDA parity, then exits without launching training. It does not alter the original run. The local repair audit is in `provenance/experiment-04-compatibility/repair-validation.json`.

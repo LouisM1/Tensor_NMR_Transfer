@@ -1,3 +1,5 @@
+# Compatibility repair 2026-11-05: new wrappers use canonical e3nn weights.
+# Untagged saved Experiment 04 checkpoints recover their original OEQ convention.
 # Experiment 04 repeats Experiment 03 with OpenEquivariance message products.
 # On ARC, submit with TENSOR_NMR_CONFIG_BATCHING=1 to use the YAML batching.
 # E/F source for the current symmetric-tensor pilot; no NMR labels are used.
