@@ -128,57 +128,30 @@ Run the bounded CPU check with `.venv/bin/python scripts/smoke_ef_pretraining.py
 
 ## Experiment 04: OpenEquivariance for E/F pretraining
 
-Experiment 04 repeats the fresh Experiment 03 recipe in float32 with physical
-batch size 2 and accumulation 2. The four message tensor products use
-OpenEquivariance on CUDA. All other model operations use the existing backend.
-CPU inference and TorchScript deployment use the e3nn implementation of those
-same products. Checkpoint keys match Experiment 03.
+Experiment 04 repeats the fresh Experiment 03 recipe in float32 with batch
+size 2 and accumulation 2. Only the four message tensor products use
+OpenEquivariance on CUDA. CPU inference and TorchScript deployment use e3nn.
+Checkpoint keys match Experiment 03.
 
-Copy the Experiment 03 and 04 YAML files, `train.sbatch`, the updated
-`nmr_helpers/` and `scripts/smoke_openequivariance.py` to ARC. From the project
-root, set up a clone of the baseline environment once.
-
-```bash
-module load Anaconda3/2025.06-1
-baseline_env=/data/oums-atom-elec-ml/trin4011/envs/graph-pes-arc
-oeq_env="${baseline_env}-oeq"
-conda create --prefix "$oeq_env" --clone "$baseline_env"
-conda activate "$oeq_env"
-constraints=$(mktemp)
-"$baseline_env/bin/python" -m pip freeze > "$constraints"
-"$oeq_env/bin/python" -m pip install -c "$constraints" 'openequivariance==0.6.3'
-```
-
-OpenEquivariance needs a CUDA toolkit and C++ compiler on the GPU node. Check
-`"$oeq_env/bin/python" -c 'import torch; print(torch.__version__, torch.version.cuda)'`
-and use `module avail CUDA` to select a matching ARC CUDA module if the cloned
-environment does not provide the toolkit. Load that module for the smoke check
-and export `TENSOR_NMR_CUDA_MODULE` with its full module name for the training job.
-The launcher loads it after resetting modules.
-
-Run the CUDA check before requesting the long allocation. It uses one real
-two-structure training batch to compare energies, forces and gradients from the
-force loss at identical weights. It also checks the CPU model export.
-
-```bash
-srun -M htc -p short -t 00:20:00 -N 1 -n 1 -c 8 --mem=64000M --gres=gpu:l40s:1 \
-  "$oeq_env/bin/python" -m scripts.smoke_openequivariance
-```
-
-After the check passes, submit the matched run.
+Copy `run-exp04.sbatch`, `train.sbatch`, the Experiment 04 YAML and the
+updated E/F and OpenEquivariance helpers to ARC. From the project root on HTC:
 
 ```bash
 mkdir -p logs
-TENSOR_NMR_ARC_ENV="$oeq_env" TENSOR_NMR_CONFIG_BATCHING=1 \
-  sbatch --clusters=htc --partition=short --time=08:00:00 --nodes=1 --ntasks=1 \
-  --cpus-per-task=8 --mem=64000M --gres=gpu:l40s:1 --job-name=04-EF-OEQ \
-  --output=logs/experiment-%j.out --error=logs/experiment-%j.err \
-  train.sbatch configs/tensor/04-EF-Pretrain-TensorBackbone-OpenEquivariance.yaml \
-  04-EF-Pretrain-TensorBackbone-OpenEquivariance
+sbatch run-exp04.sbatch
 ```
 
-Check that the saved `train-config.yaml` has batch size and accumulation both
-set to 2. Compare steady-state time per optimiser update and peak memory with
-Experiment 03. Record first-use kernel build time separately. For a continuation,
-set the same environment and CUDA module and use the launcher's existing
-`--resume` command with the Experiment 04 run directory.
+This requests eight hours on one L40S in `htc/short`, with eight CPUs and
+64,000 MB of host RAM. The compute job creates a temporary Python overlay that
+uses the existing Conda packages and installs OpenEquivariance 0.3.0 within
+that overlay. This release avoids the autocast API missing from our PyTorch
+2.6 runtime. Setup time counts against the same allocation. The job imports
+OpenEquivariance before preparing data, then starts training directly. If the node needs a specific CUDA module, pass
+its full name in `TENSOR_NMR_CUDA_MODULE` at submission. Otherwise the
+launcher looks for a matching module when `nvcc` is absent.
+
+Check the output and error logs for environment setup and kernel compilation,
+then confirm the saved `train-config.yaml` has batch size and accumulation
+both set to 2. Compare steady-state time per optimiser update and peak memory
+with Experiment 03. The optional `scripts/smoke_openequivariance.py` can
+compare CUDA energy, force and gradient parity in a separate setup.

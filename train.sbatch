@@ -55,7 +55,11 @@ if [[ -n "${TENSOR_NMR_CUDA_MODULE:-}" ]]; then
 fi
 ARC_ENV="${TENSOR_NMR_ARC_ENV:-/data/oums-atom-elec-ml/trin4011/envs/graph-pes-arc}"
 conda activate "$ARC_ENV"
-PYTHON="$ARC_ENV/bin/python"
+PYTHON="${TENSOR_NMR_ARC_PYTHON:-$ARC_ENV/bin/python}"
+[[ -x "$PYTHON" ]] || { echo "Python is not executable: $PYTHON" >&2; exit 1; }
+if [[ -n "${TENSOR_NMR_ARC_PYTHON:-}" ]]; then
+    export PATH="$(dirname "$PYTHON"):$PATH"
+fi
 
 export PYTHONUNBUFFERED=1
 export OMP_NUM_THREADS=8
