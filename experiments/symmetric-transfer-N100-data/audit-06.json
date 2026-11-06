@@ -1,0 +1,66 @@
+{
+  "run_id": "06-SymmetricTensor-ELoRA-N100-R4-9274116",
+  "label": "ELoRA",
+  "model_sha256": "62e3c63893977aa16fceda21ddbe4189b2a649f36f5f29e2bcb2da6021b69d79",
+  "checkpoint_sha256": "f839e194386d1cec768d85ed712142496dca1371eb2a4d2a9ab83757d9896539",
+  "last_checkpoint_sha256": "16660596ddcd1d0e6109ad574e4ccdc59fd0fafbc00d11017790e56b55055465",
+  "config_sha256": "fc7fed4b8e0ad28e48d9ac701147c719a967f3d24d1f0ba5032e5f60805fd90b",
+  "export_exactly_matches_best_checkpoint": true,
+  "element_registry_restored_without_refitting_or_state_change": true,
+  "best_epoch": 198,
+  "last_epoch": 498,
+  "best_global_step": 4950,
+  "last_global_step": 12450,
+  "best_recorded_validation_loss": 0.02738042362034321,
+  "last_recorded_validation_loss": 0.029987968504428864,
+  "early_stopping_checks_since_best": 300,
+  "early_stopping_patience": 300,
+  "early_stopping_reached": true,
+  "initial_lr": 0.003,
+  "final_lr": 0.0002576980377600002,
+  "parameters": 3063942,
+  "trainable_parameters": 79622,
+  "wandb_runtime_seconds": 4066.793748731,
+  "original_backbone_state_exactly_matches_source": true,
+  "backbone_state_values_compared": 3060755,
+  "adapter_operators": 12,
+  "all_adapter_operators_have_nonzero_updates": true,
+  "zero_adapter_blocks": [
+    {
+      "operation": "layers.2.post_message_linear",
+      "path_index": 0,
+      "input_irrep": "0o",
+      "output_irrep": "0o",
+      "path_shape": [
+        256,
+        128
+      ]
+    },
+    {
+      "operation": "layers.3.pre_message_linear",
+      "path_index": 0,
+      "input_irrep": "0o",
+      "output_irrep": "0o",
+      "path_shape": [
+        128,
+        128
+      ]
+    }
+  ],
+  "train_structures": 100,
+  "train_atoms": 14400,
+  "train_balanced_loss_cpu": 0.004703622314672905,
+  "validation_structures": 50,
+  "validation_atoms": 7200,
+  "validation_balanced_loss_cpu": 0.02738189087318862,
+  "test_structures": 150,
+  "test_atoms": 21600,
+  "test_balanced_loss_cpu": 0.01589783134409547,
+  "cpu_vs_recorded_validation_loss_relative_difference": 5.358766050367336e-05,
+  "minutes_to_best": 27.447629266216666,
+  "median_seconds_per_epoch_6_to_100": 8.174041751999994,
+  "wandb_state": "finished",
+  "gpu": "NVIDIA L40S",
+  "wandb_url": "https://wandb.ai/trin4011-university-of-oxford/tensor-nmr-transfer/runs/06-SymmetricTensor-ELoRA-N100-R4-9274116",
+  "median_logged_ms_per_training_batch_6_to_100": 46.0
+}

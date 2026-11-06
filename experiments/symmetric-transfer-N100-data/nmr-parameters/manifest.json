@@ -1,0 +1,75 @@
+{
+  "analysis_date": "2026-11-06",
+  "soprano_version": "0.11.4",
+  "parent_manifest_sha256": "3ee9e85f131b45e17edb307951552adade57c5ef7987a6c886fedc58471e813d",
+  "input_sha256": {
+    "predictions-01-train.npz": "d189933be2d3957f9883b059e9dcd480e6055e38409b43b935c89b4dda13226d",
+    "predictions-01-validation.npz": "cd0cd3aed64267ace683cbed761e97f3885a123dac9e4ecbbd49a7481df62f2d",
+    "predictions-01-test.npz": "b57e52039a11c00f2f34274d8122f74444bf6e0f6b341e8b6e3968837b8d94e3",
+    "predictions-05-train.npz": "a36a7f831a40e0792bbb1553dd09da6069d82341787aa744343d09b178911793",
+    "predictions-05-validation.npz": "52c8cf09471eba7cbe9283c59c0aa99788556b0670a9c0f04a5e5f26820aa732",
+    "predictions-05-test.npz": "a82bacb03bf6ff01ca124cdd3323420e78180b957cfe2e8a9b14aa0d87ab0a8f",
+    "predictions-06-train.npz": "10997a005afa06c7952051d84678ae47ae943d52aa3779a4350981806d15e72a",
+    "predictions-06-validation.npz": "79ee8eff41d0bcf2f514acae0473d1302d21e8ddf0a0433860fdbb91a2544654",
+    "predictions-06-test.npz": "7c060157b0c69a02e6630932bea1881db587d3afd68cb11ffc5176f49a335cc8"
+  },
+  "data_sha256": {
+    "train": "641f8389df4c1085cef4ec6f8665c81849ce7b105ddfbfaf5fc721cd065824f5",
+    "validation": "752ca501059b90aec5a5ace6c946c46c5b92e89b725c18527261923a8d229d22",
+    "test": "bab5f637cd24dda4dccde22901d2138728e0d6a0eb6ec7f41c88f0d64f2fb43a"
+  },
+  "helper_sha256": "9ddb6307c05d976272e00139a2f22c8505853f2b1766d4260b9ec955157d7d41",
+  "parameters": {
+    "isotropy": "MSIsotropy.get; sigma_iso; ppm; no reference -> shielding",
+    "anisotropy": "MSAnisotropy.get; Delta_sigma = sigma_ZZ - (sigma_XX + sigma_YY)/2; ppm",
+    "asymmetry": "MSAsymmetry.get; eta = (sigma_YY - sigma_XX)/(sigma_ZZ - sigma_iso); dimensionless",
+    "reduced_anisotropy": "MSReducedAnisotropy.get; zeta_sigma = 2 Delta_sigma/3; ppm",
+    "span": "MSSpan.get; Omega = sigma_max - sigma_min; ppm"
+  },
+  "ordering": "Haeberlen: |sigma_ZZ-iso| >= |sigma_XX-iso| >= |sigma_YY-iso|",
+  "reference": "Original stored DFT ms tensors, diagonalised through their symmetric part; verified against reconstructed coefficient targets.",
+  "reconstruction_max_abs_difference": {
+    "train": {
+      "isotropy": 2.886565653170692e-09,
+      "anisotropy": 1.0537547723288299e-08,
+      "asymmetry": 3.624172184579777e-09,
+      "span": 1.2393570614221971e-08
+    },
+    "validation": {
+      "isotropy": 2.8864235446235398e-09,
+      "anisotropy": 1.0131316230399534e-08,
+      "asymmetry": 2.0517932908248326e-09,
+      "span": 1.2418468031683005e-08
+    },
+    "test": {
+      "isotropy": 2.8867361834272742e-09,
+      "anisotropy": 1.1368882724127616e-08,
+      "asymmetry": 5.196868380075159e-09,
+      "span": 1.3543086652134662e-08
+    }
+  },
+  "fresh_ASE_object_for_each_tensor_set": true,
+  "original_isotropic_rmse_reproduced": true,
+  "primary_metrics": "All atom predictions retained, signed Delta unmodified, no clipping, reference fitting, sign alignment or sample exclusions.",
+  "diagnostics": "Opposite Delta signs can include a Haeberlen ordering-boundary crossing and genuine tensor error; no claim all are harmless. Same-sign-only score is diagnostic, never the headline.",
+  "near_isotropy": "Counts reported at |zeta| < 1 and < 5 ppm; exact-isotropy eta uses Soprano zero convention. No filtering.",
+  "shape_orientation": "These scalar parameters ignore principal-axis orientation; retain original full-tensor errors separately.",
+  "no_inference_or_retraining": true,
+  "output_sha256": {
+    "parameter-metrics.csv": "dcc3147a9958e913bce44add443a636cce3d76630318cdc8ee25a63161c94b56",
+    "sign-differences-by-asymmetry.csv": "bd9d88239b32d2d6a5d62a48b6f180ed3f15530952e0268ced2c012cb390f222",
+    "parameters-01-validation.npz": "0fd6b675a9123dd9cffb2b6410ed6e21ba243cf3765305eecc1e2a4b34dfd021",
+    "parameters-01-train.npz": "a40faf1e9deb64e0206618b939fc1e6e63560b2225e0f4ce662bd7cf3164c628",
+    "parameters-06-validation.npz": "64a33117a827956f0f04e0d592273e6846ebe2b7e629c93f667ad18c45584754",
+    "parameters-06-train.npz": "59783c4052d2c1fb70515e28310de4c046bc499661e15402886d427a9398a291",
+    "parameters-05-test.npz": "0d36b34e8c9e491d148e8b89b5362251e0dce8772803faa7b91570581e83ef7d",
+    "convention-diagnostics.csv": "27cd3d856f3cf77f29c0b6b36898d627baeaf81d291dbcac32f5ccc2562f0378",
+    "parameters-05-validation.npz": "da32cd4ad52c419f07fc18a8a6a555394cd414bac267725fc804f55478b97715",
+    "parameters-05-train.npz": "787f6feab6ba18a2568db3ebf75473cc1beabeba725f837c8ca8cd13368c3a31",
+    "parameters-01-test.npz": "e5b4acccac551ac706653d411117978a4912cab21eaad22801b4be7387083b47",
+    "principal-value-metrics.csv": "4b2c34ec314e218446dc763d96524b39a66bcbe27df76541f9e70dd23f353bf9",
+    "parameters-06-test.npz": "cd16e5fda93c126d92117b75058fc3460cde0dc80408002dc17700c3f31565cc",
+    "largest-parameter-errors.csv": "214c5a2c7ca42961efef7d1fe4d7733876452a4fae52a99fe3eeadc8c75f06e1"
+  },
+  "rendering_helper_sha256": "ed9971767d14d5c8de31bcd7b7d98917a1a0d02bfeadbf78907b9178876e005d"
+}

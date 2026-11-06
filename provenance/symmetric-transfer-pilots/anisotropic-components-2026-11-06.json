@@ -1,0 +1,16 @@
+{
+  "analysis_date": "2026-11-06",
+  "component_manifest_sha256": "9637198bdcb2268513ee9a5bd73030d0b5424271b4fbc82e35799bda41dd3d5c",
+  "notebook": "experiments/SymmetricTensor-N100-Anisotropic-Components.ipynb",
+  "notebook_sha256": "2c70c556bdb0cfef486f3ef2f702059822460a69a1f0bf2d18b58abb298848f1",
+  "pooled_metrics_and_original_predictions_unchanged": true,
+  "findings": {
+    "elora_lower_test_rmse_all_five_components_both_elements": true,
+    "full_fine_tune_Si_q3_worst_one_percent_SSE_share": 0.7093200052672173
+  },
+  "obsidian_plot_attachments": [
+    "Tensor N100 - Anisotropic coefficient RMSE - 2026-11-06.png",
+    "Tensor N100 - Anisotropic Cartesian RMSE - 2026-11-06.png",
+    "Tensor N100 - Anisotropic error concentration - 2026-11-06.png"
+  ]
+}

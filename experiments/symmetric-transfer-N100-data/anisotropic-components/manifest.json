@@ -1,0 +1,37 @@
+{
+  "analysis_date": "2026-11-06",
+  "parent_manifest_sha256": "3ee9e85f131b45e17edb307951552adade57c5ef7987a6c886fedc58471e813d",
+  "input_sha256": {
+    "predictions-01-train.npz": "d189933be2d3957f9883b059e9dcd480e6055e38409b43b935c89b4dda13226d",
+    "predictions-01-validation.npz": "cd0cd3aed64267ace683cbed761e97f3885a123dac9e4ecbbd49a7481df62f2d",
+    "predictions-01-test.npz": "b57e52039a11c00f2f34274d8122f74444bf6e0f6b341e8b6e3968837b8d94e3",
+    "predictions-05-train.npz": "a36a7f831a40e0792bbb1553dd09da6069d82341787aa744343d09b178911793",
+    "predictions-05-validation.npz": "52c8cf09471eba7cbe9283c59c0aa99788556b0670a9c0f04a5e5f26820aa732",
+    "predictions-05-test.npz": "a82bacb03bf6ff01ca124cdd3323420e78180b957cfe2e8a9b14aa0d87ab0a8f",
+    "predictions-06-train.npz": "10997a005afa06c7952051d84678ae47ae943d52aa3779a4350981806d15e72a",
+    "predictions-06-validation.npz": "79ee8eff41d0bcf2f514acae0473d1302d21e8ddf0a0433860fdbb91a2544654",
+    "predictions-06-test.npz": "7c060157b0c69a02e6630932bea1881db587d3afd68cb11ffc5176f49a335cc8",
+    "metrics.csv": "ebcca665ed7c26b2feba6b0bcaa337baf79c32c6163b8417251a1ba233c6c0ef"
+  },
+  "helper_sha256": "c366b7367480e29540de394d3baf33c511de4f3df949873d507dcece2822675a",
+  "basis": [
+    "sqrt(2) A_xz",
+    "sqrt(2) A_xy",
+    "(2 A_yy - A_xx - A_zz) / sqrt(6)",
+    "sqrt(2) A_yz",
+    "(A_zz - A_xx) / sqrt(2)"
+  ],
+  "basis_matches_installed_e3nn": true,
+  "pooled_rmse_recovered_from_component_mse": true,
+  "traceless_symmetric_and_frobenius_checks_passed": true,
+  "coordinate_scope": "Component scores refer to the stored DFT coordinate frame; individual scores are not rotation-invariant.",
+  "cartesian_scope": "A = S - trace(S)/3 I; no isotropic contribution. Reconstruct signed tensor errors before taking RMSE.",
+  "tail_definition": "For each element/model/component separately, ceil(1% of atoms) with largest squared residual; divide their SSE by component SSE.",
+  "outlier_indices": "Zero-based frame in the stored split (selected seed-42 order for train) and zero-based atom within that frame.",
+  "models_or_original_predictions_changed": false,
+  "output_sha256": {
+    "largest-component-errors.csv": "21d90a9dac052fa8d26192e3bc64d110734b3c8f2a2c2952b387d0fada2f008a",
+    "coefficient-metrics.csv": "63bb1f53a94859e09eb8f9018dad38aedda4e3d942ea49b68c462bfc56aa5d4a",
+    "cartesian-metrics.csv": "32c4219184fb6a787223af843e93128dd1d90a3a0070dd9e568b4538dfe7d0e6"
+  }
+}

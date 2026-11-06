@@ -1,0 +1,9 @@
+{
+  "run_id": "06-SymmetricTensor-ELoRA-N100-R4-9274116",
+  "state": "finished",
+  "url": "https://wandb.ai/trin4011-university-of-oxford/tensor-nmr-transfer/runs/06-SymmetricTensor-ELoRA-N100-R4-9274116",
+  "history_rows": 3238,
+  "metadata": {
+    "gpu": "NVIDIA L40S"
+  }
+}

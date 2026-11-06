@@ -1,0 +1,9 @@
+{
+  "run_id": "05-SymmetricTensor-FullFineTune-N100-9274115",
+  "state": "finished",
+  "url": "https://wandb.ai/trin4011-university-of-oxford/tensor-nmr-transfer/runs/05-SymmetricTensor-FullFineTune-N100-9274115",
+  "history_rows": 4213,
+  "metadata": {
+    "gpu": "NVIDIA L40S"
+  }
+}

@@ -45,3 +45,11 @@ sbatch train.sbatch configs/11-TensorNequIP-MSIsotropy-FrozenTransfer.yaml Tenso
 
 Evaluate the best checkpoints on the same validation sites as 09, reporting
 unweighted Si/O MAE and RMSE separately. No test split is configured.
+
+
+## Symmetric tensor transfer (Experiments 05/06)
+
+- `symmetric_transfer.py`: strict corrected E/F backbone transfer into direct `SymmetricTensorNequIP` (`0e + 2e`), with an optional frozen backbone and a source SHA256 guard.
+- `symmetric_elora.py`: rank-4 path-wise adapters in all four layers; original backbone/radial weights frozen, with a fresh trainable tensor readout and symmetry-safe affine scaling.
+
+The scalar transfer/ELoRA helpers retain their original interfaces. Use the tensor-specific YAMLs in `configs/tensor/`; the source is Experiment 04's corrected `model-e3nn.pt`, rather than the original unconverted OEQ model. Both tensor pilots run in the standard ARC environment.

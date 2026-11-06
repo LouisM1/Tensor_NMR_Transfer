@@ -47,7 +47,7 @@ The repository tracks the datasets, code, configs, dependency specifications and
 
 ## What still needs implementation
 
-The inherited `nmr_helpers` are the working **scalar** baseline. In particular, the transfer and ELoRA helpers currently enforce a scalar target, and the source E/F checkpoint has a scalar-only final interaction layer. They must be extended and verified before symmetric-tensor production training. The first direct-training tensor baseline is now implemented in `configs/tensor/01-SymmetricTensor-Scratch-N100.yaml`; E/F transfer and ELoRA still require tensor-specific extensions.
+The inherited `nmr_helpers` are the working **scalar** baseline. In particular, the transfer and ELoRA helpers currently enforce a scalar target, and the source E/F checkpoint has a scalar-only final interaction layer. They must be extended and verified before symmetric-tensor production training. The first direct-training tensor baseline is now implemented in `configs/tensor/01-SymmetricTensor-Scratch-N100.yaml`; Experiments 05/06 now provide the tensor-specific E/F transfer and ELoRA implementations.
 
 Keep derived symmetric-tensor labels separate from the existing data. Verify basis conversion, rotations, tensor-safe scaling/offsets and the exact transferred/fresh parameter boundary before running the new experiments. The local requirements checklist specifies the planned goals and sequence.
 
@@ -112,7 +112,7 @@ This trains a fresh E/F source on all 800 training structures and the existing 5
 
 A standard scalar linear energy head would ignore the final `2e` outputs. The task-specific energy head therefore concatenates the 128 scalar features with 128 rotational invariants, one for each rank-two channel: `mean(component**2)` across its five components. A 256→128→1 SiLU MLP produces each atomic energy. These squared norms are invariant under rotations/reflections, and let the E/F objective train the final anisotropic channels. This is a deliberate change to the E/F readout, not a claim that unmodified NequIP trains all final tensor features. Forces are differentiated from total energy, not separately predicted.
 
-For later transfer, copy the element embedding, initial node embedding, edge embedding and all four interaction layers. Start the NMR linear readout and its tensor-safe scales/offsets afresh. Discard the E/F invariant MLP, energy scale and energy offset. The strict state-copy check is part of the smoke audit; the existing scalar-only production transfer and ELoRA helpers still need extension for this source. Gradient flow establishes that the features are trainable by E/F, not that they will necessarily improve NMR accuracy.
+For later transfer, copy the element embedding, initial node embedding, edge embedding and all four interaction layers. Start the NMR linear readout and its tensor-safe scales/offsets afresh. Discard the E/F invariant MLP, energy scale and energy offset. The strict state-copy check is part of the smoke audit; the separate symmetric-transfer and symmetric-ELoRA helpers implement this boundary for Experiments 05/06. Gradient flow establishes that the features are trainable by E/F, not that they will necessarily improve NMR accuracy.
 
 The initial recipe uses AdamW at 0.003, weight decay 0.01, batch size 1 with accumulation 4, a 1,000-epoch ceiling, early-stopping patience 300 and ReduceLROnPlateau (patience 25, factor 0.8). Energy loss is MSE of per-atom-normalised structure energy error, weighted 1000; force-component MSE is weighted 100. Those loss choices follow the original E/F recipe; they are starting settings, not optimised weights. Pre-fitting uses the fitting set only. With fixed SiO2 composition, individual elemental energy offsets are not uniquely identifiable; their combined contribution is what the data constrain.
 
@@ -215,3 +215,77 @@ All six checks passed for the original Experiment 04 checkpoint, whose SHA256 ma
 The raw CPU/GPU total energies differed by 0.0234375 eV (0.16276 meV/atom). Summing the same captured component local energies in float64 reduced that discrepancy to at most 4.8392e-6 eV. The residual raw-energy discrepancy is therefore dominated by reduction precision rather than the coefficient convention. This is diagnostic evidence, not a change to production weights or the stored parity predictions. Keep arithmetic settings consistent when reporting very small E/F energy errors. The exact 0.078125 eV discrepancy in the first, nondeterministic run was not decomposed, but the controlled comparison now passes with the original thresholds.
 
 The supplied checker report covers two 144-atom structures and is saved verbatim as structured JSON in `provenance/experiment-04-compatibility/arc-verification-9273235.json`. Current status and scope are in `verification-status.json`; the earlier failed report is retained. The historical run still used a different initial function from the e3nn baseline at equal unmapped weights, so it is a recipe speed comparison rather than a strict matched-initialisation ablation.
+
+
+## Experiments 05 and 06: symmetric NMR transfer at N100
+
+Both configurations use the corrected Experiment 04 `model-e3nn.pt`, selected at epoch 291. The file SHA256 is pinned in each YAML. `nmr_helpers/symmetric_transfer.py` validates the source hash, element ordering, cutoff, four layer irreps, message-product paths and state shapes before copying the element embedding, initial node embedding, edge embedding and all four interaction layers. The fresh destination retains its `0e + 2e` readout and `IrrepAffine` shielding scales/offsets. E/F readout, energy scales/offsets, optimizer state and pre-fit flags are excluded.
+
+- `configs/tensor/05-SymmetricTensor-FullFineTune-N100.yaml`: all NMR parameters trainable, AdamW LR 0.0001.
+- `configs/tensor/06-SymmetricTensor-ELoRA-N100-R4.yaml`: original backbone frozen; train rank-4 path-wise A/B factors plus the fresh tensor readout/scales/offsets, AdamW LR 0.003.
+
+`nmr_helpers/symmetric_elora.py` reuses `PathELoRA` in three operations per interaction layer: pre-message linear, post-message linear and self-interaction tensor product. Each permitted channel path gets its own low-rank update. All 12 operators are adapted, including paths needed for the final tensor channels. B factors start at zero, preserving the transferred model's initial predictions. Adapter construction preserves CPU RNG state, so the fresh NMR readout and subsequent seeded data order match full transfer. Original radial networks remain frozen in ELoRA. Existing scalar helper behaviour is retained.
+
+The destination architecture, six-coefficient target, balanced Si/O isotropic/anisotropic loss, seed-42 N100 subset, 50 validation structures, batch 1 / accumulation 4, AdamW weight decay 0.01, plateau scheduler and early-stopping patience 300 match Experiment 01. The epoch ceiling is 3000. The learning rates are deliberate method-specific starting choices. Learned shielding scales/offsets are pre-fitted on the selected N100 only; fixed loss normalisers still come from the full training pool, as in Experiment 01. The E/F source used 800 E/F-labelled fitting structures. No NMR test data are configured.
+
+The plain e3nn source and destination run in the existing `graph-pes-arc` environment. No OEQ extension or job-local overlay is required for these NMR runs. Copy the helpers, tensor configs, launcher and corrected source file from the Mac project root:
+
+```bash
+rsync -avR --exclude='__pycache__/' \
+  nmr_helpers/ configs/tensor/ scripts/ train.sbatch \
+  graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model-e3nn.pt \
+  graph-pes-results/04-EF-Pretrain-TensorBackbone-OpenEquivariance-9265688/model-e3nn.json \
+  htclogin:/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/
+```
+
+The symmetric train/validation datasets are already present from Experiment 01 and are retained. On ARC, from the project root:
+
+```bash
+mkdir -p logs
+export TENSOR_NMR_CONFIG_BATCHING=1
+export TENSOR_NMR_ARC_ENV=/data/oums-atom-elec-ml/trin4011/envs/graph-pes-arc
+export TENSOR_NMR_ARC_PYTHON="$TENSOR_NMR_ARC_ENV/bin/python"
+
+sbatch --clusters=htc --partition=short --time=05:00:00 \
+  --nodes=1 --ntasks=1 --cpus-per-task=8 --mem=64000M --gres=gpu:l40s:1 \
+  --job-name=05-Symm-FT-N100 --export=ALL \
+  train.sbatch configs/tensor/05-SymmetricTensor-FullFineTune-N100.yaml 05-SymmetricTensor-FullFineTune-N100
+
+sbatch --clusters=htc --partition=short --time=05:00:00 \
+  --nodes=1 --ntasks=1 --cpus-per-task=8 --mem=64000M --gres=gpu:l40s:1 \
+  --job-name=06-Symm-ELoRA-N100 --export=ALL \
+  train.sbatch configs/tensor/06-SymmetricTensor-ELoRA-N100-R4.yaml 06-SymmetricTensor-ELoRA-N100-R4
+```
+
+Each job gets one L40S, eight CPUs, 64 GB system RAM and five hours. Results are written to `graph-pes-results/RUN_NAME-JOBID/`; output/error logs are `logs/experiment-JOBID.out` and `.err`. Per-element isotropic and anisotropic validation RMSE is logged to W&B project `tensor-nmr-transfer`. If a job reaches wall time, resume its own result directory with `train.sbatch --resume` and the same explicit resource request; do not initialise from the other NMR run. Both methods start independently from the fixed corrected E/F source, with a fresh optimizer.
+
+The bounded local check is reproducible with `.venv/bin/python scripts/smoke_symmetric_transfer.py`. It keeps actual N100/50 dataset membership, performs two optimizer updates per method and checks matched head/RNG/subsets, exact source copying, zero-adapter prediction parity, gradients to scalar/tensor channels, frozen ELoRA weights, adapter/head updates, rotations/reflections, model export and optimizer reload ordering. Smoke-only limits use four pre-fit structures, eight training batches, two validation batches, one CPU epoch, no W&B or post-fit scoring. This is an implementation check; it does not report production NMR accuracy or convergence. The audit is `provenance/symmetric-transfer-pilots/setup-checks.json`.
+
+
+## N100 symmetric tensor transfer results
+
+Main NMR-facing report: [Soprano isotropy, anisotropy and asymmetry](experiments/SymmetricTensor-N100-Soprano-Parameters.ipynb). The Experiment 05/06 notebooks now use these parameters in their main parity plots.
+
+Evaluated on 6 November 2026: direct training (01), full fine-tuning (05) and rank-4 ELoRA (06), each at its validation-selected checkpoint. All three reached early stopping. The review separates Si/O isotropic (0e) and anisotropic (2e) errors and includes the common 150-structure held-out test set.
+
+- [Full fine-tuning notebook](experiments/05-SymmetricTensor-FullFineTune-N100.ipynb)
+- [ELoRA notebook](experiments/06-SymmetricTensor-ELoRA-N100-R4.ipynb)
+- [Three-method comparison and higher-order feature diagnostics](experiments/SymmetricTensor-N100-Transfer-Comparison.ipynb)
+
+Each notebook contains executed outputs and parity plots with RMSE, MAE and R². Parity plots use tiny circular scatter markers (size 6, opacity 0.19, no outlines), matching the earlier notebooks. PNG and PDF figures are saved alongside the notebooks. `analysis_helpers/symmetric_transfer_review.py` checks checkpoint/data hashes, evaluates unmodified models, computes errors and supports regenerating the figures. Predictions, histories, per-structure scores and the evaluation manifest are in `experiments/symmetric-transfer-N100-data/`. Set `RECOMPUTE=True` in a notebook to regenerate all three prediction sets using the stored histories; no model training or calibration occurs. The completed review audit is `provenance/symmetric-transfer-pilots/results-2026-11-06.json`.
+
+The comparison distinguishes held-out 2e accuracy from descriptive changes to the transferred features. Isolating useful information already present in the frozen E/F representation requires a frozen-backbone readout probe with a frozen random-backbone control. These are single-seed, method-specific learning-rate results; reported NMR training times exclude E/F pretraining. Fixed loss normalisers retain the Experiment 01 values from the 800-structure NMR training pool, while learned model scales/offsets use N100.
+
+
+## Anisotropic component diagnostics
+
+[Component analysis notebook](experiments/SymmetricTensor-N100-Anisotropic-Components.ipynb) resolves the pooled 2e score into five coefficient RMSEs, Cartesian traceless-tensor entry errors and the fraction of squared error from the worst 1% of atom predictions. It compares all three N100 methods, using the same saved predictions and test structures. The overview notebook includes the component RMSE plot.
+
+`analysis_helpers/anisotropic_components.py` computes component RMSE/MAE/bias/quantiles, verifies the e3nn basis and the exact relationship to pooled RMSE/Frobenius error, and generates the plots. CSV tables for training, validation and test, a largest-error locator table, a manifest and PNG/PDF figures are in `experiments/symmetric-transfer-N100-data/anisotropic-components/`. Individual component scores are tied to the stored coordinate frame. No model inference or training is repeated.
+
+
+## Soprano NMR parameter evaluation
+
+`analysis_helpers/nmr_parameters.py` uses the installed Soprano 0.11.4 MSIsotropy, MSAnisotropy and MSAsymmetry getters. Original DFT ms tensors are the references; predictions are reconstructed from 0e+2e. No shift reference is fitted. Reported anisotropy is signed unreduced Haeberlen Delta in ppm; asymmetry eta is dimensionless. Reduced anisotropy zeta (2 Delta/3) and span are saved separately.
+
+The [executed parameter report](experiments/SymmetricTensor-N100-Soprano-Parameters.ipynb) includes a three-method RMSE overview, tiny-circle parity plots with RMSE/MAE/R², and an ordering diagnostic. Opposite signs are highlighted and retained in every headline score. Training, validation and test parameter caches, metrics, principal-value diagnostics and a manifest are in `experiments/symmetric-transfer-N100-data/nmr-parameters/`. The report can regenerate them from existing predictions; no inference or retraining is required. Original full-tensor/component metrics and exports remain available as supporting diagnostics.

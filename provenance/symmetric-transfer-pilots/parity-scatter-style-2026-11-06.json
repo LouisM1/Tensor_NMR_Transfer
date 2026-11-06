@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-06",
+  "change": "Restored tiny circles to match earlier parity plots",
+  "helper_before_sha256": "5dfac8ac9eee8bf83c45c5e215dbed3be591f58d63768528bc84728b9c908990",
+  "helper_after_sha256": "322c757baba8dcb049ac81973737d43c93f64f5568a9666e1fc03cb946a70871",
+  "notebooks": {
+    "experiments/05-SymmetricTensor-FullFineTune-N100.ipynb": {
+      "before_sha256": "2812e131aa446cd3a01f5f0cd5a13c0510a5ad20f3f3a91923e8f6f3089d8c46",
+      "after_sha256": "84dcde1cd413e0181e6e92fe81ea8d6c7848ebb5663df834f1ff1169884702b7",
+      "parity_cells_refreshed": 2
+    },
+    "experiments/06-SymmetricTensor-ELoRA-N100-R4.ipynb": {
+      "before_sha256": "f6a4fb00f2909226217584a6747a4430bda0fb58c087b957a40cb0c2c47eaae9",
+      "after_sha256": "77c894acf40fbb66f826da6eb2c76b9f38be963b6a786aa1e1e94a9b8e2acb8f",
+      "parity_cells_refreshed": 2
+    },
+    "experiments/SymmetricTensor-N100-Transfer-Comparison.ipynb": {
+      "before_sha256": "339c3b4eda10de217a709001c5ce53eb0e331dca3b60c1848bb3f29792390667",
+      "after_sha256": "78c11845fe235fa2fc89cf9b573dfb46f3c84ecf7c991bdd70234344f261860a",
+      "parity_cells_refreshed": 1
+    }
+  },
+  "figure_pngs": [
+    "experiments/05-SymmetricTensor-FullFineTune-N100-data/validation-parity.png",
+    "experiments/05-SymmetricTensor-FullFineTune-N100-data/test-parity.png",
+    "experiments/06-SymmetricTensor-ELoRA-N100-R4-data/validation-parity.png",
+    "experiments/06-SymmetricTensor-ELoRA-N100-R4-data/test-parity.png",
+    "experiments/symmetric-transfer-N100-data/figures/test-anisotropic-parity.png",
+    "experiments/01-SymmetricTensor-Scratch-N100-data/validation-parity.png",
+    "experiments/01-SymmetricTensor-Scratch-N100-data/test-parity.png"
+  ],
+  "marker": "o",
+  "marker_size": 6,
+  "alpha": 0.19,
+  "linewidth": 0,
+  "all_numeric_analysis_files_unchanged": true,
+  "protected_numeric_files": 24,
+  "metrics_and_axis_limits_retained": true,
+  "model_inference_or_training_repeated": false,
+  "obsidian_plot_attachments_refreshed": 7
+}

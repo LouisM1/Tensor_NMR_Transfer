@@ -1,0 +1,9 @@
+{
+  "run_id": "01-SymmetricTensor-Scratch-N100-9245885",
+  "state": "finished",
+  "url": "https://wandb.ai/trin4011-university-of-oxford/tensor-nmr-transfer/runs/01-SymmetricTensor-Scratch-N100-9245885",
+  "history_rows": 2659,
+  "metadata": {
+    "gpu": "NVIDIA L40S"
+  }
+}
