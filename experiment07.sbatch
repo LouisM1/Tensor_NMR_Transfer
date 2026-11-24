@@ -24,7 +24,8 @@ export TENSOR_NMR_ARC_ENV="$ARC_ENV" TENSOR_NMR_ARC_PYTHON="$PYTHON"
 export TENSOR_NMR_CONFIG_BATCHING=1
 export OMP_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}" MKL_NUM_THREADS="${SLURM_CPUS_PER_TASK:-8}"
 export PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1
-export WANDB_MODE="${WANDB_MODE:-offline}"
+# HTC compute nodes reach W&B (Experiments 05/06 synced live); set WANDB_MODE=offline to opt out.
+export WANDB_MODE="${WANDB_MODE:-online}"
 # Keep transient caches isolated; all fit results and W&B files stay on /data.
 TASK_CACHE="${TMPDIR:-/tmp}/tensor-nmr-07-${SLURM_JOB_ID}-${SLURM_ARRAY_TASK_ID:-single}"
 mkdir -p "$TASK_CACHE"
@@ -35,8 +36,8 @@ if [[ "${1:-}" == --smoke ]]; then
     srun "$PYTHON" scripts/experiment07.py smoke --device cuda \
       --output "provenance/experiment07/smoke-${SLURM_JOB_ID}"
 elif [[ "${1:-}" == --resume ]]; then
-    [[ $# -eq 2 ]] || { echo 'Usage: sbatch experiment07.sbatch --resume RUN_DIR'; exit 2; }
-    srun "$PYTHON" scripts/experiment07.py resume "$2"
+    [[ $# -eq 2 || $# -eq 3 ]] || { echo 'Usage: sbatch experiment07.sbatch --resume RUN_DIR [MAX_EPOCHS]'; exit 2; }
+    srun "$PYTHON" scripts/experiment07.py resume "$2" ${3:+--max-epochs "$3"}
     srun "$PYTHON" scripts/experiment07.py complete "$2"
 elif [[ "${1:-}" == --evaluate ]]; then
     srun "$PYTHON" scripts/evaluate_experiment07.py --device cuda

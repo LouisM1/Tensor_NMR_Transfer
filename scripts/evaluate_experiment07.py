@@ -25,14 +25,20 @@ COLOR={'full':'#7548A3','elora':'#008C83','last':'#377BB5','head':'#7D858D','scr
 MARKER={'full':'D','elora':'o','last':'s','head':'v','scratch':'^'}
 
 
-def chosen_runs():
+def chosen_runs(allow_missing=False):
     rows=[]
     for row in manifest()['runs']:
         if row['reuse']:
             directory=ROOT/'graph-pes-results'/row['reuse']
         else:
-            choices=[p for p in (ROOT/'graph-pes-results').glob(row['name']+'-*')
+            # Local runs are grouped in graph-pes-results/07-LearningCurves;
+            # ARC writes them flat in graph-pes-results.
+            choices=[p for base in (ROOT/'graph-pes-results'/'07-LearningCurves',ROOT/'graph-pes-results')
+                     for p in base.glob(row['name']+'-*')
                      if (p/'experiment07-complete.json').exists()]
+            if not choices and allow_missing:
+                print(f"SKIPPING {row['name']}: no completed run yet",flush=True)
+                continue
             if len(choices)!=1:
                 raise ValueError(f"{row['name']}: expected one completed run, found {choices}. "
                                  'Use --run-map with explicit method:N -> run-directory choices.')
@@ -75,7 +81,7 @@ def score(arrays):
     return records
 
 
-def plot(table,output):
+def plot(table,output,partial=False):
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
@@ -88,7 +94,8 @@ def plot(table,output):
             for method in METHODS:
                 values=table[(table['method']==method)&(table.element==element)&(table.quantity==quantity)]
                 values=values.sort_values('n')
-                assert values.n.tolist()==[10,50,100,200,800]
+                if not partial:
+                    assert values.n.tolist()==[10,50,100,200,800]
                 ax.plot(values.n,values.rmse,color=COLOR[method],marker=MARKER[method],label=LABEL[method],ms=5)
             ax.set(xscale='log',xlabel='Training structures, N',title=f'{element} · {names[quantity]}',
                    ylabel='RMSE (dimensionless)' if quantity=='asymmetry' else 'RMSE (ppm)')
@@ -98,17 +105,21 @@ def plot(table,output):
             ax.grid(alpha=.2)
             ax.spines[['top','right']].set_visible(False)
     axes[0,0].legend(frameon=False,fontsize=8)
-    fig.suptitle('Symmetric tensor NMR · single-seed test learning curves',fontsize=13)
+    fig.suptitle('Symmetric tensor NMR · single-seed test learning curves'
+                 +(' (incomplete sweep)' if partial else ''),fontsize=13)
+    stem='07-test-learning-curves'+('-partial' if partial else '')
     for ext in ('png','pdf','svg'):
-        fig.savefig(output/f'07-test-learning-curves.{ext}',dpi=240)
+        fig.savefig(output/f'{stem}.{ext}',dpi=240)
     plt.close(fig)
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--device',choices=['cpu','cuda'],default='cpu')
-    parser.add_argument('--output',type=Path,default=ROOT/'experiments/07-LearningCurves')
+    parser.add_argument('--output',type=Path,default=ROOT/'experiments/07-SymmetricTensor-LearningCurves-data')
     parser.add_argument('--run-map',type=Path,help='JSON dictionary e.g. {"full:10":"graph-pes-results/..."}; specify all 25')
+    parser.add_argument('--allow-missing',action='store_true',
+                        help='Skip runs without experiment07-complete.json and save *-partial figures')
     args=parser.parse_args()
     torch.set_num_threads(min(8,int(os.environ.get('OMP_NUM_THREADS','2'))))
     check_files()
@@ -117,7 +128,8 @@ def main():
         mapping=json.loads(args.run_map.read_text())
         rows=[(r,ROOT/mapping[f"{r['method']}:{r['n']}"]) for r in manifest()['runs']]
     else:
-        rows=chosen_runs()
+        rows=chosen_runs(args.allow_missing)
+    partial=len(rows)<len(manifest()['runs'])
     # Resolve and validate every model before reading any held-out targets.
     selections={}
     for row,directory in rows:
@@ -131,7 +143,7 @@ def main():
             assert model._symmetric_transfer_source_sha256==manifest()['source_sha256']
         del model
         selections[f"{row['method']}:{row['n']}"]=str(directory)
-    (output/'selected-runs.json').write_text(json.dumps(selections,indent=2)+'\n')
+    (output/('selected-runs-partial.json' if partial else 'selected-runs.json')).write_text(json.dumps(selections,indent=2)+'\n')
     all_scores=[]
     for split,filename,count in [('validation','valid.xyz',50),('test','test.xyz',150)]:
         frames=read(ROOT/'data/nmr_symm'/filename,':')
@@ -155,8 +167,8 @@ def main():
                 all_scores.append({'method':row['method'],'n':row['n'],'split':split,**metric})
             print(f"Scored {row['method']} N{row['n']} {split}",flush=True)
     table=pd.DataFrame(all_scores)
-    table.to_csv(output/'metrics.csv',index=False)
-    plot(table[table.split=='test'],output)
+    table.to_csv(output/('metrics-partial.csv' if partial else 'metrics.csv'),index=False)
+    plot(table[table.split=='test'],output,partial)
     print('Saved predictions, Soprano scores and six-panel curves:',output)
 
 

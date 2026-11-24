@@ -340,6 +340,7 @@ def main():
     p=sub.add_parser('receipt');p.add_argument('path')
     p=sub.add_parser('complete');p.add_argument('path')
     p=sub.add_parser('resume');p.add_argument('path')
+    p.add_argument('--max-epochs',type=int,help='Raise the epoch ceiling, e.g. for runs that hit max_epochs')
     args=parser.parse_args()
     torch.set_num_threads(min(8,int(os.environ.get('OMP_NUM_THREADS','2'))))
     install_fixes()
@@ -347,7 +348,7 @@ def main():
     elif args.command=='smoke':smoke(args.device,args.output,not args.skip_large_prefit)
     elif args.command=='receipt':receipt(args.path)
     elif args.command=='complete':complete(args.path)
-    elif args.command=='resume':resume_training(args.path)
+    elif args.command=='resume':resume_training(args.path,args.max_epochs)
 
 
 if __name__=='__main__': main()
