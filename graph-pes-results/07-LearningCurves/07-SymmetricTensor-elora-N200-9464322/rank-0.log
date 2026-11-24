@@ -1,0 +1,681 @@
+[graph-pes INFO]: Logging to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/rank-0.log
+[graph-pes INFO]: ID for this training run: 07-SymmetricTensor-elora-N200-9464322
+[graph-pes INFO]: 
+Output for this training run can be found at:
+    └─ graph-pes-results/07-SymmetricTensor-elora-N200-9464322
+        ├─ rank-0.log         # find a verbose log here
+        ├─ model.pt           # the best model (according to valid/loss/total)
+        ├─ lammps_model.pt    # the best model deployed to LAMMPS
+        ├─ train-config.yaml  # the complete config used for this run
+        └─ summary.yaml       # the summary of the training run
+
+[graph-pes DEBUG]: 
+Logging using WandbLogger(
+  entity="trin4011-university-of-oxford",
+  project="tensor-nmr-transfer",
+  name="07-SymmetricTensor-elora-N200-9464322",
+  log_model=False,
+  id="07-SymmetricTensor-elora-N200-9464322",
+  save_dir="graph-pes-results"
+)
+
+[graph-pes DEBUG]: Callbacks: [<nmr_helpers.symmetric_shielding.SymmetricRMSELogger object at 0x150f982a0c90>, <nmr_helpers.experiment07.CurveAudit object at 0x150f982a0ad0>, OffsetLogger(root=graph-pes-results/07-SymmetricTensor-elora-N200-9464322), ScalesLogger(root=graph-pes-results/07-SymmetricTensor-elora-N200-9464322), <graph_pes.training.callbacks.ModelTimer object at 0x150fa2b4b2d0>, SaveBestModel(root=graph-pes-results/07-SymmetricTensor-elora-N200-9464322), <graph_pes.training.callbacks.LoggedProgressBar object at 0x150f81a2a710>, <pytorch_lightning.callbacks.lr_monitor.LearningRateMonitor object at 0x150f81a8fe10>, EarlyStoppingWithLogging(root=graph-pes-results/07-SymmetricTensor-elora-N200-9464322), <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x150fa306de90>, <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x150f81a01f50>]
+[graph-pes DEBUG]: 
+Model:
+SymmetricTensorNequIP(
+  (Z_embedding): AtomicOneHot(elements=['Si', 'O'])
+  (initial_node_embedding): PerElementEmbedding(dim=128, elements=[])
+  (edge_embedding): SphericalHarmonics(1x1o -> 1x0e+1x1o+1x2e)
+  (layers): UniformModuleList(
+    (0): NequIPMessagePassingLayer(
+      (pre_message_linear): PathELoRA(
+        (base): Linear(128x0e -> 128x0e | 16384 weights)
+        (A): ParameterList(  (0): Parameter containing: [torch.float32 of size 4x128])
+        (B): ParameterList(  (0): Parameter containing: [torch.float32 of size 128x4])
+      )
+      (message_tensor_product): TensorProduct(128x0e x 1x0e+1x1o+1x2e -> 128x0e+128x1o+128x2e | 384 paths | 384 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 384, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (384x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e)
+      (post_message_linear): PathELoRA(
+        (base): Linear(128x0e+128x1o+128x2e -> 384x0e+128x1o+128x2e | 81920 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x128]
+            (1): Parameter containing: [torch.float32 of size 4x128]
+            (2): Parameter containing: [torch.float32 of size 4x128]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 384x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): PathELoRA(
+          (base): FullyConnectedTensorProduct(128x0e x 2x0e -> 384x0e+128x1o+128x2e | 98304 paths | 98304 weights)
+          (A): ParameterList(  (0): Parameter containing: [torch.float32 of size 4x256])
+          (B): ParameterList(  (0): Parameter containing: [torch.float32 of size 384x4])
+        )
+      )
+    )
+    (1): NequIPMessagePassingLayer(
+      (pre_message_linear): PathELoRA(
+        (base): Linear(128x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e | 49152 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x128]
+            (1): Parameter containing: [torch.float32 of size 4x128]
+            (2): Parameter containing: [torch.float32 of size 4x128]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 128x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x2e x 1x0e+1x1o+1x2e -> 384x0e+512x1o+256x1e+256x2o+512x2e | 1920 paths | 1920 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 1920, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): PathELoRA(
+        (base): Linear(384x0e+512x1o+256x1e+256x2o+512x2e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 442368 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x384]
+            (1): Parameter containing: [torch.float32 of size 4x512]
+            (2): Parameter containing: [torch.float32 of size 4x256]
+            (3): Parameter containing: [torch.float32 of size 4x256]
+            (4): Parameter containing: [torch.float32 of size 4x512]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 640x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+            (3): Parameter containing: [torch.float32 of size 128x4]
+            (4): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): PathELoRA(
+          (base): FullyConnectedTensorProduct(128x0e+128x1o+128x2e x 2x0e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 229376 paths | 229376 weights)
+          (A): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 4x256]
+              (1): Parameter containing: [torch.float32 of size 4x256]
+              (2): Parameter containing: [torch.float32 of size 4x256]
+          )
+          (B): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 640x4]
+              (1): Parameter containing: [torch.float32 of size 128x4]
+              (2): Parameter containing: [torch.float32 of size 128x4]
+          )
+        )
+      )
+    )
+    (2): NequIPMessagePassingLayer(
+      (pre_message_linear): PathELoRA(
+        (base): Linear(128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e | 81920 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x128]
+            (1): Parameter containing: [torch.float32 of size 4x128]
+            (2): Parameter containing: [torch.float32 of size 4x128]
+            (3): Parameter containing: [torch.float32 of size 4x128]
+            (4): Parameter containing: [torch.float32 of size 4x128]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 128x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+            (3): Parameter containing: [torch.float32 of size 128x4]
+            (4): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 256x0o+384x0e+768x1o+640x1e+640x2o+768x2e | 3456 paths | 3456 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3456, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (128x0o+640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): PathELoRA(
+        (base): Linear(256x0o+384x0e+768x1o+640x1e+640x2o+768x2e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 638976 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x256]
+            (1): Parameter containing: [torch.float32 of size 4x384]
+            (2): Parameter containing: [torch.float32 of size 4x768]
+            (3): Parameter containing: [torch.float32 of size 4x640]
+            (4): Parameter containing: [torch.float32 of size 4x640]
+            (5): Parameter containing: [torch.float32 of size 4x768]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 128x4]
+            (1): Parameter containing: [torch.float32 of size 640x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+            (3): Parameter containing: [torch.float32 of size 128x4]
+            (4): Parameter containing: [torch.float32 of size 128x4]
+            (5): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): PathELoRA(
+          (base): FullyConnectedTensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 294912 paths | 294912 weights)
+          (A): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 4x256]
+              (1): Parameter containing: [torch.float32 of size 4x256]
+              (2): Parameter containing: [torch.float32 of size 4x256]
+              (3): Parameter containing: [torch.float32 of size 4x256]
+              (4): Parameter containing: [torch.float32 of size 4x256]
+          )
+          (B): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 640x4]
+              (1): Parameter containing: [torch.float32 of size 128x4]
+              (2): Parameter containing: [torch.float32 of size 128x4]
+              (3): Parameter containing: [torch.float32 of size 128x4]
+              (4): Parameter containing: [torch.float32 of size 128x4]
+          )
+        )
+      )
+    )
+    (3): NequIPMessagePassingLayer(
+      (pre_message_linear): PathELoRA(
+        (base): Linear(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e | 98304 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x128]
+            (1): Parameter containing: [torch.float32 of size 4x128]
+            (2): Parameter containing: [torch.float32 of size 4x128]
+            (3): Parameter containing: [torch.float32 of size 4x128]
+            (4): Parameter containing: [torch.float32 of size 4x128]
+            (5): Parameter containing: [torch.float32 of size 4x128]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 128x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+            (3): Parameter containing: [torch.float32 of size 128x4]
+            (4): Parameter containing: [torch.float32 of size 128x4]
+            (5): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (message_tensor_product): TensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 384x0o+384x0e+768x1o+768x1e+768x2o+768x2e | 3840 paths | 3840 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3840, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (256x0e+128x2e -> 128x0e+128x2e)
+      (post_message_linear): PathELoRA(
+        (base): Linear(384x0o+384x0e+768x1o+768x1e+768x2o+768x2e -> 256x0e+128x2e | 196608 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x384]
+            (1): Parameter containing: [torch.float32 of size 4x768]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 256x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): PathELoRA(
+          (base): FullyConnectedTensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 256x0e+128x2e | 98304 paths | 98304 weights)
+          (A): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 4x256]
+              (1): Parameter containing: [torch.float32 of size 4x256]
+          )
+          (B): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 256x4]
+              (1): Parameter containing: [torch.float32 of size 128x4]
+          )
+        )
+      )
+    )
+  )
+  (tensor_readout): LinearReadOut(128x0e+128x2e -> 1x0e+1x2e | 256 weights)
+  (scaler): IrrepAffine()
+)
+
+[graph-pes DEBUG]: 
+Data:
+DatasetCollection(
+  train=ASEToGraphDataset(200, properties=['tensor']),
+  valid=ASEToGraphDataset(50, properties=['tensor'])
+)
+
+[graph-pes DEBUG]: 
+Optimizer:
+Optimizer(name="AdamW", lr=0.003, weight_decay=0.01)
+
+[graph-pes DEBUG]: 
+Scheduler:
+LRScheduler(
+  name="ReduceLROnPlateau",
+  patience=25,
+  factor=0.8
+)
+
+[graph-pes DEBUG]: 
+Total loss:
+TotalLoss:
+SymmetricBalancedMSE()
+
+[graph-pes INFO]: Preparing data
+[graph-pes INFO]: Caching neighbour lists for 200 structures with cutoff 6.0, property mapping {'MS_Symm_Irreps': 'tensor'} and torch dtype torch.float32
+[graph-pes INFO]: Caching neighbour lists for 50 structures with cutoff 6.0, property mapping {'MS_Symm_Irreps': 'tensor'} and torch dtype torch.float32
+[graph-pes INFO]: Setting up datasets
+[graph-pes INFO]: Pre-fitting the model on 200 samples
+[graph-pes DEBUG]: Attempting to pre-fit SymmetricTensorNequIP
+[graph-pes DEBUG]: 
+Model:
+SymmetricTensorNequIP(
+  (Z_embedding): AtomicOneHot(elements=['Si', 'O'])
+  (initial_node_embedding): PerElementEmbedding(dim=128, elements=['O', 'Si'])
+  (edge_embedding): SphericalHarmonics(1x1o -> 1x0e+1x1o+1x2e)
+  (layers): UniformModuleList(
+    (0): NequIPMessagePassingLayer(
+      (pre_message_linear): PathELoRA(
+        (base): Linear(128x0e -> 128x0e | 16384 weights)
+        (A): ParameterList(  (0): Parameter containing: [torch.float32 of size 4x128])
+        (B): ParameterList(  (0): Parameter containing: [torch.float32 of size 128x4])
+      )
+      (message_tensor_product): TensorProduct(128x0e x 1x0e+1x1o+1x2e -> 128x0e+128x1o+128x2e | 384 paths | 384 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 384, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (384x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e)
+      (post_message_linear): PathELoRA(
+        (base): Linear(128x0e+128x1o+128x2e -> 384x0e+128x1o+128x2e | 81920 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x128]
+            (1): Parameter containing: [torch.float32 of size 4x128]
+            (2): Parameter containing: [torch.float32 of size 4x128]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 384x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): PathELoRA(
+          (base): FullyConnectedTensorProduct(128x0e x 2x0e -> 384x0e+128x1o+128x2e | 98304 paths | 98304 weights)
+          (A): ParameterList(  (0): Parameter containing: [torch.float32 of size 4x256])
+          (B): ParameterList(  (0): Parameter containing: [torch.float32 of size 384x4])
+        )
+      )
+    )
+    (1): NequIPMessagePassingLayer(
+      (pre_message_linear): PathELoRA(
+        (base): Linear(128x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e | 49152 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x128]
+            (1): Parameter containing: [torch.float32 of size 4x128]
+            (2): Parameter containing: [torch.float32 of size 4x128]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 128x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x2e x 1x0e+1x1o+1x2e -> 384x0e+512x1o+256x1e+256x2o+512x2e | 1920 paths | 1920 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 1920, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): PathELoRA(
+        (base): Linear(384x0e+512x1o+256x1e+256x2o+512x2e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 442368 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x384]
+            (1): Parameter containing: [torch.float32 of size 4x512]
+            (2): Parameter containing: [torch.float32 of size 4x256]
+            (3): Parameter containing: [torch.float32 of size 4x256]
+            (4): Parameter containing: [torch.float32 of size 4x512]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 640x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+            (3): Parameter containing: [torch.float32 of size 128x4]
+            (4): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): PathELoRA(
+          (base): FullyConnectedTensorProduct(128x0e+128x1o+128x2e x 2x0e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 229376 paths | 229376 weights)
+          (A): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 4x256]
+              (1): Parameter containing: [torch.float32 of size 4x256]
+              (2): Parameter containing: [torch.float32 of size 4x256]
+          )
+          (B): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 640x4]
+              (1): Parameter containing: [torch.float32 of size 128x4]
+              (2): Parameter containing: [torch.float32 of size 128x4]
+          )
+        )
+      )
+    )
+    (2): NequIPMessagePassingLayer(
+      (pre_message_linear): PathELoRA(
+        (base): Linear(128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e | 81920 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x128]
+            (1): Parameter containing: [torch.float32 of size 4x128]
+            (2): Parameter containing: [torch.float32 of size 4x128]
+            (3): Parameter containing: [torch.float32 of size 4x128]
+            (4): Parameter containing: [torch.float32 of size 4x128]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 128x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+            (3): Parameter containing: [torch.float32 of size 128x4]
+            (4): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 256x0o+384x0e+768x1o+640x1e+640x2o+768x2e | 3456 paths | 3456 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3456, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (128x0o+640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): PathELoRA(
+        (base): Linear(256x0o+384x0e+768x1o+640x1e+640x2o+768x2e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 638976 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x256]
+            (1): Parameter containing: [torch.float32 of size 4x384]
+            (2): Parameter containing: [torch.float32 of size 4x768]
+            (3): Parameter containing: [torch.float32 of size 4x640]
+            (4): Parameter containing: [torch.float32 of size 4x640]
+            (5): Parameter containing: [torch.float32 of size 4x768]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 128x4]
+            (1): Parameter containing: [torch.float32 of size 640x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+            (3): Parameter containing: [torch.float32 of size 128x4]
+            (4): Parameter containing: [torch.float32 of size 128x4]
+            (5): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): PathELoRA(
+          (base): FullyConnectedTensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 294912 paths | 294912 weights)
+          (A): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 4x256]
+              (1): Parameter containing: [torch.float32 of size 4x256]
+              (2): Parameter containing: [torch.float32 of size 4x256]
+              (3): Parameter containing: [torch.float32 of size 4x256]
+              (4): Parameter containing: [torch.float32 of size 4x256]
+          )
+          (B): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 640x4]
+              (1): Parameter containing: [torch.float32 of size 128x4]
+              (2): Parameter containing: [torch.float32 of size 128x4]
+              (3): Parameter containing: [torch.float32 of size 128x4]
+              (4): Parameter containing: [torch.float32 of size 128x4]
+          )
+        )
+      )
+    )
+    (3): NequIPMessagePassingLayer(
+      (pre_message_linear): PathELoRA(
+        (base): Linear(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e | 98304 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x128]
+            (1): Parameter containing: [torch.float32 of size 4x128]
+            (2): Parameter containing: [torch.float32 of size 4x128]
+            (3): Parameter containing: [torch.float32 of size 4x128]
+            (4): Parameter containing: [torch.float32 of size 4x128]
+            (5): Parameter containing: [torch.float32 of size 4x128]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 128x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+            (2): Parameter containing: [torch.float32 of size 128x4]
+            (3): Parameter containing: [torch.float32 of size 128x4]
+            (4): Parameter containing: [torch.float32 of size 128x4]
+            (5): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (message_tensor_product): TensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 384x0o+384x0e+768x1o+768x1e+768x2o+768x2e | 3840 paths | 3840 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3840, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (256x0e+128x2e -> 128x0e+128x2e)
+      (post_message_linear): PathELoRA(
+        (base): Linear(384x0o+384x0e+768x1o+768x1e+768x2o+768x2e -> 256x0e+128x2e | 196608 weights)
+        (A): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 4x384]
+            (1): Parameter containing: [torch.float32 of size 4x768]
+        )
+        (B): ParameterList(
+            (0): Parameter containing: [torch.float32 of size 256x4]
+            (1): Parameter containing: [torch.float32 of size 128x4]
+        )
+      )
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): PathELoRA(
+          (base): FullyConnectedTensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 256x0e+128x2e | 98304 paths | 98304 weights)
+          (A): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 4x256]
+              (1): Parameter containing: [torch.float32 of size 4x256]
+          )
+          (B): ParameterList(
+              (0): Parameter containing: [torch.float32 of size 256x4]
+              (1): Parameter containing: [torch.float32 of size 128x4]
+          )
+        )
+      )
+    )
+  )
+  (tensor_readout): LinearReadOut(128x0e+128x2e -> 1x0e+1x2e | 256 weights)
+  (scaler): IrrepAffine()
+)
+
+[graph-pes INFO]: Number of learnable params : 79,622
+[graph-pes INFO]: Sanity checking the model...
+[graph-pes INFO]: Starting fit...
+[graph-pes DEBUG]: 
+Using LR scheduler config:
+{'interval': 'epoch', 'frequency': 1, 'monitor': 'valid/loss/total', 'strict': True}
+
+[graph-pes DEBUG]: New best model: validation loss 0.4954449534416199
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes WARNING]: 
+Failed to deploy model for use with LAMMPS: 
+
+forward(__torch__.e3nn.o3._linear.Linear self, Tensor features, Tensor? weight=None, Tensor? bias=None) -> Tensor:
+Keyword argument weight specified twice.
+:
+  File "/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/nmr_helpers/elora.py", line 48
+        weight = self.base.weight + delta  # multiplier 1; no extra alpha/r
+        if self.is_tensor_product:
+            return self.base(x, y, weight=weight)
+                   ~~~~~~~~~ <--- HERE
+        return self.base(x, weight=weight)
+
+[graph-pes DEBUG]: New best model: validation loss 0.20575445890426636
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1071668416261673
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08426353335380554
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07631354033946991
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06150160729885101
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.05545343831181526
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.05183906853199005
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.044163331389427185
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.042508069425821304
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.04025997966527939
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.038273885846138
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.036985937505960464
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.035229478031396866
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.03470944985747337
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.03322399780154228
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.030839083716273308
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.030320294201374054
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.029094276949763298
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.028668848797678947
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02846115082502365
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.027840327471494675
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02704286016523838
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.026934582740068436
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.026561763137578964
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.025671739131212234
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.025646530091762543
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.025577928870916367
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.024973496794700623
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.024903809651732445
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.024755707010626793
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02451343834400177
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.024059977382421494
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.023585882037878036
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.023440785706043243
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.023158472031354904
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.023063991218805313
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02283959835767746
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.022616814821958542
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.022553706541657448
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.022527601569890976
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02211073599755764
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02193564735352993
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.021744921803474426
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02159947343170643
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02119271829724312
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.021068131551146507
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.020970644429326057
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.0207709688693285
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.020628774538636208
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.020569508895277977
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02056853473186493
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.020410027354955673
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.020391883328557014
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.020168893039226532
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02013511210680008
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.019881226122379303
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.019850963726639748
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.01980527490377426
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.019725793972611427
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.01966674253344536
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.019608737900853157
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.019531212747097015
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.019464649260044098
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.019388029351830482
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.019151324406266212
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-elora-N200-9464322/model.pt
+[graph-pes INFO]: Loading best weights from "/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-elora-N200-9464322/checkpoints/best.ckpt"
+[graph-pes INFO]: Training complete.
+[graph-pes INFO]: Testing best model...
+[graph-pes INFO]: Testing complete.
+[graph-pes INFO]: Awaiting final Lightning and W&B shutdown...

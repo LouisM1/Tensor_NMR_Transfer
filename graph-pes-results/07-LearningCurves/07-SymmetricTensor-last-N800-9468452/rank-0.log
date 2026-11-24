@@ -1,0 +1,324 @@
+[graph-pes INFO]: Logging to graph-pes-results/07-SymmetricTensor-last-N800-9468452/rank-0.log
+[graph-pes INFO]: ID for this training run: 07-SymmetricTensor-last-N800-9468452
+[graph-pes INFO]: 
+Output for this training run can be found at:
+    └─ graph-pes-results/07-SymmetricTensor-last-N800-9468452
+        ├─ rank-0.log         # find a verbose log here
+        ├─ model.pt           # the best model (according to valid/loss/total)
+        ├─ lammps_model.pt    # the best model deployed to LAMMPS
+        ├─ train-config.yaml  # the complete config used for this run
+        └─ summary.yaml       # the summary of the training run
+
+[graph-pes DEBUG]: 
+Logging using WandbLogger(
+  entity="trin4011-university-of-oxford",
+  project="tensor-nmr-transfer",
+  name="07-SymmetricTensor-last-N800-9468452",
+  log_model=False,
+  id="07-SymmetricTensor-last-N800-9468452",
+  save_dir="graph-pes-results"
+)
+
+[graph-pes DEBUG]: Callbacks: [<nmr_helpers.symmetric_shielding.SymmetricRMSELogger object at 0x14d2c5863010>, <nmr_helpers.experiment07.CurveAudit object at 0x14d2c5fc1850>, OffsetLogger(root=graph-pes-results/07-SymmetricTensor-last-N800-9468452), ScalesLogger(root=graph-pes-results/07-SymmetricTensor-last-N800-9468452), <graph_pes.training.callbacks.ModelTimer object at 0x14d2c42ab0d0>, SaveBestModel(root=graph-pes-results/07-SymmetricTensor-last-N800-9468452), <graph_pes.training.callbacks.LoggedProgressBar object at 0x14d2a247b710>, <pytorch_lightning.callbacks.lr_monitor.LearningRateMonitor object at 0x14d2a261d690>, EarlyStoppingWithLogging(root=graph-pes-results/07-SymmetricTensor-last-N800-9468452), <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x14d2a2861950>, <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x14d2a2828350>]
+[graph-pes DEBUG]: 
+Model:
+SymmetricTensorNequIP(
+  (Z_embedding): AtomicOneHot(elements=['Si', 'O'])
+  (initial_node_embedding): PerElementEmbedding(dim=128, elements=[])
+  (edge_embedding): SphericalHarmonics(1x1o -> 1x0e+1x1o+1x2e)
+  (layers): UniformModuleList(
+    (0): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e -> 128x0e | 16384 weights)
+      (message_tensor_product): TensorProduct(128x0e x 1x0e+1x1o+1x2e -> 128x0e+128x1o+128x2e | 384 paths | 384 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 384, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (384x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e)
+      (post_message_linear): Linear(128x0e+128x1o+128x2e -> 384x0e+128x1o+128x2e | 81920 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e x 2x0e -> 384x0e+128x1o+128x2e | 98304 paths | 98304 weights)
+      )
+    )
+    (1): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e | 49152 weights)
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x2e x 1x0e+1x1o+1x2e -> 384x0e+512x1o+256x1e+256x2o+512x2e | 1920 paths | 1920 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 1920, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): Linear(384x0e+512x1o+256x1e+256x2o+512x2e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 442368 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e+128x1o+128x2e x 2x0e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 229376 paths | 229376 weights)
+      )
+    )
+    (2): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e | 81920 weights)
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 256x0o+384x0e+768x1o+640x1e+640x2o+768x2e | 3456 paths | 3456 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3456, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (128x0o+640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): Linear(256x0o+384x0e+768x1o+640x1e+640x2o+768x2e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 638976 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 294912 paths | 294912 weights)
+      )
+    )
+    (3): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e | 98304 weights)
+      (message_tensor_product): TensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 384x0o+384x0e+768x1o+768x1e+768x2o+768x2e | 3840 paths | 3840 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3840, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (256x0e+128x2e -> 128x0e+128x2e)
+      (post_message_linear): Linear(384x0o+384x0e+768x1o+768x1e+768x2o+768x2e -> 256x0e+128x2e | 196608 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 256x0e+128x2e | 98304 paths | 98304 weights)
+      )
+    )
+  )
+  (tensor_readout): LinearReadOut(128x0e+128x2e -> 1x0e+1x2e | 256 weights)
+  (scaler): IrrepAffine()
+)
+
+[graph-pes DEBUG]: 
+Data:
+DatasetCollection(
+  train=ASEToGraphDataset(800, properties=['tensor']),
+  valid=ASEToGraphDataset(50, properties=['tensor'])
+)
+
+[graph-pes DEBUG]: 
+Optimizer:
+Optimizer(name="AdamW", lr=0.003, weight_decay=0.01)
+
+[graph-pes DEBUG]: 
+Scheduler:
+LRScheduler(
+  name="ReduceLROnPlateau",
+  patience=25,
+  factor=0.8
+)
+
+[graph-pes DEBUG]: 
+Total loss:
+TotalLoss:
+SymmetricBalancedMSE()
+
+[graph-pes INFO]: Preparing data
+[graph-pes INFO]: Caching neighbour lists for 800 structures with cutoff 6.0, property mapping {'MS_Symm_Irreps': 'tensor'} and torch dtype torch.float32
+[graph-pes INFO]: Caching neighbour lists for 50 structures with cutoff 6.0, property mapping {'MS_Symm_Irreps': 'tensor'} and torch dtype torch.float32
+[graph-pes INFO]: Setting up datasets
+[graph-pes INFO]: Pre-fitting the model on 800 samples
+[graph-pes DEBUG]: Attempting to pre-fit SymmetricTensorNequIP
+[graph-pes DEBUG]: 
+Model:
+SymmetricTensorNequIP(
+  (Z_embedding): AtomicOneHot(elements=['Si', 'O'])
+  (initial_node_embedding): PerElementEmbedding(dim=128, elements=['O', 'Si'])
+  (edge_embedding): SphericalHarmonics(1x1o -> 1x0e+1x1o+1x2e)
+  (layers): UniformModuleList(
+    (0): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e -> 128x0e | 16384 weights)
+      (message_tensor_product): TensorProduct(128x0e x 1x0e+1x1o+1x2e -> 128x0e+128x1o+128x2e | 384 paths | 384 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 384, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (384x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e)
+      (post_message_linear): Linear(128x0e+128x1o+128x2e -> 384x0e+128x1o+128x2e | 81920 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e x 2x0e -> 384x0e+128x1o+128x2e | 98304 paths | 98304 weights)
+      )
+    )
+    (1): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e | 49152 weights)
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x2e x 1x0e+1x1o+1x2e -> 384x0e+512x1o+256x1e+256x2o+512x2e | 1920 paths | 1920 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 1920, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): Linear(384x0e+512x1o+256x1e+256x2o+512x2e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 442368 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e+128x1o+128x2e x 2x0e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 229376 paths | 229376 weights)
+      )
+    )
+    (2): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e | 81920 weights)
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 256x0o+384x0e+768x1o+640x1e+640x2o+768x2e | 3456 paths | 3456 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3456, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (128x0o+640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): Linear(256x0o+384x0e+768x1o+640x1e+640x2o+768x2e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 638976 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 294912 paths | 294912 weights)
+      )
+    )
+    (3): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e | 98304 weights)
+      (message_tensor_product): TensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 384x0o+384x0e+768x1o+768x1e+768x2o+768x2e | 3840 paths | 3840 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3840, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (256x0e+128x2e -> 128x0e+128x2e)
+      (post_message_linear): Linear(384x0o+384x0e+768x1o+768x1e+768x2o+768x2e -> 256x0e+128x2e | 196608 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 256x0e+128x2e | 98304 paths | 98304 weights)
+      )
+    )
+  )
+  (tensor_readout): LinearReadOut(128x0e+128x2e -> 1x0e+1x2e | 256 weights)
+  (scaler): IrrepAffine()
+)
+
+[graph-pes INFO]: Number of learnable params : 651,462
+[graph-pes INFO]: Sanity checking the model...
+[graph-pes INFO]: Starting fit...
+[graph-pes DEBUG]: 
+Using LR scheduler config:
+{'interval': 'epoch', 'frequency': 1, 'monitor': 'valid/loss/total', 'strict': True}
+
+[graph-pes DEBUG]: New best model: validation loss 0.0870758444070816
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.05776199698448181
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.04860156029462814
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.045049797743558884
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.041781533509492874
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.04008932411670685
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.03577673062682152
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.035375334322452545
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.03344375267624855
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.032796360552310944
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.031133130192756653
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.030611200258135796
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.029259659349918365
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.029068326577544212
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.028797529637813568
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.028508486226201057
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.027831099927425385
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.027261722832918167
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.027106164023280144
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.026114806532859802
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02578093111515045
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02526453323662281
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.025081845000386238
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.024063708260655403
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.023062672466039658
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.022542141377925873
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.022362740710377693
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.02193068340420723
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N800-9468452/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N800-9468452/lammps_model.pt
+[graph-pes INFO]: Loading best weights from "/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-last-N800-9468452/checkpoints/best.ckpt"
+[graph-pes INFO]: Training complete.
+[graph-pes INFO]: Testing best model...
+[graph-pes INFO]: Testing complete.
+[graph-pes INFO]: Awaiting final Lightning and W&B shutdown...

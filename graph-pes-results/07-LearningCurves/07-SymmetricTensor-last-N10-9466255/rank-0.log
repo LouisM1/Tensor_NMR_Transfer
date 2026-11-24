@@ -1,0 +1,654 @@
+[graph-pes INFO]: Logging to graph-pes-results/07-SymmetricTensor-last-N10-9466255/rank-0.log
+[graph-pes INFO]: ID for this training run: 07-SymmetricTensor-last-N10-9466255
+[graph-pes INFO]: 
+Output for this training run can be found at:
+    └─ graph-pes-results/07-SymmetricTensor-last-N10-9466255
+        ├─ rank-0.log         # find a verbose log here
+        ├─ model.pt           # the best model (according to valid/loss/total)
+        ├─ lammps_model.pt    # the best model deployed to LAMMPS
+        ├─ train-config.yaml  # the complete config used for this run
+        └─ summary.yaml       # the summary of the training run
+
+[graph-pes DEBUG]: 
+Logging using WandbLogger(
+  entity="trin4011-university-of-oxford",
+  project="tensor-nmr-transfer",
+  name="07-SymmetricTensor-last-N10-9466255",
+  log_model=False,
+  id="07-SymmetricTensor-last-N10-9466255",
+  save_dir="graph-pes-results"
+)
+
+[graph-pes DEBUG]: Callbacks: [<nmr_helpers.symmetric_shielding.SymmetricRMSELogger object at 0x14f54d9f8710>, <nmr_helpers.experiment07.CurveAudit object at 0x14f54d968dd0>, OffsetLogger(root=graph-pes-results/07-SymmetricTensor-last-N10-9466255), ScalesLogger(root=graph-pes-results/07-SymmetricTensor-last-N10-9466255), <graph_pes.training.callbacks.ModelTimer object at 0x14f528ab8250>, SaveBestModel(root=graph-pes-results/07-SymmetricTensor-last-N10-9466255), <graph_pes.training.callbacks.LoggedProgressBar object at 0x14f54da03590>, <pytorch_lightning.callbacks.lr_monitor.LearningRateMonitor object at 0x14f528aec890>, EarlyStoppingWithLogging(root=graph-pes-results/07-SymmetricTensor-last-N10-9466255), <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x14f52883b050>, <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x14f5289c7cd0>]
+[graph-pes DEBUG]: 
+Model:
+SymmetricTensorNequIP(
+  (Z_embedding): AtomicOneHot(elements=['Si', 'O'])
+  (initial_node_embedding): PerElementEmbedding(dim=128, elements=[])
+  (edge_embedding): SphericalHarmonics(1x1o -> 1x0e+1x1o+1x2e)
+  (layers): UniformModuleList(
+    (0): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e -> 128x0e | 16384 weights)
+      (message_tensor_product): TensorProduct(128x0e x 1x0e+1x1o+1x2e -> 128x0e+128x1o+128x2e | 384 paths | 384 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 384, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (384x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e)
+      (post_message_linear): Linear(128x0e+128x1o+128x2e -> 384x0e+128x1o+128x2e | 81920 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e x 2x0e -> 384x0e+128x1o+128x2e | 98304 paths | 98304 weights)
+      )
+    )
+    (1): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e | 49152 weights)
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x2e x 1x0e+1x1o+1x2e -> 384x0e+512x1o+256x1e+256x2o+512x2e | 1920 paths | 1920 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 1920, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): Linear(384x0e+512x1o+256x1e+256x2o+512x2e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 442368 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e+128x1o+128x2e x 2x0e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 229376 paths | 229376 weights)
+      )
+    )
+    (2): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e | 81920 weights)
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 256x0o+384x0e+768x1o+640x1e+640x2o+768x2e | 3456 paths | 3456 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3456, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (128x0o+640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): Linear(256x0o+384x0e+768x1o+640x1e+640x2o+768x2e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 638976 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 294912 paths | 294912 weights)
+      )
+    )
+    (3): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e | 98304 weights)
+      (message_tensor_product): TensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 384x0o+384x0e+768x1o+768x1e+768x2o+768x2e | 3840 paths | 3840 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3840, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (256x0e+128x2e -> 128x0e+128x2e)
+      (post_message_linear): Linear(384x0o+384x0e+768x1o+768x1e+768x2o+768x2e -> 256x0e+128x2e | 196608 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 256x0e+128x2e | 98304 paths | 98304 weights)
+      )
+    )
+  )
+  (tensor_readout): LinearReadOut(128x0e+128x2e -> 1x0e+1x2e | 256 weights)
+  (scaler): IrrepAffine()
+)
+
+[graph-pes DEBUG]: 
+Data:
+DatasetCollection(
+  train=ASEToGraphDataset(10, properties=['tensor']),
+  valid=ASEToGraphDataset(50, properties=['tensor'])
+)
+
+[graph-pes DEBUG]: 
+Optimizer:
+Optimizer(name="AdamW", lr=0.003, weight_decay=0.01)
+
+[graph-pes DEBUG]: 
+Scheduler:
+LRScheduler(
+  name="ReduceLROnPlateau",
+  patience=25,
+  factor=0.8
+)
+
+[graph-pes DEBUG]: 
+Total loss:
+TotalLoss:
+SymmetricBalancedMSE()
+
+[graph-pes INFO]: Preparing data
+[graph-pes INFO]: Caching neighbour lists for 10 structures with cutoff 6.0, property mapping {'MS_Symm_Irreps': 'tensor'} and torch dtype torch.float32
+[graph-pes INFO]: Caching neighbour lists for 50 structures with cutoff 6.0, property mapping {'MS_Symm_Irreps': 'tensor'} and torch dtype torch.float32
+[graph-pes INFO]: Setting up datasets
+[graph-pes INFO]: Pre-fitting the model on 10 samples
+[graph-pes DEBUG]: Attempting to pre-fit SymmetricTensorNequIP
+[graph-pes DEBUG]: 
+Model:
+SymmetricTensorNequIP(
+  (Z_embedding): AtomicOneHot(elements=['Si', 'O'])
+  (initial_node_embedding): PerElementEmbedding(dim=128, elements=['O', 'Si'])
+  (edge_embedding): SphericalHarmonics(1x1o -> 1x0e+1x1o+1x2e)
+  (layers): UniformModuleList(
+    (0): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e -> 128x0e | 16384 weights)
+      (message_tensor_product): TensorProduct(128x0e x 1x0e+1x1o+1x2e -> 128x0e+128x1o+128x2e | 384 paths | 384 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 384, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (384x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e)
+      (post_message_linear): Linear(128x0e+128x1o+128x2e -> 384x0e+128x1o+128x2e | 81920 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e x 2x0e -> 384x0e+128x1o+128x2e | 98304 paths | 98304 weights)
+      )
+    )
+    (1): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e+128x1o+128x2e -> 128x0e+128x1o+128x2e | 49152 weights)
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x2e x 1x0e+1x1o+1x2e -> 384x0e+512x1o+256x1e+256x2o+512x2e | 1920 paths | 1920 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 1920, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): Linear(384x0e+512x1o+256x1e+256x2o+512x2e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 442368 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e+128x1o+128x2e x 2x0e -> 640x0e+128x1o+128x1e+128x2o+128x2e | 229376 paths | 229376 weights)
+      )
+    )
+    (2): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0e+128x1o+128x1e+128x2o+128x2e | 81920 weights)
+      (message_tensor_product): TensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 256x0o+384x0e+768x1o+640x1e+640x2o+768x2e | 3456 paths | 3456 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3456, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (128x0o+640x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e)
+      (post_message_linear): Linear(256x0o+384x0e+768x1o+640x1e+640x2o+768x2e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 638976 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 128x0o+640x0e+128x1o+128x1e+128x2o+128x2e | 294912 paths | 294912 weights)
+      )
+    )
+    (3): NequIPMessagePassingLayer(
+      (pre_message_linear): Linear(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e -> 128x0o+128x0e+128x1o+128x1e+128x2o+128x2e | 98304 weights)
+      (message_tensor_product): TensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 1x0e+1x1o+1x2e -> 384x0o+384x0e+768x1o+768x1e+768x2o+768x2e | 3840 paths | 3840 weights)
+      (weight_generator): HaddamardProduct(
+        (components): ModuleList(
+          (0): Sequential(
+            (0): Bessel(n_features=64, cutoff=6.0, trainable=True)
+            (1): MLP(64 → 64 → 64 → 3840, activation=SiLU())
+          )
+          (1): PolynomialEnvelope(cutoff=6.0, p=6)
+        )
+      )
+      (aggregation): SumNeighbours()
+      (non_linearity): Gate (256x0e+128x2e -> 128x0e+128x2e)
+      (post_message_linear): Linear(384x0o+384x0e+768x1o+768x1e+768x2o+768x2e -> 256x0e+128x2e | 196608 weights)
+      (self_interaction): TensorProductSelfInteraction(
+        (tensor_product): FullyConnectedTensorProduct(128x0o+128x0e+128x1o+128x1e+128x2o+128x2e x 2x0e -> 256x0e+128x2e | 98304 paths | 98304 weights)
+      )
+    )
+  )
+  (tensor_readout): LinearReadOut(128x0e+128x2e -> 1x0e+1x2e | 256 weights)
+  (scaler): IrrepAffine()
+)
+
+[graph-pes INFO]: Number of learnable params : 651,462
+[graph-pes INFO]: Sanity checking the model...
+[graph-pes INFO]: Starting fit...
+[graph-pes DEBUG]: 
+Using LR scheduler config:
+{'interval': 'epoch', 'frequency': 1, 'monitor': 'valid/loss/total', 'strict': True}
+
+[graph-pes DEBUG]: New best model: validation loss 1.0503854751586914
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 1.0226937532424927
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.9858909845352173
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.9351248145103455
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.8629634380340576
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.7699787020683289
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.6973704695701599
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.6756538152694702
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.6198838353157043
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.5709372758865356
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.5270769000053406
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.47595688700675964
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.4281314015388489
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.40159520506858826
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.3730275332927704
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.35722213983535767
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.33571088314056396
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.31687700748443604
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.2847810685634613
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.2722717523574829
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.254580557346344
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.24417239427566528
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.23598575592041016
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.22322367131710052
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.21653249859809875
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.20382018387317657
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1965363472700119
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.19606538116931915
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.18260708451271057
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1755252480506897
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.17165020108222961
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16298124194145203
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.15931099653244019
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.15294158458709717
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1502891331911087
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.14532865583896637
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.14335958659648895
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.13904385268688202
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.13530564308166504
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.13237181305885315
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1307789385318756
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.12882308661937714
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.12552545964717865
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.12350121140480042
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.12161752581596375
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1195979043841362
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.11876321583986282
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.11683982610702515
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.11595651507377625
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1140115037560463
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.11323405057191849
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.11099036037921906
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.11095362901687622
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.10685374587774277
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.10407229512929916
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.10097344219684601
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.10064159333705902
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.09915158152580261
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.09766802191734314
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.0965697392821312
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.09597442299127579
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.09268995374441147
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.09103716164827347
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.09085433930158615
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08842013031244278
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08830159902572632
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08784321695566177
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08636600524187088
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08531460165977478
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08520399779081345
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08495040237903595
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08458580076694489
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08390511572360992
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08314266055822372
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08236013352870941
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08221784234046936
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08156970888376236
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.0815228521823883
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08085527271032333
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.0807068943977356
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.08043299615383148
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.0797332301735878
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07948682457208633
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07925108075141907
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07895883917808533
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07856325805187225
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07829557359218597
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07826165854930878
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07765619456768036
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07728563249111176
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07690750807523727
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07672469317913055
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07611294835805893
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07501797378063202
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07411627471446991
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07327331602573395
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07315422594547272
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07288690656423569
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07214054465293884
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07184979319572449
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07184275984764099
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.070940762758255
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07045798003673553
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07044623047113419
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07043871283531189
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07027797400951385
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.07021217048168182
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06993032246828079
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.0699174702167511
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06972534954547882
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.0696953609585762
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06951811909675598
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06945797801017761
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06929754465818405
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06926809251308441
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.0692320168018341
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06919827312231064
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06918926537036896
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06912229210138321
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06891492754220963
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06878405809402466
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06863102316856384
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06860998272895813
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06841205060482025
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06838862597942352
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06832561641931534
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06812382489442825
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06800520420074463
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06795231252908707
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06790534406900406
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06787604838609695
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06778871268033981
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06773216277360916
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06772767007350922
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06771400570869446
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06768987327814102
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06766125559806824
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.06761947274208069
+[graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-last-N10-9466255/model.pt
+[graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-last-N10-9466255/lammps_model.pt
+[graph-pes INFO]: Loading best weights from "/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-last-N10-9466255/checkpoints/best.ckpt"
+[graph-pes INFO]: Training complete.
+[graph-pes INFO]: Testing best model...
+[graph-pes INFO]: Testing complete.
+[graph-pes INFO]: Awaiting final Lightning and W&B shutdown...

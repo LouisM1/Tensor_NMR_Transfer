@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "method": "elora",
+  "n": 50,
+  "best_epoch": 232,
+  "last_epoch": 532,
+  "model_sha256": "2cb62ab6865f639ad584a8ccc44ebaf200db1cf3c78571d4ff4f802d04cd750a",
+  "best_sha256": "801dad6f54a44b7645948b49cabe252ea9417bbc0e71e0fbdb7e34cfb38b0b96",
+  "fingerprint": "62f714a3352a1c35c59592290f1803960e15aaf689956aabe3e9111a20bf709c"
+}

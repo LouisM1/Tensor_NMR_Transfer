@@ -1,0 +1,20 @@
+{
+  "method": "last",
+  "n": 800,
+  "trainable_names": [
+    "layers.3.pre_message_linear.weight",
+    "layers.3.weight_generator.components.0.0.frequencies",
+    "layers.3.weight_generator.components.0.1.linear_layers.0.weight",
+    "layers.3.weight_generator.components.0.1.linear_layers.0.bias",
+    "layers.3.weight_generator.components.0.1.linear_layers.1.weight",
+    "layers.3.weight_generator.components.0.1.linear_layers.1.bias",
+    "layers.3.weight_generator.components.0.1.linear_layers.2.weight",
+    "layers.3.weight_generator.components.0.1.linear_layers.2.bias",
+    "layers.3.post_message_linear.weight",
+    "layers.3.self_interaction.tensor_product.weight",
+    "tensor_readout.weight",
+    "scaler.scales",
+    "scaler.offsets"
+  ],
+  "source_sha256": "c5229e19d27f1ed965bb507e48caa21bf0d837b5613f8efb44915fcf39513654"
+}

@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "method": "last",
+  "n": 200,
+  "best_epoch": 142,
+  "last_epoch": 442,
+  "model_sha256": "a821cdb53774618fcb77fca417cbae70bc2de1862d575569d6977cafb0f8ac67",
+  "best_sha256": "580b60b49f6866b079867c301ae5c19e85266c08ced5d838c84d3012870d033a",
+  "fingerprint": "62f714a3352a1c35c59592290f1803960e15aaf689956aabe3e9111a20bf709c"
+}
