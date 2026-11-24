@@ -1,0 +1,2 @@
+epoch,global_step,train/loss/total,valid/loss/total,train/metrics/Si_iso_rmse,train/metrics/Si_aniso_rmse,train/metrics/O_iso_rmse,train/metrics/O_aniso_rmse,valid/metrics/Si_iso_rmse,valid/metrics/Si_aniso_rmse,valid/metrics/O_iso_rmse,valid/metrics/O_aniso_rmse,lr
+0,2,0.828158974647522,0.7719956636428833,8.502727186543309,18.130628495972957,16.831728424593756,25.66692554019302,9.089457225165933,13.288583002002017,15.060626181971209,25.816948771015976,0.003

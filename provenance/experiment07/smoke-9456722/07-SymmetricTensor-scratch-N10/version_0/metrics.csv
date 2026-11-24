@@ -1,0 +1,6 @@
+early_stopping/best_valid_loss,early_stopping/checks_since_best,early_stopping/distance_above_best,epoch,lr-AdamW/non-decayable,lr-AdamW/normal,n_learnable_parameters,n_parameters,step,timer/its_per_s/valid,timer/step_duration_ms/valid,train/metrics/O_aniso_rmse,train/metrics/O_iso_rmse,train/metrics/Si_aniso_rmse,train/metrics/Si_iso_rmse,valid/loss/symmetric_element_block_balanced_mse_weighted,valid/loss/total,valid/metrics/O_aniso_rmse,valid/metrics/O_iso_rmse,valid/metrics/Si_aniso_rmse,valid/metrics/Si_iso_rmse,valid/metrics/symmetric_element_block_balanced_mse
+,,,,,,2984582,2984582,0,,,,,,,,,,,,,
+,,,,0.003,0.003,,,0,,,,,,,,,,,,,
+0.7342451214790344,0,0.0,,,,,,1,,,,,,,,,,,,,
+,,,0,,,,,1,39.596275329589844,25.5,,,,,0.7342450618743896,0.7342451214790344,25.738415783442914,14.5809293683295,13.358965954027049,8.595959046449074,0.7342450618743896
+,,,0,,,,,1,,,25.64302772296342,16.905043865481243,18.30665604823065,9.467061724380544,,,,,,,

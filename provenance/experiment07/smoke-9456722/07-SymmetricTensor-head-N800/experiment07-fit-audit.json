@@ -1,0 +1,10 @@
+{
+  "method": "head",
+  "n": 800,
+  "trainable_names": [
+    "tensor_readout.weight",
+    "scaler.scales",
+    "scaler.offsets"
+  ],
+  "source_sha256": "c5229e19d27f1ed965bb507e48caa21bf0d837b5613f8efb44915fcf39513654"
+}

@@ -1,0 +1,103 @@
+{
+  "passed": true,
+  "device": "cuda",
+  "torch": "2.6.0+cu124",
+  "versions": {
+    "graph-pes": "1.0.2",
+    "e3nn": "0.4.4",
+    "pytorch-lightning": "2.5.1"
+  },
+  "gpu": "NVIDIA L40S",
+  "fingerprint": "62f714a3352a1c35c59592290f1803960e15aaf689956aabe3e9111a20bf709c",
+  "configurations": 25,
+  "runs": [
+    {
+      "method": "scratch",
+      "n": 10,
+      "optimizer_steps": 2,
+      "export_matches_best": true,
+      "optimizer_state_reload": true,
+      "correct_freeze_mask_and_updates": true,
+      "selected_N_scaler_fit": true,
+      "symmetry_max_errors_ppm": [
+        9.1552734375e-05,
+        0.0
+      ]
+    },
+    {
+      "method": "full",
+      "n": 10,
+      "optimizer_steps": 2,
+      "export_matches_best": true,
+      "optimizer_state_reload": true,
+      "correct_freeze_mask_and_updates": true,
+      "selected_N_scaler_fit": true,
+      "symmetry_max_errors_ppm": [
+        9.1552734375e-05,
+        0.0
+      ]
+    },
+    {
+      "method": "elora",
+      "n": 10,
+      "optimizer_steps": 2,
+      "export_matches_best": true,
+      "optimizer_state_reload": true,
+      "correct_freeze_mask_and_updates": true,
+      "selected_N_scaler_fit": true,
+      "symmetry_max_errors_ppm": [
+        9.1552734375e-05,
+        0.0
+      ]
+    },
+    {
+      "method": "last",
+      "n": 10,
+      "optimizer_steps": 2,
+      "export_matches_best": true,
+      "optimizer_state_reload": true,
+      "correct_freeze_mask_and_updates": true,
+      "selected_N_scaler_fit": true,
+      "symmetry_max_errors_ppm": [
+        9.1552734375e-05,
+        0.0
+      ]
+    },
+    {
+      "method": "head",
+      "n": 10,
+      "optimizer_steps": 2,
+      "export_matches_best": true,
+      "optimizer_state_reload": true,
+      "correct_freeze_mask_and_updates": true,
+      "selected_N_scaler_fit": true,
+      "symmetry_max_errors_ppm": [
+        0.0001220703125,
+        0.0
+      ]
+    },
+    {
+      "method": "head",
+      "n": 800,
+      "optimizer_steps": 2,
+      "export_matches_best": true,
+      "optimizer_state_reload": true,
+      "correct_freeze_mask_and_updates": true,
+      "selected_N_scaler_fit": true,
+      "symmetry_max_errors_ppm": [
+        9.1552734375e-05,
+        0.0
+      ]
+    }
+  ],
+  "lightning_resume_to_four_steps": true,
+  "held_out_test_predictions_used": false,
+  "limits": {
+    "epochs": 1,
+    "train_batches": 8,
+    "validation_batches": 2,
+    "pre_fit": "all selected N",
+    "wandb": false,
+    "post_fit_scoring": false
+  }
+}
