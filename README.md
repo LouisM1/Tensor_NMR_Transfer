@@ -264,13 +264,13 @@ The bounded local check is reproducible with `.venv/bin/python scripts/smoke_sym
 
 ## N100 symmetric tensor transfer results
 
-Main NMR-facing report: [Soprano isotropy, anisotropy and asymmetry](experiments/SymmetricTensor-N100-Soprano-Parameters.ipynb). The Experiment 05/06 notebooks now use these parameters in their main parity plots.
+Main NMR-facing report: [Soprano isotropy, anisotropy and asymmetry](experiments/01-05-06-SymmetricTensor-N100-Soprano-Parameters.ipynb). The Experiment 05/06 notebooks now use these parameters in their main parity plots.
 
 Evaluated on 6 November 2026: direct training (01), full fine-tuning (05) and rank-4 ELoRA (06), each at its validation-selected checkpoint. All three reached early stopping. The review separates Si/O isotropic (0e) and anisotropic (2e) errors and includes the common 150-structure held-out test set.
 
 - [Full fine-tuning notebook](experiments/05-SymmetricTensor-FullFineTune-N100.ipynb)
 - [ELoRA notebook](experiments/06-SymmetricTensor-ELoRA-N100-R4.ipynb)
-- [Three-method comparison and higher-order feature diagnostics](experiments/SymmetricTensor-N100-Transfer-Comparison.ipynb)
+- [Three-method comparison and higher-order feature diagnostics](experiments/01-05-06-SymmetricTensor-N100-Transfer-Comparison.ipynb)
 
 Each notebook contains executed outputs and parity plots with RMSE, MAE and R². Parity plots use tiny circular scatter markers (size 6, opacity 0.19, no outlines), matching the earlier notebooks. PNG and PDF figures are saved alongside the notebooks. `analysis_helpers/symmetric_transfer_review.py` checks checkpoint/data hashes, evaluates unmodified models, computes errors and supports regenerating the figures. Predictions, histories, per-structure scores and the evaluation manifest are in `experiments/symmetric-transfer-N100-data/`. Set `RECOMPUTE=True` in a notebook to regenerate all three prediction sets using the stored histories; no model training or calibration occurs. The completed review audit is `provenance/symmetric-transfer-pilots/results-2026-11-06.json`.
 
@@ -279,7 +279,7 @@ The comparison distinguishes held-out 2e accuracy from descriptive changes to th
 
 ## Anisotropic component diagnostics
 
-[Component analysis notebook](experiments/SymmetricTensor-N100-Anisotropic-Components.ipynb) resolves the pooled 2e score into five coefficient RMSEs, Cartesian traceless-tensor entry errors and the fraction of squared error from the worst 1% of atom predictions. It compares all three N100 methods, using the same saved predictions and test structures. The overview notebook includes the component RMSE plot.
+[Component analysis notebook](experiments/01-05-06-SymmetricTensor-N100-Anisotropic-Components.ipynb) resolves the pooled 2e score into five coefficient RMSEs, Cartesian traceless-tensor entry errors and the fraction of squared error from the worst 1% of atom predictions. It compares all three N100 methods, using the same saved predictions and test structures. The overview notebook includes the component RMSE plot.
 
 `analysis_helpers/anisotropic_components.py` computes component RMSE/MAE/bias/quantiles, verifies the e3nn basis and the exact relationship to pooled RMSE/Frobenius error, and generates the plots. CSV tables for training, validation and test, a largest-error locator table, a manifest and PNG/PDF figures are in `experiments/symmetric-transfer-N100-data/anisotropic-components/`. Individual component scores are tied to the stored coordinate frame. No model inference or training is repeated.
 
@@ -288,4 +288,4 @@ The comparison distinguishes held-out 2e accuracy from descriptive changes to th
 
 `analysis_helpers/nmr_parameters.py` uses the installed Soprano 0.11.4 MSIsotropy, MSAnisotropy and MSAsymmetry getters. Original DFT ms tensors are the references; predictions are reconstructed from 0e+2e. No shift reference is fitted. Reported anisotropy is signed unreduced Haeberlen Delta in ppm; asymmetry eta is dimensionless. Reduced anisotropy zeta (2 Delta/3) and span are saved separately.
 
-The [executed parameter report](experiments/SymmetricTensor-N100-Soprano-Parameters.ipynb) includes a three-method RMSE overview, tiny-circle parity plots with RMSE/MAE/R², and an ordering diagnostic. Opposite signs are highlighted and retained in every headline score. Training, validation and test parameter caches, metrics, principal-value diagnostics and a manifest are in `experiments/symmetric-transfer-N100-data/nmr-parameters/`. The report can regenerate them from existing predictions; no inference or retraining is required. Original full-tensor/component metrics and exports remain available as supporting diagnostics.
+The [executed parameter report](experiments/01-05-06-SymmetricTensor-N100-Soprano-Parameters.ipynb) includes a three-method RMSE overview, tiny-circle parity plots with RMSE/MAE/R², and an ordering diagnostic. Opposite signs are highlighted and retained in every headline score. Training, validation and test parameter caches, metrics, principal-value diagnostics and a manifest are in `experiments/symmetric-transfer-N100-data/nmr-parameters/`. The report can regenerate them from existing predictions; no inference or retraining is required. Original full-tensor/component metrics and exports remain available as supporting diagnostics.
