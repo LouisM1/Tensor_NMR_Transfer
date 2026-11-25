@@ -324,3 +324,19 @@ Using LR scheduler config:
 [graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-scratch-N800-9457259/model.pt
 [graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-scratch-N800-9457259/lammps_model.pt
 [graph-pes INFO]: Loading best weights from "/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-scratch-N800-9457259/checkpoints/best.ckpt"
+[graph-pes INFO]: Logging to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-scratch-N800-9457259/rank-0.log
+[graph-pes DEBUG]: 
+Logging using WandbLogger(
+  entity="trin4011-university-of-oxford",
+  log_model=False,
+  name="07-SymmetricTensor-scratch-N800-9457259",
+  project="tensor-nmr-transfer",
+  id="07-SymmetricTensor-scratch-N800-9457259",
+  save_dir="/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results"
+)
+
+[graph-pes DEBUG]: Callbacks: [<nmr_helpers.symmetric_shielding.SymmetricRMSELogger object at 0x14e49842a2d0>, <nmr_helpers.experiment07.CurveAudit object at 0x14e49842aa90>, OffsetLogger(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-scratch-N800-9457259), ScalesLogger(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-scratch-N800-9457259), <graph_pes.training.callbacks.ModelTimer object at 0x14e498419990>, SaveBestModel(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-scratch-N800-9457259), <graph_pes.training.callbacks.LoggedProgressBar object at 0x14e4831eb8d0>, <pytorch_lightning.callbacks.lr_monitor.LearningRateMonitor object at 0x14e472e72bd0>, EarlyStoppingWithLogging(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-scratch-N800-9457259), <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x14e472fc6710>, <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x14e483a3cb50>]
+[graph-pes DEBUG]: 
+Using LR scheduler config:
+{'interval': 'epoch', 'frequency': 1, 'monitor': 'valid/loss/total', 'strict': True}
+

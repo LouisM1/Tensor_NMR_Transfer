@@ -2319,3 +2319,131 @@ Using LR scheduler config:
 [graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
 [graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-head-N800-9456723/lammps_model.pt
 [graph-pes INFO]: Loading best weights from "/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/checkpoints/best.ckpt"
+[graph-pes INFO]: Logging to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/rank-0.log
+[graph-pes DEBUG]: 
+Logging using WandbLogger(
+  entity="trin4011-university-of-oxford",
+  log_model=False,
+  name="07-SymmetricTensor-head-N800-9456723",
+  project="tensor-nmr-transfer",
+  id="07-SymmetricTensor-head-N800-9456723",
+  save_dir="/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results"
+)
+
+[graph-pes DEBUG]: Callbacks: [<nmr_helpers.symmetric_shielding.SymmetricRMSELogger object at 0x1538f53efc90>, <nmr_helpers.experiment07.CurveAudit object at 0x1538ec1c50d0>, OffsetLogger(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723), ScalesLogger(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723), <graph_pes.training.callbacks.ModelTimer object at 0x1538d7aac890>, SaveBestModel(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723), <graph_pes.training.callbacks.LoggedProgressBar object at 0x1538ec185b50>, <pytorch_lightning.callbacks.lr_monitor.LearningRateMonitor object at 0x1538ec185b10>, EarlyStoppingWithLogging(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723), <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x1538cc1be6d0>, <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x1538d78b0a90>]
+[graph-pes DEBUG]: 
+Using LR scheduler config:
+{'interval': 'epoch', 'frequency': 1, 'monitor': 'valid/loss/total', 'strict': True}
+
+[graph-pes DEBUG]: New best model: validation loss 0.16433924436569214
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1643276810646057
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16432055830955505
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16429419815540314
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16428066790103912
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16424331068992615
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1642281413078308
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16420002281665802
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16414552927017212
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1641290783882141
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16412067413330078
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1640719622373581
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16406895220279694
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16405048966407776
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1640411615371704
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1639823168516159
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16397784650325775
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16396571695804596
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1639518290758133
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16394123435020447
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16390067338943481
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1638786643743515
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1638661026954651
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16381748020648956
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16379915177822113
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16379834711551666
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16379429399967194
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16378359496593475
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16378271579742432
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16378046572208405
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16376706957817078
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16376422345638275
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16375979781150818
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1637537181377411
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1637418419122696
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1637272834777832
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.163725808262825
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16370652616024017
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1636977642774582
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16369609534740448
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16369159519672394
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16368968784809113
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1636684536933899
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1636679768562317
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16366277635097504
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16366243362426758
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16366176307201385
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16365331411361694
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16365249454975128
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16364893317222595
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16364644467830658
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16364368796348572
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1636427640914917
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.16363966464996338
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1636381298303604
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt
+[graph-pes DEBUG]: New best model: validation loss 0.1636350005865097
+[graph-pes DEBUG]: Model saved to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-head-N800-9456723/model.pt

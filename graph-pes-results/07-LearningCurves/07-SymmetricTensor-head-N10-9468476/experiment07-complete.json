@@ -2,9 +2,9 @@
   "passed": true,
   "method": "head",
   "n": 10,
-  "best_epoch": 3000,
-  "last_epoch": 3000,
-  "model_sha256": "01ca299885d149a5f4cebb2765a60bd297e9ae78eed68a78efe069589f40a156",
-  "best_sha256": "7eb2e38874af5c46edbd5f0df508acc4e7bb016c362178a6094d507354c934a7",
-  "fingerprint": "62f714a3352a1c35c59592290f1803960e15aaf689956aabe3e9111a20bf709c"
+  "best_epoch": 17043,
+  "last_epoch": 17343,
+  "model_sha256": "e1a0de1c87c6835780a0a397c902d31102f2d4ee8c3b6ad777ccfab87a8996a6",
+  "best_sha256": "65200c7532323a50f7a2351c776741c1703ce7a216c89ab49f404848ea1aaa58",
+  "fingerprint": "98ec4bedde7c8626cae8d5797ce4d0833dc9e61e8542d95fd51f1e86a233b285"
 }

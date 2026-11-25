@@ -576,3 +576,19 @@ Using LR scheduler config:
 [graph-pes DEBUG]: Model saved to graph-pes-results/07-SymmetricTensor-full-N800-9460883/model.pt
 [graph-pes DEBUG]: Deployed model for use with LAMMPS to graph-pes-results/07-SymmetricTensor-full-N800-9460883/lammps_model.pt
 [graph-pes INFO]: Loading best weights from "/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-full-N800-9460883/checkpoints/best.ckpt"
+[graph-pes INFO]: Logging to /data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-full-N800-9460883/rank-0.log
+[graph-pes DEBUG]: 
+Logging using WandbLogger(
+  entity="trin4011-university-of-oxford",
+  log_model=False,
+  name="07-SymmetricTensor-full-N800-9460883",
+  project="tensor-nmr-transfer",
+  id="07-SymmetricTensor-full-N800-9460883",
+  save_dir="/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results"
+)
+
+[graph-pes DEBUG]: Callbacks: [<nmr_helpers.symmetric_shielding.SymmetricRMSELogger object at 0x15039655d4d0>, <nmr_helpers.experiment07.CurveAudit object at 0x15039655f7d0>, OffsetLogger(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-full-N800-9460883), ScalesLogger(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-full-N800-9460883), <graph_pes.training.callbacks.ModelTimer object at 0x15036d0f6b90>, SaveBestModel(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-full-N800-9460883), <graph_pes.training.callbacks.LoggedProgressBar object at 0x1503953f0c10>, <pytorch_lightning.callbacks.lr_monitor.LearningRateMonitor object at 0x150394056c90>, EarlyStoppingWithLogging(root=/data/oums-atom-elec-ml/trin4011/Tensor_NMR_Transfer/graph-pes-results/07-SymmetricTensor-full-N800-9460883), <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x15037c12a310>, <pytorch_lightning.callbacks.model_checkpoint.ModelCheckpoint object at 0x150395e796d0>]
+[graph-pes DEBUG]: 
+Using LR scheduler config:
+{'interval': 'epoch', 'frequency': 1, 'monitor': 'valid/loss/total', 'strict': True}
+
