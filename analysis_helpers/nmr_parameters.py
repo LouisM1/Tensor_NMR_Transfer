@@ -15,18 +15,20 @@ import pandas as pd
 from ase import Atoms
 from ase.io import read
 from soprano.properties.nmr import (MSIsotropy, MSAnisotropy, MSAsymmetry,
-                                    MSReducedAnisotropy, MSSpan)
+                                    MSReducedAnisotropy, MSSkew, MSSpan)
 
 from .anisotropic_components import traceless_cartesian
 from .symmetric_transfer_review import (COLORS, LABELS, RUNS, Z, load_cache, load_review,
                                         metrics, sha256, style)
 
 PARAMETERS = ['isotropy', 'anisotropy', 'asymmetry']
-NAMES = {'isotropy': 'Isotropic shielding', 'anisotropy': 'Shielding anisotropy Δ',
+NAMES = {'isotropy': 'Isotropic shielding', 'anisotropy': 'Signed shielding anisotropy Δσ',
+         'abs_anisotropy': 'Absolute shielding anisotropy |Δσ|',
          'asymmetry': 'Asymmetry η', 'span': 'Shielding span Ω',
-         'reduced_anisotropy': 'Reduced anisotropy ζ'}
-UNITS = {'isotropy': 'ppm', 'anisotropy': 'ppm', 'asymmetry': 'dimensionless',
-         'span': 'ppm', 'reduced_anisotropy': 'ppm'}
+         'skew': 'Maryland skew κ', 'reduced_anisotropy': 'Reduced anisotropy ζ'}
+UNITS = {'isotropy': 'ppm', 'anisotropy': 'ppm', 'abs_anisotropy': 'ppm',
+         'asymmetry': 'dimensionless', 'span': 'ppm', 'skew': 'dimensionless',
+         'reduced_anisotropy': 'ppm'}
 
 
 def reconstruct_symmetric(coefficients):
@@ -49,7 +51,9 @@ def extract_soprano(tensors, numbers):
         'asymmetry': np.asarray(MSAsymmetry.get(atoms, tag='ms')),
         'reduced_anisotropy': np.asarray(MSReducedAnisotropy.get(atoms, tag='ms')),
         'span': np.asarray(MSSpan.get(atoms, tag='ms')),
+        'skew': np.asarray(MSSkew.get(atoms, tag='ms')),
     }
+    out['abs_anisotropy'] = np.abs(out['anisotropy'])
     symmetric = (tensors+tensors.transpose(0, 2, 1))/2
     ascending = np.linalg.eigvalsh(symmetric)
     out['ascending_principal_values'] = ascending
@@ -61,12 +65,18 @@ def extract_soprano(tensors, numbers):
     zeta = hsort[:, 2]-isotropy
     delta = hsort[:, 2]-(hsort[:, 0]+hsort[:, 1])/2
     eta = (hsort[:, 1]-hsort[:, 0])/np.where(zeta == 0, np.inf, zeta)
+    span = ascending[:, 2]-ascending[:, 0]
+    skew = 3*(isotropy-ascending[:, 1])/np.where(span == 0, np.inf, span)
     np.testing.assert_allclose(out['isotropy'], isotropy, atol=1e-10)
     np.testing.assert_allclose(out['anisotropy'], delta, atol=1e-10)
+    np.testing.assert_allclose(out['abs_anisotropy'], np.abs(delta), atol=1e-10)
     np.testing.assert_allclose(out['reduced_anisotropy'], zeta, atol=1e-10)
     np.testing.assert_allclose(out['asymmetry'], eta, atol=1e-10)
+    np.testing.assert_allclose(out['span'], span, atol=1e-10)
+    np.testing.assert_allclose(out['skew'], skew, atol=1e-10)
     np.testing.assert_allclose(out['anisotropy']*2/3, out['reduced_anisotropy'], atol=1e-10)
     assert np.all(out['asymmetry'] >= -1e-10) and np.all(out['asymmetry'] <= 1+1e-10)
+    assert np.all(out['skew'] >= -1-1e-10) and np.all(out['skew'] <= 1+1e-10)
     assert all(np.isfinite(array).all() for array in out.values())
     return out
 

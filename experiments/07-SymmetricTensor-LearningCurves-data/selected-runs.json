@@ -3,10 +3,12 @@
   "scratch:50": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-scratch-N50-9457250",
   "scratch:100": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/01-SymmetricTensor-Scratch-N100-9245885",
   "scratch:200": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-scratch-N200-9457255",
+  "scratch:800": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-scratch-N800-9457259",
   "full:10": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-full-N10-9457374",
   "full:50": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-full-N50-9457512",
   "full:100": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/05-SymmetricTensor-FullFineTune-N100-9274115",
   "full:200": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-full-N200-9457613",
+  "full:800": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-full-N800-9460883",
   "elora:10": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-elora-N10-9460884",
   "elora:50": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-elora-N50-9462819",
   "elora:100": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/06-SymmetricTensor-ELoRA-N100-R4-9274116",
@@ -20,5 +22,6 @@
   "head:10": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-head-N10-9468476",
   "head:50": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-head-N50-9468822",
   "head:100": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-head-N100-9469842",
-  "head:200": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-head-N200-9469868"
+  "head:200": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-head-N200-9469868",
+  "head:800": "/Users/louismcauliffe/code/research/Tensor_NMR_Transfer/graph-pes-results/07-LearningCurves/07-SymmetricTensor-head-N800-9456723"
 }

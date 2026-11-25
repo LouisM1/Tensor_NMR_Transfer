@@ -15,8 +15,8 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from .nmr_parameters import NAMES, PARAMETERS, extract_soprano
-from .symmetric_transfer_review import save_figure, style
+from .nmr_parameters import NAMES, UNITS, extract_soprano, reconstruct_symmetric
+from .symmetric_transfer_review import style
 
 METHODS = ['full', 'elora', 'last', 'head', 'scratch']
 LABEL = {'full': 'Full fine-tuning', 'elora': 'ELoRA', 'last': 'Last layer + NMR head',
@@ -27,16 +27,20 @@ MARKER = {'full': 'D', 'elora': 'o', 'last': 's', 'head': 'v', 'scratch': '^'}
 SIZES = [10, 50, 100, 200, 800]
 ELEMENTS = {'Si': 14, 'O': 8}
 ELEMENT_NAMES = {'Si': 'Silicon', 'O': 'Oxygen'}
+ALL_PARAMETERS = ['isotropy', 'abs_anisotropy', 'asymmetry', 'skew', 'anisotropy']
 
-__all__ = ['METHODS', 'LABEL', 'SIZES', 'training_pool_variance', 'load_curves',
-           'run_summary', 'rmse_table', 'plot_parameter_curves', 'save_figure']
+__all__ = ['METHODS', 'LABEL', 'SIZES', 'ALL_PARAMETERS', 'training_pool_variance',
+           'score_saved_predictions', 'load_curves', 'sign_flip_table', 'run_summary',
+           'rmse_table', 'plot_parameter_curves', 'save_figure']
 
 
 def training_pool_variance(root, data):
     """Per-element DFT variance of each parameter over the 800 training structures."""
     cache = Path(data) / 'training-pool-parameter-variance.json'
     if cache.exists():
-        return json.loads(cache.read_text())
+        stored = json.loads(cache.read_text())
+        if all(p in stored.get(el, {}) for el in ELEMENTS for p in ALL_PARAMETERS):
+            return stored
     from ase.io import read
     frames = read(Path(root) / 'data/nmr_symm/train.xyz', ':')
     ms = np.concatenate([np.asarray(a.arrays['ms']).reshape(-1, 3, 3) for a in frames])
@@ -45,18 +49,77 @@ def training_pool_variance(root, data):
     result = {'structures': len(frames)}
     for element, z in ELEMENTS.items():
         mask = numbers == z
-        result[element] = {p: float(np.var(params[p][mask])) for p in PARAMETERS}
+        result[element] = {p: float(np.var(params[p][mask])) for p in ALL_PARAMETERS}
     cache.write_text(json.dumps(result, indent=2) + '\n')
     return result
 
 
-def load_curves(root, data):
+def score_saved_predictions(data):
+    """Compute all Soprano parameter RMSEs and sign-flip counts from cached .npz files."""
+    data = Path(data)
+    selected = data / 'selected-runs.json'
+    if not selected.exists():
+        selected = data / 'selected-runs-partial.json'
+    runs = json.loads(selected.read_text())
+    metric_rows, flip_rows = [], []
+    ref_cache = {}
+    for split in ('validation', 'test'):
+        for key in runs:
+            method, n_str = key.split(':')
+            n = int(n_str)
+            cache = data / f'predictions-{method}-N{n}-{split}.npz'
+            with np.load(cache, allow_pickle=False) as stored:
+                Z_arr = stored['Z']
+                if split not in ref_cache:
+                    ref_cache[split] = extract_soprano(stored['target_cartesian'], Z_arr)
+                reference = ref_cache[split]
+                prediction = extract_soprano(reconstruct_symmetric(stored['prediction']), Z_arr)
+            for element, z in ELEMENTS.items():
+                mask = Z_arr == z
+                for quantity in ALL_PARAMETERS:
+                    residual = prediction[quantity][mask] - reference[quantity][mask]
+                    assert np.isfinite(residual).all()
+                    metric_rows.append({
+                        'method': method, 'n': n, 'split': split,
+                        'element': element, 'quantity': quantity,
+                        'atoms': int(mask.sum()),
+                        'rmse': float(np.sqrt(np.mean(residual**2))),
+                    })
+                flipped = (reference['anisotropy'][mask] * prediction['anisotropy'][mask]) < 0
+                flip_rows.append({
+                    'method': method, 'n': n, 'split': split,
+                    'element': element, 'atoms': int(mask.sum()),
+                    'opposite_sign_count': int(flipped.sum()),
+                    'opposite_sign_percent': float(100.0 * flipped.mean()),
+                })
+    metrics_df = pd.DataFrame(metric_rows)
+    flips_df = pd.DataFrame(flip_rows)
+    # Cross-check against metrics.csv written by evaluate_experiment07.py if present.
+    base_path = data / 'metrics.csv'
+    if base_path.exists():
+        base = pd.read_csv(base_path)
+        merged = base.merge(metrics_df, on=['method', 'n', 'split', 'element', 'quantity'],
+                            suffixes=('_base', '_ext'))
+        assert len(merged) == len(base)
+        np.testing.assert_allclose(merged.rmse_base, merged.rmse_ext, rtol=1e-12, atol=1e-12)
+    metrics_df.to_csv(data / 'metrics-all-parameters.csv', index=False)
+    flips_df.to_csv(data / 'anisotropy-sign-flips.csv', index=False)
+    return metrics_df, flips_df
+
+
+def load_curves(root, data, recompute_extended=False):
     """Long table: method, n, split, element (Si, O or balanced), quantity, value, metric."""
     data = Path(data)
-    path = data / 'metrics.csv'
-    if not path.exists():
-        path = data / 'metrics-partial.csv'
-    table = pd.read_csv(path)
+    ext_path = data / 'metrics-all-parameters.csv'
+    base_path = data / 'metrics.csv'
+    if recompute_extended or not ext_path.exists() or (
+        base_path.exists() and ext_path.stat().st_mtime < base_path.stat().st_mtime
+    ):
+        table, _ = score_saved_predictions(data)
+        source_name = ext_path.name
+    else:
+        table = pd.read_csv(ext_path)
+        source_name = ext_path.name
     variance = training_pool_variance(root, data)
     table['metric'] = 'rmse'
     table['value'] = table['rmse']
@@ -67,7 +130,21 @@ def load_curves(root, data):
     assert (balanced.elements == 2).all()
     balanced = balanced.drop(columns='elements').assign(element='balanced', metric='balanced_mse')
     columns = ['method', 'n', 'split', 'element', 'quantity', 'metric', 'value']
-    return pd.concat([table[columns], balanced[columns]], ignore_index=True), path.name
+    return pd.concat([table[columns], balanced[columns]], ignore_index=True), source_name
+
+
+def sign_flip_table(data, split='test'):
+    """Opposite-sign Δσ percentage per element, method and N."""
+    flips = pd.read_csv(Path(data) / 'anisotropy-sign-flips.csv')
+    frame = flips[flips.split == split]
+    pivot = frame.pivot_table(index=['element', 'method'], columns='n', values='opposite_sign_percent')
+    pivot = pivot.reindex(columns=SIZES)
+    order = [(e, m) for e in ['Si', 'O'] for m in METHODS if (e, m) in pivot.index]
+    pivot = pivot.loc[order]
+    pivot.index = pd.MultiIndex.from_tuples([(e, LABEL[m]) for e, m in order],
+                                            names=['Element', 'Method'])
+    pivot.columns.name = 'N'
+    return pivot
 
 
 def run_summary(root, data):
@@ -139,7 +216,7 @@ def plot_parameter_curves(curves, quantity, split='test'):
     import matplotlib.pyplot as plt
     style()
     frame = curves[(curves.split == split) & (curves.quantity == quantity)]
-    unit = 'dimensionless' if quantity == 'asymmetry' else 'ppm'
+    unit = UNITS[quantity]
     panels = [('Si', ELEMENT_NAMES['Si'], f'RMSE ({unit})'),
               ('O', ELEMENT_NAMES['O'], f'RMSE ({unit})'),
               ('balanced', 'Balanced error', 'Element-balanced standardised MSE')]
@@ -160,3 +237,12 @@ def plot_parameter_curves(curves, quantity, split='test'):
     figure.suptitle(f'{NAMES[quantity]}: {split} error versus training-set size',
                     x=.06, y=.985, ha='left', fontsize=16, fontweight='bold')
     return figure
+
+
+def save_figure(figure, directory, name):
+    """Save learning-curve figures as high-DPI PNG, PDF and SVG."""
+    directory = Path(directory)
+    directory.mkdir(parents=True, exist_ok=True)
+    figure.savefig(directory / (name + '.png'), dpi=240, bbox_inches='tight')
+    figure.savefig(directory / (name + '.pdf'), bbox_inches='tight')
+    figure.savefig(directory / (name + '.svg'), bbox_inches='tight')
